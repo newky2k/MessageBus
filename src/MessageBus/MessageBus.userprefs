@@ -1,0 +1,19 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.IPhoneRetina.7.1" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="../../samples/iOS/MessageBus.iOS/Main.cs">
+    <Files>
+      <File FileName="DSoft.Messaging/MessageBus.cs" Line="56" Column="3" />
+      <File FileName="../../samples/iOS/MessageBus.iOS/AppDelegate.cs" Line="7" Column="22" />
+      <File FileName="../../samples/iOS/MessageBus.iOS/ViewControllers/MainViewController.cs" Line="6" Column="18" />
+      <File FileName="DSoft.Messaging/Collections/MessageBusEventHandlerCollection.cs" Line="56" Column="1" />
+      <File FileName="../../samples/iOS/MessageBus.iOS/ViewControllers/MainViewController.designer.cs" Line="10" Column="22" />
+      <File FileName="../../samples/iOS/MessageBus.iOS/ViewControllers/DetailViewController.cs" Line="7" Column="22" />
+      <File FileName="../../samples/iOS/MessageBus.iOS/ViewControllers/DetailViewController.designer.cs" Line="10" Column="22" />
+      <File FileName="../../samples/iOS/MessageBus.iOS/Main.cs" Line="7" Column="22" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
