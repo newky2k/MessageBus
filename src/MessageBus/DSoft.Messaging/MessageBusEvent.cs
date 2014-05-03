@@ -5,34 +5,16 @@ namespace DSoft.Messaging
 	/// <summary>
 	/// Message bus event class
 	/// </summary>
-	public class MessageBusEvent
+	public abstract class MessageBusEvent
 	{
-		#region Fields
-
-		private String mEventID;
-
-		#endregion
 
 		#region Properties
 
 		/// <summary>
-		/// Event Id
+		/// Gets or sets the event identifier.
 		/// </summary>
-		public String EventId { 
-			get
-			{
-				if (String.IsNullOrWhiteSpace (mEventID))
-				{
-					mEventID = Guid.NewGuid ().ToString ();
-				}
-
-				return mEventID;
-			}
-			set
-			{
-				mEventID = value;
-			}
-		}
+		/// <value>The event identifier.</value>
+		public abstract String EventId {get;}
 
 		/// <summary>
 		/// Sender of the event
@@ -61,13 +43,76 @@ namespace DSoft.Messaging
 		/// <param name="Sender">Sender.</param>
 		/// <param name="EventID">Event I.</param>
 		/// <param name="Data">Data.</param>
-		public MessageBusEvent (object Sender, String EventID, object[] Data)
+		public MessageBusEvent (object Sender, object[] Data)
 		{
 			this.Sender = Sender;
-			this.EventId = EventID;
 			this.Data = Data;
 		}
 
+		#endregion
+	}
+
+	/// <summary>
+	/// Standard MessageBusEvent class
+	/// </summary>
+	public sealed class CoreMessageBusEvent : MessageBusEvent
+	{
+		#region Fields
+
+		private String mEventID;
+
+		#endregion
+
+		#region Properties
+		/// <summary>
+		/// Gets or sets the event identifier. Will generate a new Guid based Id if not set
+		/// </summary>
+		/// <value>The event identifier.</value>
+		public override String EventId { 
+			get
+			{
+				if (String.IsNullOrWhiteSpace (mEventID))
+				{
+					mEventID = Guid.NewGuid ().ToString ();
+				}
+
+				return mEventID;
+			}
+
+		}
+		#endregion
+
+		#region Constructors
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="DSoft.Messaging.CoreMessageBusEvent"/> class.
+		/// </summary>
+		public CoreMessageBusEvent () : base()
+		{
+			
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="DSoft.Messaging.CoreMessageBusEvent"/> class.
+		/// </summary>
+		/// <param name="EventID">Event Identifier.</param>
+		public CoreMessageBusEvent (String EventID) 
+			: this()
+		{
+			mEventID = EventID;
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="DSoft.Messaging.CoreMessageBusEvent"/> class.
+		/// </summary>
+		/// <param name="Sender">Sender.</param>
+		/// <param name="EventID">Event I.</param>
+		/// <param name="Data">Data.</param>
+		public CoreMessageBusEvent (object Sender, String EventID, object[] Data) 
+			: base(Sender,Data)
+		{
+			mEventID = EventID;
+		}
 		#endregion
 	}
 }

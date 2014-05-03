@@ -6,6 +6,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DetailViewController">
             <connections>
+                <outlet property="btnCustomPost" destination="PjX-C7-8gf" id="xt7-xj-vOk"/>
                 <outlet property="btnSend" destination="1dT-FV-tzZ" id="aH4-vd-Yfl"/>
                 <outlet property="edtMessage" destination="hkU-da-1w8" id="Ugo-m6-szr"/>
                 <outlet property="view" destination="1" id="3"/>
@@ -26,6 +27,13 @@
                     <rect key="frame" x="109" y="136" width="102" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <state key="normal" title="Send Message">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="PjX-C7-8gf">
+                    <rect key="frame" x="83" y="210" width="155" height="30"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <state key="normal" title="Post Custom Event">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                 </button>

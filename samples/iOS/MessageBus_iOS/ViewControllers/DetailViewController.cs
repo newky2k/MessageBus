@@ -25,16 +25,20 @@ namespace MessageBus_iOS.ViewControllers
 				var message = edtMessage.Text;
 
 				//Creare a MessageBusEvent
-				var aEvent = new MessageBusEvent () {
-					EventId = kEventID,
+				var aEvent = new CoreMessageBusEvent (kEventID) {
 					Sender = this,
 					Data = new object[]{ message },
 				};
 
 				//send it
-				DSoft.Messaging.MessageBus.PostEvent (aEvent);
+				MessageBus.Default.PostEvent (aEvent);
 
 
+			};
+
+			btnCustomPost.TouchUpInside += (object sender, EventArgs e) => 
+			{
+				MessageBus.Default.PostEvent (new CustomMessageBusEvent());
 			};
 		}
 	}

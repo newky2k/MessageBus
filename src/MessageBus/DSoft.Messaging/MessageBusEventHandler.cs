@@ -17,7 +17,7 @@ namespace DSoft.Messaging
 		/// <summary>
 		/// Action to perform on event
 		/// </summary>
-		public Action<object, object[]> EventAction { get; set; }
+		public Action<object, MessageBusEvent> EventAction { get; set; }
 
 		#endregion
 
@@ -28,6 +28,7 @@ namespace DSoft.Messaging
 		/// </summary>
 		public MessageBusEventHandler ()
 		{
+			EventId = String.Empty;
 		}
 
 		/// <summary>
@@ -35,13 +36,18 @@ namespace DSoft.Messaging
 		/// </summary>
 		/// <param name="EventId">Event identifier.</param>
 		/// <param name="Action">Action.</param>
-		public MessageBusEventHandler (String EventId, Action<object, object[]> Action)
+		public MessageBusEventHandler (String EventId, Action<object, MessageBusEvent> Action)
 		{
 			this.EventId = EventId;
 			this.EventAction = Action;
 		}
 
 		#endregion
+	}
+
+	internal class TypedMessageBusEventHandler : MessageBusEventHandler
+	{
+		internal Type EventType { get; set;}
 	}
 }
 

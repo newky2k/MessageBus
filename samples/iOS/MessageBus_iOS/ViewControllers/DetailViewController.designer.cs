@@ -13,23 +13,29 @@ namespace MessageBus_iOS.ViewControllers
 	partial class DetailViewController
 	{
 		[Outlet]
+		MonoTouch.UIKit.UIButton btnCustomPost { get; set; }
+
+		[Outlet]
 		MonoTouch.UIKit.UIButton btnSend { get; set; }
 
 		[Outlet]
 		MonoTouch.UIKit.UITextField edtMessage { get; set; }
-
+		
 		void ReleaseDesignerOutlets ()
 		{
-			if (edtMessage != null)
-			{
-				edtMessage.Dispose ();
-				edtMessage = null;
-			}
-
-			if (btnSend != null)
-			{
+			if (btnSend != null) {
 				btnSend.Dispose ();
 				btnSend = null;
+			}
+
+			if (btnCustomPost != null) {
+				btnCustomPost.Dispose ();
+				btnCustomPost = null;
+			}
+
+			if (edtMessage != null) {
+				edtMessage.Dispose ();
+				edtMessage = null;
 			}
 		}
 	}

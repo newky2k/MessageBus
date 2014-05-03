@@ -15,6 +15,10 @@ namespace MessageBus_iOS
 
 		#endregion
 
+		/// <summary>
+		/// Gets the message handler.
+		/// </summary>
+		/// <value>The message handler.</value>
 		public MessageBusEventHandler MessageHandler {
 			get
 			{
@@ -22,11 +26,7 @@ namespace MessageBus_iOS
 				{
 					mEvHandler = new MessageBusEventHandler () {
 						EventId = DetailViewController.kEventID,
-						EventAction = (sender, data) => {
-							var data2 = data [0] as String;
-
-							txtOutput.Text += data2 + Environment.NewLine;
-						},
+						EventAction = MessageBusEventHandler,
 					};
 				}
 
@@ -56,17 +56,45 @@ namespace MessageBus_iOS
 			// register/re-register event handler
 			this.btnRegister.TouchUpInside += (object sender, EventArgs e) => {
 				//register for an event
-				DSoft.Messaging.MessageBus.Register (MessageHandler);
+				MessageBus.Default.Register (MessageHandler);
 			};
 
 			// deregitset the event handler
 			this.btnDeRegister.TouchUpInside += (object sender, EventArgs e) => {
 				//register for an event
-				DSoft.Messaging.MessageBus.DeRegister (MessageHandler);
+				MessageBus.Default.DeRegister (MessageHandler);
 			};
 
 			//register for an event
-			DSoft.Messaging.MessageBus.Register (MessageHandler);
+			MessageBus.Default.Register (MessageHandler);
+
+			//register for CustomMessageBusEvent 
+			MessageBus.Default.Register<CustomMessageBusEvent> (CustomMessageEventHandler);
+		}
+
+		/// <summary>
+		/// Messages the bus event handler.
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="evnt">Evnt.</param>
+		public void MessageBusEventHandler(object sender, MessageBusEvent evnt)
+		{
+			var data2 = evnt.Data [0] as String;
+
+			txtOutput.Text += data2 + Environment.NewLine;
+		}
+
+		/// <summary>
+		/// Customs the message event handler.
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="evnt">Evnt.</param>
+		public void CustomMessageEventHandler(object sender, MessageBusEvent evnt)
+		{
+			var custEvent = evnt as CustomMessageBusEvent;
+
+			Console.WriteLine (String.Format ("Time: {0}", custEvent.TimeStamp));
+
 		}
 	}
 }

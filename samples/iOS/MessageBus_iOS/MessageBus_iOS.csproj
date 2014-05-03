@@ -8,7 +8,7 @@
     <ProjectGuid>{9358D515-4CAC-4E87-821D-C7BFBFFDE274}</ProjectGuid>
     <ProjectTypeGuids>{6BC8ED88-2882-458C-8E55-DFD12B67127B};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Exe</OutputType>
-    <RootNamespace>MessageBus.iOS</RootNamespace>
+    <RootNamespace>MessageBus_iOS</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
     <AssemblyName>MessageBusiOS</AssemblyName>
   </PropertyGroup>
@@ -109,6 +109,7 @@
     <Compile Include="ViewControllers\MainViewController.designer.cs">
       <DependentUpon>MainViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="Events\CustomMessageBusEvent.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\DetailViewController.xib" />
@@ -123,5 +124,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ViewControllers\" />
+    <Folder Include="Events\" />
   </ItemGroup>
 </Project>

@@ -8,7 +8,7 @@ namespace DSoft.Messaging.Collections
 	/// <summary>
 	/// Collection of messagebuseventhandlers
 	/// </summary>
-	public class MessageBusEventHandlerCollection : Collection<MessageBusEventHandler>
+	internal class MessageBusEventHandlerCollection : Collection<MessageBusEventHandler>
 	{
 		#region Methods
 
@@ -17,38 +17,42 @@ namespace DSoft.Messaging.Collections
 		/// </summary>
 		/// <param name="EventId">The event identifier.</param>
 		/// <returns></returns>
-		public MessageBusEventHandler[] HandlersForEvent (String EventId)
+		internal MessageBusEventHandler[] HandlersForEvent (String EventId)
 		{
 			var results = from item in this.Items
+						  where !String.IsNullOrWhiteSpace(item.EventId)
 			              where item.EventId.ToLower ().Equals (EventId.ToLower ())
 			              where item.EventAction != null
 			              select item;
 
-			return results.ToArray ();
+			var array = results.ToArray ();
+			return array;
 		}
-		//		/// <summary>
-		//		/// Handlers for event of the specific type
-		//		/// </summary>
-		//		/// <returns>The for event.</returns>
-		//		/// <typeparam name="T">The 1st type parameter.</typeparam>
-		//		public MessageBusEventHandler[] HandlersForEvent<T> () where T : MessageBusEvent
-		//		{
-		//			var results = new List<MessageBusEventHandler> ();
-		//
-		//			foreach (var item in this.Items)
-		//			{
-		//				if (item.Event != null)
-		//				{
-		//					if (item.Event.GetType ().Equals (typeof(T)))
-		//					{
-		//						results.Add (item);
-		//					}
-		//				}
-		//
-		//			}
-		//
-		//			return results.ToArray ();
-		//		}
+
+		/// <summary>
+		/// Handlerses for event type
+		/// </summary>
+		/// <returns>The for event.</returns>
+		/// <param name="EventType">Event type.</param>
+		internal MessageBusEventHandler[] HandlersForEvent (Type EventType)
+		{
+			var results = from item in this.Items
+			              where item is TypedMessageBusEventHandler
+						  where item.EventAction != null
+			              select item;
+
+			var list = new List<MessageBusEventHandler> ();
+
+			foreach (TypedMessageBusEventHandler item in results.ToArray()) 
+			{
+				if (item.EventType != null && item.EventType.Equals (EventType)) 
+				{
+					list.Add (item);
+				}
+			}
+
+			return list.ToArray ();
+		}
 
 		#endregion
 	}
