@@ -7,14 +7,13 @@ namespace DSoft.Messaging
 	/// </summary>
 	public abstract class MessageBusEvent
 	{
-
 		#region Properties
 
 		/// <summary>
 		/// Gets or sets the event identifier.
 		/// </summary>
 		/// <value>The event identifier.</value>
-		public abstract String EventId {get;}
+		public abstract String EventId { get; }
 
 		/// <summary>
 		/// Sender of the event
@@ -41,7 +40,6 @@ namespace DSoft.Messaging
 		/// Initializes a new instance of the <see cref="DSoft.Messaging.MessageBusEvent"/> class.
 		/// </summary>
 		/// <param name="Sender">Sender.</param>
-		/// <param name="EventID">Event I.</param>
 		/// <param name="Data">Data.</param>
 		public MessageBusEvent (object Sender, object[] Data)
 		{
@@ -64,6 +62,7 @@ namespace DSoft.Messaging
 		#endregion
 
 		#region Properties
+
 		/// <summary>
 		/// Gets or sets the event identifier. Will generate a new Guid based Id if not set
 		/// </summary>
@@ -80,6 +79,7 @@ namespace DSoft.Messaging
 			}
 
 		}
+
 		#endregion
 
 		#region Constructors
@@ -87,7 +87,7 @@ namespace DSoft.Messaging
 		/// <summary>
 		/// Initializes a new instance of the <see cref="DSoft.Messaging.CoreMessageBusEvent"/> class.
 		/// </summary>
-		public CoreMessageBusEvent () : base()
+		public CoreMessageBusEvent () : base ()
 		{
 			
 		}
@@ -97,7 +97,7 @@ namespace DSoft.Messaging
 		/// </summary>
 		/// <param name="EventID">Event Identifier.</param>
 		public CoreMessageBusEvent (String EventID) 
-			: this()
+			: this ()
 		{
 			mEventID = EventID;
 		}
@@ -109,10 +109,11 @@ namespace DSoft.Messaging
 		/// <param name="EventID">Event I.</param>
 		/// <param name="Data">Data.</param>
 		public CoreMessageBusEvent (object Sender, String EventID, object[] Data) 
-			: base(Sender,Data)
+			: base (Sender, Data)
 		{
 			mEventID = EventID;
 		}
+
 		#endregion
 	}
 }

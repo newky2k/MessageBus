@@ -1,6 +1,7 @@
 ﻿using System;
 using DSoft.Messaging.Collections;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace DSoft.Messaging
 {
@@ -9,7 +10,6 @@ namespace DSoft.Messaging
 	/// </summary>
 	public class MessageBus
 	{
-
 		#region Fields
 
 		private static MessageBus mDefault;
@@ -23,11 +23,10 @@ namespace DSoft.Messaging
 		/// Gets the default message bus
 		/// </summary>
 		/// <value>The default.</value>
-		public static MessageBus Default
-		{
-			get 
+		public static MessageBus Default {
+			get
 			{
-				if (mDefault == null) 
+				if (mDefault == null)
 				{
 					mDefault = new MessageBus ();
 				}
@@ -100,11 +99,12 @@ namespace DSoft.Messaging
 		#endregion
 
 		#region Generic Methods
+
 		/// <summary>
 		/// Register for a type of MessageBusEvent
 		/// </summary>
 		/// <typeparam name="T">The 1st type parameter.</typeparam>
-		public void Register<T>(Action<object,MessageBusEvent> Action) where T : MessageBusEvent,new()
+		public void Register<T> (Action<object,MessageBusEvent> Action) where T : MessageBusEvent, new()
 		{
 			var aType = typeof(T);
 
@@ -116,8 +116,26 @@ namespace DSoft.Messaging
 			EventHandlers.Add (typeHandler);
 		}
 
-	
+		/// <summary>
+		/// Deregister the event action for a Generic message bus type
+		/// </summary>
+		/// <param name="Action">Action.</param>
+		/// <typeparam name="T">The 1st type parameter.</typeparam>
+		public void DeRegister<T> (Action<object,MessageBusEvent> Action) where T : MessageBusEvent
+		{
+			var results = new List<MessageBusEventHandler> (EventHandlers.HandlersForEvent<T> ());
+
+			foreach (var item in results)
+			{
+				if (item.EventAction == Action)
+				{
+					EventHandlers.Remove (item);
+				}
+			}
+		}
+
 		#endregion
+
 		#region Events
 
 		/// <summary>

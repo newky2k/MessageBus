@@ -20,7 +20,7 @@ namespace DSoft.Messaging.Collections
 		internal MessageBusEventHandler[] HandlersForEvent (String EventId)
 		{
 			var results = from item in this.Items
-						  where !String.IsNullOrWhiteSpace(item.EventId)
+			              where !String.IsNullOrWhiteSpace (item.EventId)
 			              where item.EventId.ToLower ().Equals (EventId.ToLower ())
 			              where item.EventAction != null
 			              select item;
@@ -38,20 +38,30 @@ namespace DSoft.Messaging.Collections
 		{
 			var results = from item in this.Items
 			              where item is TypedMessageBusEventHandler
-						  where item.EventAction != null
+			              where item.EventAction != null
 			              select item;
 
 			var list = new List<MessageBusEventHandler> ();
 
-			foreach (TypedMessageBusEventHandler item in results.ToArray()) 
+			foreach (TypedMessageBusEventHandler item in results.ToArray())
 			{
-				if (item.EventType != null && item.EventType.Equals (EventType)) 
+				if (item.EventType != null && item.EventType.Equals (EventType))
 				{
 					list.Add (item);
 				}
 			}
 
 			return list.ToArray ();
+		}
+
+		/// <summary>
+		/// Returns the event handlers for the specified Generic MessageBusEvent Type 
+		/// </summary>
+		/// <returns>The for event.</returns>
+		/// <typeparam name="T">The 1st type parameter.</typeparam>
+		internal MessageBusEventHandler[] HandlersForEvent<T> () where T : MessageBusEvent
+		{
+			return HandlersForEvent (typeof(T));
 		}
 
 		#endregion

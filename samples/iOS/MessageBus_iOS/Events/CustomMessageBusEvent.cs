@@ -4,7 +4,7 @@ using DSoft.Messaging;
 namespace MessageBus_iOS
 {
 	/// <summary>
-	/// Custom message bus event.
+	/// Custom MessageBusEvent class with extra data
 	/// </summary>
 	public class CustomMessageBusEvent : MessageBusEvent
 	{
@@ -17,7 +17,7 @@ namespace MessageBus_iOS
 		/// </summary>
 		/// <value>The event identifier.</value>
 		public override string EventId {
-			get 
+			get
 			{
 				//return a constant eventId
 				return kCustEventId;
@@ -28,10 +28,12 @@ namespace MessageBus_iOS
 		/// Custom property on the event that Gets or sets the timestamp 
 		/// </summary>
 		/// <value>The time stamp.</value>
-		public DateTime TimeStamp { get; set;}
+		public DateTime TimeStamp { get; set; }
+
 		#endregion
 
 		#region Constructores
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="MessageBus_iOS.CustomMessageBusEvent"/> class.
 		/// </summary>
@@ -40,6 +42,7 @@ namespace MessageBus_iOS
 			//
 			TimeStamp = DateTime.Now;
 		}
+
 		#endregion
 	}
 }
