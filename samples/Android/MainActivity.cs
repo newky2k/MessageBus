@@ -54,7 +54,7 @@ namespace MessageBoxAndroid
 			var spButton = FindViewById<Button> (Resource.Id.btnShowPoster);
 			txtOutput = FindViewById<TextView> (Resource.Id.txtOutput);
 
-			txtOutput.Text = "String.Empty";
+			txtOutput.Text = String.Empty;
 
 			// register the event handlers on click
 			regbutton.Click += delegate {

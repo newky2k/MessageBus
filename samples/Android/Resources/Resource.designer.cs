@@ -60,14 +60,23 @@ namespace MessageBoxAndroid
 		public partial class Id
 		{
 			
+			// aapt resource value: 0x7f050006
+			public const int btnCustomEvent = 2131034118;
+			
 			// aapt resource value: 0x7f050002
 			public const int btnDeRegister = 2131034114;
 			
 			// aapt resource value: 0x7f050000
 			public const int btnRegister = 2131034112;
 			
+			// aapt resource value: 0x7f050005
+			public const int btnSendMessage = 2131034117;
+			
 			// aapt resource value: 0x7f050001
 			public const int btnShowPoster = 2131034113;
+			
+			// aapt resource value: 0x7f050004
+			public const int edtMessage = 2131034116;
 			
 			// aapt resource value: 0x7f050003
 			public const int txtOutput = 2131034115;
