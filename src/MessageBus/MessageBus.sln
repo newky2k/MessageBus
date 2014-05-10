@@ -3,10 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DSoft.Messaging", "DSoft.Messaging\DSoft.Messaging.csproj", "{59BFF815-1B16-485D-BA2A-22ADF9B4C8F7}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{9F696905-7E38-4300-B337-3E161B7C1946}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessageBusiOS", "..\..\samples\iOS\MessageBus_iOS\MessageBusiOS.csproj", "{9358D515-4CAC-4E87-821D-C7BFBFFDE274}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,27 +31,8 @@ Global
 		{59BFF815-1B16-485D-BA2A-22ADF9B4C8F7}.Release|iPhone.Build.0 = Release|Any CPU
 		{59BFF815-1B16-485D-BA2A-22ADF9B4C8F7}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
 		{59BFF815-1B16-485D-BA2A-22ADF9B4C8F7}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
-		{9358D515-4CAC-4E87-821D-C7BFBFFDE274}.Ad-Hoc|iPhone.ActiveCfg = Ad-Hoc|iPhone
-		{9358D515-4CAC-4E87-821D-C7BFBFFDE274}.Ad-Hoc|iPhone.Build.0 = Ad-Hoc|iPhone
-		{9358D515-4CAC-4E87-821D-C7BFBFFDE274}.AppStore|iPhone.ActiveCfg = AppStore|iPhone
-		{9358D515-4CAC-4E87-821D-C7BFBFFDE274}.AppStore|iPhone.Build.0 = AppStore|iPhone
-		{9358D515-4CAC-4E87-821D-C7BFBFFDE274}.Debug|Any CPU.ActiveCfg = Debug|iPhoneSimulator
-		{9358D515-4CAC-4E87-821D-C7BFBFFDE274}.Debug|Any CPU.Build.0 = Debug|iPhoneSimulator
-		{9358D515-4CAC-4E87-821D-C7BFBFFDE274}.Debug|iPhone.ActiveCfg = Debug|iPhone
-		{9358D515-4CAC-4E87-821D-C7BFBFFDE274}.Debug|iPhone.Build.0 = Debug|iPhone
-		{9358D515-4CAC-4E87-821D-C7BFBFFDE274}.Debug|iPhoneSimulator.ActiveCfg = Debug|iPhoneSimulator
-		{9358D515-4CAC-4E87-821D-C7BFBFFDE274}.Debug|iPhoneSimulator.Build.0 = Debug|iPhoneSimulator
-		{9358D515-4CAC-4E87-821D-C7BFBFFDE274}.Release|Any CPU.ActiveCfg = Release|iPhoneSimulator
-		{9358D515-4CAC-4E87-821D-C7BFBFFDE274}.Release|Any CPU.Build.0 = Release|iPhoneSimulator
-		{9358D515-4CAC-4E87-821D-C7BFBFFDE274}.Release|iPhone.ActiveCfg = Release|iPhone
-		{9358D515-4CAC-4E87-821D-C7BFBFFDE274}.Release|iPhone.Build.0 = Release|iPhone
-		{9358D515-4CAC-4E87-821D-C7BFBFFDE274}.Release|iPhoneSimulator.ActiveCfg = Release|iPhoneSimulator
-		{9358D515-4CAC-4E87-821D-C7BFBFFDE274}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{9358D515-4CAC-4E87-821D-C7BFBFFDE274} = {9F696905-7E38-4300-B337-3E161B7C1946}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = ..\..\samples\iOS\MessageBus_iOS\MessageBusiOS.csproj
+		StartupItem = DSoft.Messaging\DSoft.Messaging.csproj
 	EndGlobalSection
 EndGlobal

@@ -1,15 +1,13 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.IPhoneRetina.7.1" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="DSoft.Messaging/MessageBusEvent.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="DSoft.Messaging/MessageBus.cs">
     <Files>
-      <File FileName="DSoft.Messaging/MessageBusEvent.cs" Line="51" Column="3" />
+      <File FileName="DSoft.Messaging/MessageBusEvent.cs" Line="1" Column="1" />
+      <File FileName="DSoft.Messaging/MessageBus.cs" Line="56" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.ItemProperties.Samples.MessageBusiOS>
-    <ProfileHeapShotSettings_27CDebug Output="/var/folders/tw/shbr3q5s21v1p45n91299k340000gn/T/profiler-output.mlpd" Zip="True" HeapshotMode="ondemand" HeapshotGCInterval="1" HeapshotTimeInterval="1000" Calls="False" Alloc="False" CallDepth="100" StatisticalSampling="False" SampingFrequency="1000" MaxFrames="8" Mode="Memory" />
-  </MonoDevelop.Ide.ItemProperties.Samples.MessageBusiOS>
 </Properties>

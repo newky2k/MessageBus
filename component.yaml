@@ -1,0 +1,26 @@
+%YAML 1.2
+---
+name: MessageBus
+id: messagebus
+publisher: DSoft Developments
+license: component/License.md
+icons: 
+  - component/messagebus_128x128.png
+  - component/messagebus_512x512.png
+publisher-url: http://www.dsoftonline.com
+libraries: 
+  ios: src/MessageBus/DSoft.Messaging/bin/Release/DSoft.Messaging.dll
+summary: Cross platform Internal app messaging framework similar to NSNotificationCenter
+details: component/Details.md
+screenshots: 
+  - component/screenshot1.png
+getting-started: component/GettingStarted.md
+version: "1.0"
+build:
+    - src/MessageBus/MessageBus.sln
+samples: 
+  - name: "iOS Sample"
+    path: samples/iOS/MessageBusiOS.sln
+    configuration: "Release|iPhone"  
+    nobuild: true
+...

@@ -124,13 +124,13 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\..\..\src\MessageBus\DSoft.Messaging\DSoft.Messaging.csproj">
+    <Folder Include="ViewControllers\" />
+    <Folder Include="Events\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\MessageBus\DSoft.Messaging\DSoft.Messaging.csproj">
       <Project>{59BFF815-1B16-485D-BA2A-22ADF9B4C8F7}</Project>
       <Name>DSoft.Messaging</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ViewControllers\" />
-    <Folder Include="Events\" />
   </ItemGroup>
 </Project>

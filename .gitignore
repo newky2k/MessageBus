@@ -1,0 +1,4 @@
+.xpkg/
+/bin/
+
+*.xam
