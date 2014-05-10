@@ -139,9 +139,9 @@ namespace DSoft.Messaging
 		#region Events
 
 		/// <summary>
-		/// Posts the event.
+		/// Posts the even
 		/// </summary>
-		/// <param name="Event">The event.</param>
+		/// <param name="Event">The event object</param>
 		public void PostEvent (MessageBusEvent Event)
 		{
 			if (!(Event is CoreMessageBusEvent))
@@ -164,6 +164,41 @@ namespace DSoft.Messaging
 				}
 			}
 
+		}
+
+		/// <summary>
+		/// Posts the event.
+		/// </summary>
+		/// <param name="EventId">Event Id</param>
+		public void PostEvent (String EventId)
+		{
+			PostEvent (EventId, null);
+		}
+
+		/// <summary>
+		/// Posts the event
+		/// </summary>
+		/// <param name="EventId">Event Id</param>
+		/// <param name="Sender">The Sender</param>
+		public void PostEvent (String EventId, object Sender)
+		{
+			PostEvent (EventId, null, null);
+		}
+
+		/// <summary>
+		/// Posts the event.
+		/// </summary>
+		/// <param name="EventId">Event Id</param>
+		/// <param name="Sender">The Sender</param>
+		/// <param name="Data">Data objects to pass through with the event </param>
+		public void PostEvent (String EventId, object Sender, object[] Data)
+		{
+			var aEvent = new CoreMessageBusEvent (EventId) {
+				Sender = Sender,
+				Data = Data,
+			};
+
+			PostEvent (aEvent);
 		}
 
 		#endregion
