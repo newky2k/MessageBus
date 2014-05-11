@@ -11,6 +11,7 @@ publisher-url: http://www.dsoftonline.com
 libraries: 
   ios: src/MessageBus/DSoft.Messaging/bin/Release/DSoft.Messaging.dll
   android: src/MessageBus/DSoft.Messaging/bin/Release/DSoft.Messaging.dll
+  winphone-8.0: src/MessageBus/DSoft.Messaging/bin/Release/DSoft.Messaging.dll
 summary: Cross platform Internal app messaging framework similar to NSNotificationCenter
 details: component/Details.md
 screenshots: 
@@ -26,6 +27,10 @@ samples:
     nobuild: true
   - name: "Android Sample"
     path: samples/Android/MessageBoxAndroid.sln
+    configuration: "Release"  
+    nobuild: true
+  - name: "Windows Phone Sample"
+    path: samples/WindowsPhone/MessageBusWP.sln
     configuration: "Release"  
     nobuild: true
 ...
