@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>DSoft.Messaging</RootNamespace>
     <AssemblyName>DSoft.Messaging</AssemblyName>
-    <TargetFrameworkProfile>Profile104</TargetFrameworkProfile>
+    <TargetFrameworkProfile>Profile158</TargetFrameworkProfile>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>

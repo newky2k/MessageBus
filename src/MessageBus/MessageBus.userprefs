@@ -2,7 +2,7 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" />
   <MonoDevelop.Ide.Workbench ActiveDocument="DSoft.Messaging/MessageBus.cs">
     <Files>
-      <File FileName="DSoft.Messaging/MessageBus.cs" Line="210" Column="1" />
+      <File FileName="DSoft.Messaging/MessageBus.cs" Line="209" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
