@@ -2,7 +2,9 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhoneSimulator" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.IPhoneRetina.7.1" />
   <MonoDevelop.Ide.Workbench ActiveDocument="ViewControllers/DetailViewController.cs">
     <Files>
-      <File FileName="ViewControllers/DetailViewController.cs" Line="5" Column="7" />
+      <File FileName="ViewControllers/DetailViewController.cs" Line="40" Column="60" />
+      <File FileName="ViewControllers/MainViewController.cs" Line="72" Column="1" />
+      <File FileName="Events/CustomMessageBusEvent.cs" Line="6" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

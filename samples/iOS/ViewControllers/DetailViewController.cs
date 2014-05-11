@@ -31,14 +31,13 @@ namespace MessageBus_iOS.ViewControllers
 				};
 
 				//send it
-				MessageBus.Default.PostEvent (aEvent);
+				MessageBus.Default.Post (aEvent);
 
 
 			};
 
-			btnCustomPost.TouchUpInside += (object sender, EventArgs e) => 
-			{
-				MessageBus.Default.PostEvent (new CustomMessageBusEvent());
+			btnCustomPost.TouchUpInside += (object sender, EventArgs e) => {
+				MessageBus.Default.Post (new CustomMessageBusEvent ());
 			};
 		}
 	}
