@@ -1,6 +1,5 @@
 ﻿using System;
 using DSoft.Messaging.Collections;
-using System.Threading.Tasks;
 using System.Collections.Generic;
 
 namespace DSoft.Messaging
