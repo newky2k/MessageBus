@@ -90,8 +90,13 @@ namespace MessageBusWP
             //extrac the data
             var data2 = evnt.Data[0] as String;
 
-            //post to the output box
-            txtOutput.Text += data2 + Environment.NewLine;
+            //Execute on UI thread
+            this.Dispatcher.BeginInvoke(() =>
+                {
+                    //post to the output box
+                    txtOutput.Text += data2 + Environment.NewLine;
+                });
+           
         }
 
         /// <summary>
@@ -106,8 +111,13 @@ namespace MessageBusWP
                 //convert to customer event type
                 var custEvent = evnt as CustomMessageBusEvent;
 
-                //post to the output box
-                txtOutput.Text += String.Format("Custom Event Timestamp: {0}", custEvent.TimeStamp) + Environment.NewLine;
+                //Execute on UI thread
+                this.Dispatcher.BeginInvoke(() =>
+                    {
+                        //post to the output box
+                        txtOutput.Text += String.Format("Custom Event Timestamp: {0}", custEvent.TimeStamp) + Environment.NewLine;
+                    });
+
             }
 
 
