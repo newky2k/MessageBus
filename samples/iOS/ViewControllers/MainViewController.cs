@@ -58,6 +58,7 @@ namespace MessageBus_iOS
 
 				//register for CustomMessageBusEvent 
 				MessageBus.Default.Register<CustomMessageBusEvent> (CustomMessageEventHandler);
+
 			};
 
 			//show the child page
@@ -88,8 +89,12 @@ namespace MessageBus_iOS
 			//extrac the data
 			var data2 = evnt.Data [0] as String;
 
-			//post to the output box
-			txtOutput.Text += data2 + Environment.NewLine;
+			//execute on the UI thread
+			BeginInvokeOnMainThread (() => {
+				//post to the output box
+				txtOutput.Text += data2 + Environment.NewLine;
+			});
+
 		}
 
 		/// <summary>
@@ -104,8 +109,12 @@ namespace MessageBus_iOS
 				//convert to customer event type
 				var custEvent = evnt as CustomMessageBusEvent;
 
-				//post to the output box
-				txtOutput.Text += String.Format ("Custom Event Timestamp: {0}", custEvent.TimeStamp) + Environment.NewLine;
+				//execute on the UI thread
+				BeginInvokeOnMainThread (() => {
+					//post to the output box
+					txtOutput.Text += String.Format ("Custom Event Timestamp: {0}", custEvent.TimeStamp) + Environment.NewLine;
+				});
+
 			}
 
 

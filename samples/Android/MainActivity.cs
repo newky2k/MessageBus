@@ -94,8 +94,12 @@ namespace MessageBoxAndroid
 			//extrac the data
 			var data2 = evnt.Data [0] as String;
 
-			//post to the output box
-			txtOutput.Text += data2 + System.Environment.NewLine;
+			//run on the ui thread
+			RunOnUiThread (() => {
+				//post to the output box
+				txtOutput.Text += data2 + System.Environment.NewLine;
+			});
+
 		}
 
 		/// <summary>
@@ -110,8 +114,12 @@ namespace MessageBoxAndroid
 				//convert to customer event type
 				var custEvent = evnt as CustomMessageBusEvent;
 
-				//post to the output box
-				txtOutput.Text += String.Format ("Custom Event Timestamp: {0}", custEvent.TimeStamp) + System.Environment.NewLine;
+				//run on the ui thread
+				RunOnUiThread (() => {
+					//post to the output box
+					txtOutput.Text += String.Format ("Custom Event Timestamp: {0}", custEvent.TimeStamp) + System.Environment.NewLine;
+				});
+				
 			}
 
 

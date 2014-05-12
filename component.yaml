@@ -8,6 +8,7 @@ icons:
   - component/messagebus_128x128.png
   - component/messagebus_512x512.png
 publisher-url: http://www.dsoftonline.com
+source-url: https://github.com/newky2k/MessageBus
 libraries: 
   ios: src/MessageBus/DSoft.Messaging/bin/Release/DSoft.Messaging.dll
   android: src/MessageBus/DSoft.Messaging/bin/Release/DSoft.Messaging.dll

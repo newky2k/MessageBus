@@ -2,10 +2,10 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="MainActivity.cs">
     <Files>
-      <File FileName="MainActivity.cs" Line="72" Column="5" />
-      <File FileName="SecondActivity.cs" Line="25" Column="44" />
+      <File FileName="MainActivity.cs" Line="125" Column="4" />
+      <File FileName="SecondActivity.cs" Line="50" Column="28" />
       <File FileName="../iOS/ViewControllers/MainViewController.cs" Line="1" Column="1" />
-      <File FileName="../iOS/ViewControllers/DetailViewController.cs" Line="22" Column="1" />
+      <File FileName="../iOS/ViewControllers/DetailViewController.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

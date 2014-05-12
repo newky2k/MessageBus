@@ -1,6 +1,8 @@
 ﻿using System;
 using DSoft.Messaging.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace DSoft.Messaging
 {
@@ -135,7 +137,15 @@ namespace DSoft.Messaging
 
 		#endregion
 
-		#region Events
+		#region Posting
+
+		private void Execute (Action<object,MessageBusEvent> Action, object Sender, MessageBusEvent Evnt)
+		{
+			Task.Factory.StartNew (() => {
+				Action (Sender, Evnt);
+			}, 
+				CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default);
+		}
 
 		/// <summary>
 		/// Posts the even
@@ -149,7 +159,7 @@ namespace DSoft.Messaging
 				{
 					if (item.EventAction != null)
 					{
-						item.EventAction (Event.Sender, Event);
+						Execute (item.EventAction, Event.Sender, Event);
 					}
 				}
 			}
@@ -159,7 +169,7 @@ namespace DSoft.Messaging
 			{
 				if (item.EventAction != null)
 				{
-					item.EventAction (Event.Sender, Event);
+					Execute (item.EventAction, Event.Sender, Event);
 				}
 			}
 
@@ -201,6 +211,49 @@ namespace DSoft.Messaging
 		}
 
 		#endregion
+
+		#endregion
+
+		#region Static Methods
+
+		/// <summary>
+		/// Post the specified Event to the Default MessageBus
+		/// </summary>
+		/// <param name="Event">Event.</param>
+		public static void PostEvent (MessageBusEvent Event)
+		{
+			Default.Post (Event);
+		}
+
+		/// <summary>
+		/// Posts the event to the Default MessageBus
+		/// </summary>
+		/// <param name="EventId">Event identifier.</param>
+		public static void PostEvent (String EventId)
+		{
+			Default.Post (EventId);
+		}
+
+		/// <summary>
+		/// Post the specified EventId and Sender to the Default MessageBus
+		/// </summary>
+		/// <param name="EventId">Event identifier.</param>
+		/// <param name="Sender">Sender.</param>
+		public static void PostEvent (String EventId, object Sender)
+		{
+			Default.Post (EventId, Sender);
+		}
+
+		/// <summary>
+		/// Post the specified EventId, Sender and Data to the Default MessageBus
+		/// </summary>
+		/// <param name="EventId">Event identifier.</param>
+		/// <param name="Sender">Sender.</param>
+		/// <param name="Data">Data.</param>
+		public static void PostEvent (String EventId, object Sender, object[] Data)
+		{
+			Default.Post (EventId, Sender, Data);
+		}
 
 		#endregion
 	}

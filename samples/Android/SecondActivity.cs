@@ -41,13 +41,13 @@ namespace MessageBoxAndroid
 				};
 
 				//send it
-				MessageBus.Default.PostEvent (aEvent);
+				MessageBus.Default.Post (aEvent);
 
 
 			};
 
 			btnCustomPost.Click += (object sender, EventArgs e) => {
-				MessageBus.Default.PostEvent (new CustomMessageBusEvent ());
+				MessageBus.Default.Post (new CustomMessageBusEvent ());
 			};
 		}
 	}
