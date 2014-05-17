@@ -13,10 +13,10 @@ libraries:
   ios: src/MessageBus/DSoft.Messaging/bin/Release/DSoft.Messaging.dll
   android: src/MessageBus/DSoft.Messaging/bin/Release/DSoft.Messaging.dll
   wp8: src/MessageBus/DSoft.Messaging/bin/Release/DSoft.Messaging.dll
-summary: Cross platform Internal app messaging framework similar to NSNotificationCenter
+summary: Cross platform EventBus framework for iOS, Android and Windows Phone
 details: component/Details.md
 screenshots: 
-  - component/screenshot1.png
+  - component/MessageBus001.png
 getting-started: component/GettingStarted.md
 version: "1.0"
 build:
