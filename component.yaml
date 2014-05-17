@@ -12,7 +12,7 @@ source-url: https://github.com/newky2k/MessageBus
 libraries: 
   ios: src/MessageBus/DSoft.Messaging/bin/Release/DSoft.Messaging.dll
   android: src/MessageBus/DSoft.Messaging/bin/Release/DSoft.Messaging.dll
-  winphone-7.1: src/MessageBus/DSoft.Messaging/bin/Release/DSoft.Messaging.dll
+  wp8: src/MessageBus/DSoft.Messaging/bin/Release/DSoft.Messaging.dll
 summary: Cross platform Internal app messaging framework similar to NSNotificationCenter
 details: component/Details.md
 screenshots: 
