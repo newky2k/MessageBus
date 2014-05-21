@@ -1,19 +1,21 @@
 
-MessageBus is a cross platform EventBus system similar to NSNoticationCenter on iOS and otto on Android that allow you to decouple your code whilst still allowing your applications components to commincate with each other.  MesssageBus can be used instead of events and can be used to communicate between objects that are not directly linked.
+MessageBus is a cross platform EventBus system similar to NSNoticationCenter on iOS and otto on Android that allows you to decouple your code whilst still allowing your applications components to communicate with each other.  MesssageBus can be used instead of events and can be used to communicate between objects that are not directly linked.
 
 ## Usage
 
-`MessageBus.Default` provides a central bus for you to subsribe to and post events.  You can override this by setting a new one or have muliple seperate `MessageBus` objects
+`MessageBus.Default` provides a central bus for you to subscribe to and post events.  You can override this by setting a new one or have multiple separate `MessageBus` objects
 
 
 	using DSoft.Messaging;
 	...
 	
 	var newBus = new MessageBus();
+	
+	MessageBus.Default = aNewBus;
 	 
 **Registering Event Handlers**
 
-To subscribe to an event you can create a `MessageBusEventHandler` object, and then register it with the MessageBus.  The event handler allows you to set the Id of the event to subscribe to and an Action or Delegate to call be when the event occurs.
+To subscribe to an event you can create a `MessageBusEventHandler` object and then register it with the MessageBus.  The event handler allows you to set the Id of the event to subscribe to and an Action or Delegate to call be when the event occurs.
 
 	using DSoft.Messaging;
 	...
@@ -29,7 +31,7 @@ To subscribe to an event you can create a `MessageBusEventHandler` object, and t
 	
 	MessageBus.Default.Register(newEvHandler);
 
-You can then deregister an event handler or simple clear all handlers for a specific EventId
+You can then deregister an event handler or simply clear all handlers for a specific EventId
 
 
 	using DSoft.Messaging;
@@ -41,13 +43,13 @@ You can then deregister an event handler or simple clear all handlers for a spec
 	//Clear all event handlers
 	MessageBus.Default.Clear("1234");
 
-*Note: You must execute any code that updates the UI in your event action delegate on the UI thread*
+*Note: You must execute any code that updates the UI, contained within your event action or delegate, on the UI thread*
 
 **Posting Events**
 
 You can then post an event from anywhere in your application using the Id of the event to execute the Action in the registered `MessageBusEventHandler` objects.
 
-To post an event you create an instance of `CoreMessageBusEvent`, set the EventId, sender and any addtional data you want to send
+To post an event you create an instance of `CoreMessageBusEvent`, set the EventId, sender and any additional data you want to send
  
 	using DSoft.Messaging;
 	...
@@ -87,7 +89,7 @@ If you are only using the default MessageBus you can post using the class method
 	MessageBus.PostEvent("1234",this);
 	MessageBus.PostEvent("1234",this, new object[]{"This is a message"});
 
-*Note: You must execute any code that updates the UI in your event action delegate on the UI thread*
+*Note: You must execute any code that updates the UI, contained within your event action or delegate, on the UI thread*
 
 **Custom Events**	
 
