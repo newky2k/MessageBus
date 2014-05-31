@@ -13,15 +13,13 @@ MessageBus is a cross platform EventBus system similar to NSNoticationCenter on 
 
 ## Usage
 
-`MessageBus.Default` provides a central bus for you to subscribe to and post events.  You can override this by setting a new one or have multiple separate `MessageBus` objects
+`MessageBus.Default` provides a central Multi-thread singleton for you to subscribe to and post events.  You can use this or have multiple separate `MessageBus` objects of your own.
 
 
 	using DSoft.Messaging;
 	...
 	
 	var newBus = new MessageBus();
-	
-	MessageBus.Default = aNewBus;
 	 
 
 To subscribe to an event you can create a `MessageBusEventHandler` object, and then register it with the MessageBus.  The event handler allows you to set the Id of the event to subscribe to and an Action or Delegate to call be when the event occurs.
@@ -42,12 +40,12 @@ To subscribe to an event you can create a `MessageBusEventHandler` object, and t
 	
 You can then post an event from anywhere in your application using the Id of the event to execute the Action in the registered `MessageBusEventHandler` objects.
 
-To post an event you create an instance of `MessageBusEvent`, set the EventId, sender and any additional data you want to send
+To post an event you create an instance of `CoreMessageBusEvent`, set the EventId, sender and any additional data you want to send and then call Post on the relevant MessageBus.
  
 	using DSoft.Messaging;
 	...
 	
-	var newEvent = new MessageBusEvent()
+	var newEvent = new CoreMessageBusEvent()
 	{
 		EventId = "1234",
 		Sender = this,

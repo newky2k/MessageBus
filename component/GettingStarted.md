@@ -3,15 +3,13 @@ MessageBus is a cross platform EventBus system similar to NSNoticationCenter on 
 
 ## Usage
 
-`MessageBus.Default` provides a central bus for you to subscribe to and post events.  You can override this by setting a new one or have multiple separate `MessageBus` objects
+`MessageBus.Default` provides a central Multi-thread singleton for you to subscribe to and post events.  You can use this or have multiple separate `MessageBus` objects of your own.
 
 
 	using DSoft.Messaging;
 	...
 	
 	var newBus = new MessageBus();
-	
-	MessageBus.Default = aNewBus;
 	 
 **Registering Event Handlers**
 
@@ -49,7 +47,7 @@ You can then deregister an event handler or simply clear all handlers for a spec
 
 You can then post an event from anywhere in your application using the Id of the event to execute the Action in the registered `MessageBusEventHandler` objects.
 
-To post an event you create an instance of `CoreMessageBusEvent`, set the EventId, sender and any additional data you want to send
+To post an event you create an instance of `CoreMessageBusEvent`, set the EventId, sender and any additional data you want to send and then call Post on the relevant MessageBus.
  
 	using DSoft.Messaging;
 	...
@@ -111,3 +109,40 @@ You can then register for events based on the type of the event, rather than the
 You can also deregister based on type
 
 	MessageBus.Default.DeRegister<CustomMessageBusEvent> (CustomMessageEventHandler);
+
+**Excuting code on the UI Thread**
+
+When MessageBus executes your action code it will not do it on the main UI Thread.  This is to avoid blocking of the UI for long running actions or where there are lots of handlers for an event.
+
+You may wish to update you UI in the action code assigned to the Event Handler and you can do this two ways depending on where your event handler exists.
+
+ - If your event handler is in "Platform" specific code you can use the current context to execute the code E.g. View.BeginInvoke(iOS), Actvity.RunOnUIThread(Android), Dispatcher.BeginInvoke(Windows Phone)
+ - If your handler is in the PCL space you can use Task.Factory.StartNew and pass the current Syncronization context.  
+  
+An example of the second approach is below.
+
+	using DSoft.Messaging;
+	...
+	
+	var newEvHandler = new MessageBusEventHandler()
+	{
+		EventId = "1234",
+		Action = (sender, data) =>
+		{
+			//Code goes here
+			for (int i = 1; i <= 5; i++)
+	        {
+	            Console.WriteLine(i);
+	        }
+	        
+	        //update the UI
+	        Task.Factory.StartNew(() =>
+            {
+                this.label1.Text = "Task past first work section...";
+            }, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.FromCurrentSynchronizationContext());
+		},
+	};
+	
+	MessageBus.Default.Register(newEvHandler);
+	
+ 
