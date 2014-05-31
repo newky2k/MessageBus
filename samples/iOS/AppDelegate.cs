@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
+using DSoft.Messaging;
 
 namespace MessageBus_iOS
 {
@@ -25,7 +26,7 @@ namespace MessageBus_iOS
 			//Look at the MainViewController class for the MessageBus registration
 			window.RootViewController = new UINavigationController (viewController);
 			window.MakeKeyAndVisible ();
-			
+
 			return true;
 		}
 	}

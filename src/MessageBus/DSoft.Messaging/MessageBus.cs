@@ -3,6 +3,7 @@ using DSoft.Messaging.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Threading;
+using System.Diagnostics;
 
 namespace DSoft.Messaging
 {
@@ -19,6 +20,15 @@ namespace DSoft.Messaging
 
 		#endregion
 
+		#region Constructors
+
+		public MessageBus()
+		{
+			var aSyncContext = TaskScheduler.FromCurrentSynchronizationContext();
+
+		}
+
+		#endregion
 		#region Properties
 
 		/// <summary>
@@ -58,6 +68,15 @@ namespace DSoft.Messaging
 			}
 		}
 
+		/// <summary>
+		/// Gets or sets the sync context.
+		/// </summary>
+		/// <value>The sync context.</value>
+		private TaskScheduler SyncContext
+		{
+			get;
+			set;
+		}
 		#endregion
 
 		#region Methods
@@ -147,10 +166,12 @@ namespace DSoft.Messaging
 
 		private void Execute (Action<object,MessageBusEvent> Action, object Sender, MessageBusEvent Evnt)
 		{
+			SyncContext = TaskScheduler.FromCurrentSynchronizationContext();
+
 			Task.Factory.StartNew (() => {
 				Action (Sender, Evnt);
 			}, 
-				CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default);
+				CancellationToken.None, TaskCreationOptions.LongRunning, TaskScheduler.Default);
 		}
 
 		/// <summary>
@@ -261,6 +282,23 @@ namespace DSoft.Messaging
 			Default.Post (EventId, Sender, Data);
 		}
 
+		/// <summary>
+		/// Execute the action on the UI thread
+		/// </summary>
+		/// <param name="Command">Command.</param>
+		public void RunOnUiThread(Action Command)
+		{
+			var cul = Thread.CurrentThread;
+
+			//update the UI
+			Task.Factory.StartNew(() =>
+			{
+				if (Command != null)
+				{
+					Command();
+				}
+			}, CancellationToken.None, TaskCreationOptions.None, SyncContext);
+		}
 		#endregion
 	}
 }

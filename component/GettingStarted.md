@@ -116,7 +116,7 @@ When MessageBus executes your action code it will not do it on the main UI Threa
 
 You may wish to update you UI in the action code assigned to the Event Handler and you can do this two ways depending on where your event handler exists.
 
- - If your event handler is in "Platform" specific code you can use the current context to execute the code E.g. View.BeginInvoke(iOS), Actvity.RunOnUIThread(Android), Dispatcher.BeginInvoke(Windows Phone)
+ - If your event handler is in "Platform" specific code you can use the current context to execute the code E.g. BeginInvokeOnMainThread(iOS), Actvity.RunOnUIThread(Android), Dispatcher.BeginInvoke(Windows Phone)
  - If your handler is in the PCL space you can use Task.Factory.StartNew and pass the current Syncronization context.  
   
 An example of the second approach is below.
