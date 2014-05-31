@@ -13,7 +13,8 @@ namespace DSoft.Messaging
 	{
 		#region Fields
 
-		private static MessageBus mDefault;
+		private static volatile MessageBus mDefault;
+		private static object syncRoot = new Object();
 		private MessageBusEventHandlerCollection mEventHandlers;
 
 		#endregion
@@ -29,7 +30,12 @@ namespace DSoft.Messaging
 			{
 				if (mDefault == null)
 				{
-					mDefault = new MessageBus ();
+					lock (syncRoot) 
+					{
+						if (mDefault == null)
+							mDefault = new MessageBus ();
+					}
+
 				}
 
 				return mDefault;
