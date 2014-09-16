@@ -23,8 +23,12 @@ version: "1.1"
 build:
     - src/MessageBus/MessageBus.sln
 samples: 
-  - name: "iOS Sample"
+  - name: "iOS Unified Sample"
     path: samples/iOS/MessageBusiOS.sln
+    configuration: "Release|iPhone"  
+    nobuild: true
+  - name: "iOS Classic Sample"
+    path: samples/iOS/MessageBusiOSClassic.sln
     configuration: "Release|iPhone"  
     nobuild: true
   - name: "Android Sample"
