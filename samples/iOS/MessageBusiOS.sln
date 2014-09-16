@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessageBusiOS", "MessageBusiOS.csproj", "{9358D515-4CAC-4E87-821D-C7BFBFFDE274}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DSoft.Messaging", "..\..\src\MessageBus\DSoft.Messaging\DSoft.Messaging.csproj", "{59BFF815-1B16-485D-BA2A-22ADF9B4C8F7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessageBusiOS_Classic", "MessageBusiOS_Classic.csproj", "{9358D515-4CAC-4E87-821D-C7BFBFFDE274}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessageBusiOS", "MessageBusiOS.csproj", "{157DF36F-D97A-4A0C-B9D7-B0584556244B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,18 @@ Global
 		AppStore|iPhone = AppStore|iPhone
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{157DF36F-D97A-4A0C-B9D7-B0584556244B}.Ad-Hoc|iPhone.ActiveCfg = Ad-Hoc|iPhone
+		{157DF36F-D97A-4A0C-B9D7-B0584556244B}.Ad-Hoc|iPhone.Build.0 = Ad-Hoc|iPhone
+		{157DF36F-D97A-4A0C-B9D7-B0584556244B}.AppStore|iPhone.ActiveCfg = AppStore|iPhone
+		{157DF36F-D97A-4A0C-B9D7-B0584556244B}.AppStore|iPhone.Build.0 = AppStore|iPhone
+		{157DF36F-D97A-4A0C-B9D7-B0584556244B}.Debug|iPhone.ActiveCfg = Debug|iPhone
+		{157DF36F-D97A-4A0C-B9D7-B0584556244B}.Debug|iPhone.Build.0 = Debug|iPhone
+		{157DF36F-D97A-4A0C-B9D7-B0584556244B}.Debug|iPhoneSimulator.ActiveCfg = Debug|iPhoneSimulator
+		{157DF36F-D97A-4A0C-B9D7-B0584556244B}.Debug|iPhoneSimulator.Build.0 = Debug|iPhoneSimulator
+		{157DF36F-D97A-4A0C-B9D7-B0584556244B}.Release|iPhone.ActiveCfg = Release|iPhone
+		{157DF36F-D97A-4A0C-B9D7-B0584556244B}.Release|iPhone.Build.0 = Release|iPhone
+		{157DF36F-D97A-4A0C-B9D7-B0584556244B}.Release|iPhoneSimulator.ActiveCfg = Release|iPhoneSimulator
+		{157DF36F-D97A-4A0C-B9D7-B0584556244B}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
 		{59BFF815-1B16-485D-BA2A-22ADF9B4C8F7}.Ad-Hoc|iPhone.ActiveCfg = Release|Any CPU
 		{59BFF815-1B16-485D-BA2A-22ADF9B4C8F7}.Ad-Hoc|iPhone.Build.0 = Release|Any CPU
 		{59BFF815-1B16-485D-BA2A-22ADF9B4C8F7}.AppStore|iPhone.ActiveCfg = Release|Any CPU

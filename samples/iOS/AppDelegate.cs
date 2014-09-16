@@ -1,8 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+
+
+#if __UNIFIED__
+using UIKit;
+using Foundation;
+#else
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
+#endif
+
 using DSoft.Messaging;
 
 namespace MessageBus_iOS

@@ -4,7 +4,14 @@
 // actions made in the UI designer. If it is removed, they will be lost.
 // Manual changes to this file may not be handled correctly.
 //
+#if __UNIFIED__
+using UIKit;
+using Foundation;
+#else
 using MonoTouch.Foundation;
+using MonoTouch.UIKit;
+#endif
+
 using System.CodeDom.Compiler;
 
 namespace MessageBus_iOS
@@ -13,16 +20,16 @@ namespace MessageBus_iOS
 	partial class MainViewController
 	{
 		[Outlet]
-		MonoTouch.UIKit.UIButton btnDeRegister { get; set; }
+		UIButton btnDeRegister { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIButton btnRegister { get; set; }
+		UIButton btnRegister { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIButton btnShowChild { get; set; }
+		UIButton btnShowChild { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UITextView txtOutput { get; set; }
+		UITextView txtOutput { get; set; }
 
 		void ReleaseDesignerOutlets ()
 		{

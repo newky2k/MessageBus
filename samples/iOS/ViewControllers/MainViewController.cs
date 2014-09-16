@@ -1,7 +1,14 @@
 ﻿using System;
 using System.Drawing;
+
+#if __UNIFIED__
+using UIKit;
+using Foundation;
+#else
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
+#endif
+
 using DSoft.Messaging;
 using MessageBus_iOS.ViewControllers;
 

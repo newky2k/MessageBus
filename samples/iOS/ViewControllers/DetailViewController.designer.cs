@@ -3,8 +3,14 @@
 // This file has been generated automatically by Xamarin Studio to store outlets and
 // actions made in the UI designer. If it is removed, they will be lost.
 // Manual changes to this file may not be handled correctly.
-//
+#if __UNIFIED__
+using UIKit;
+using Foundation;
+#else
 using MonoTouch.Foundation;
+using MonoTouch.UIKit;
+#endif
+
 using System.CodeDom.Compiler;
 
 namespace MessageBus_iOS.ViewControllers
@@ -13,13 +19,13 @@ namespace MessageBus_iOS.ViewControllers
 	partial class DetailViewController
 	{
 		[Outlet]
-		MonoTouch.UIKit.UIButton btnCustomPost { get; set; }
+		UIButton btnCustomPost { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UIButton btnSend { get; set; }
+		UIButton btnSend { get; set; }
 
 		[Outlet]
-		MonoTouch.UIKit.UITextField edtMessage { get; set; }
+		UITextField edtMessage { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{
