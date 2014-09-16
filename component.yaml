@@ -11,6 +11,7 @@ publisher-url: http://www.dsoftonline.com
 src-url: https://github.com/newky2k/MessageBus
 libraries: 
   ios: src/MessageBus/DSoft.Messaging/bin/Release/DSoft.Messaging.dll
+  ios-unified: src/MessageBus/DSoft.Messaging/bin/Release/DSoft.Messaging.dll
   android: src/MessageBus/DSoft.Messaging/bin/Release/DSoft.Messaging.dll
   wp8: src/MessageBus/DSoft.Messaging/bin/Release/DSoft.Messaging.dll
 summary: Cross platform EventBus framework for iOS, Android and Windows Phone
