@@ -4,15 +4,15 @@
 // actions made in the UI designer. If it is removed, they will be lost.
 // Manual changes to this file may not be handled correctly.
 //
+using System.CodeDom.Compiler;
+
 #if __UNIFIED__
-using UIKit;
 using Foundation;
+using UIKit;
 #else
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 #endif
-
-using System.CodeDom.Compiler;
 
 namespace MessageBus_iOS
 {

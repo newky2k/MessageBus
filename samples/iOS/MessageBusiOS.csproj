@@ -4,19 +4,19 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">iPhoneSimulator</Platform>
     <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <ProjectGuid>{157DF36F-D97A-4A0C-B9D7-B0584556244B}</ProjectGuid>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{0797C5D4-24F3-4F38-A3EB-7505A256B20B}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>MessageBus_iOS</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
+    <AssemblyName>MessageBusiOS</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\unified\iPhoneSimulator\Debug</OutputPath>
-    <IntermediateOutputPath>obj\unified\iPhoneSimulator\Debug</IntermediateOutputPath>
     <DefineConstants>DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -27,27 +27,25 @@
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <MtouchI18n>
     </MtouchI18n>
-    <AssemblyName>MessageBusiOSUnified</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>full</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\unified\iPhoneSimulator\Release</OutputPath>
-    <IntermediateOutputPath>obj\unified\iPhoneSimulator\Release</IntermediateOutputPath>
+    <IntermediateOutputPath>obj\unified\$(Platform)\$(Configuration)\</IntermediateOutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <MtouchLink>None</MtouchLink>
     <MtouchArch>i386, x86_64</MtouchArch>
     <ConsolePause>false</ConsolePause>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
-    <AssemblyName>MessageBusiOSUnified</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\unified\iPhone\Debug</OutputPath>
-    <IntermediateOutputPath>obj\unified\iPhone\Debug</IntermediateOutputPath>
+    <IntermediateOutputPath>obj\unified\$(Platform)\$(Configuration)\</IntermediateOutputPath>
     <DefineConstants>DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -56,30 +54,24 @@
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <CodesignKey>iPhone Developer</CodesignKey>
     <MtouchDebug>true</MtouchDebug>
-    <IpaPackageName>
-    </IpaPackageName>
-    <AssemblyName>MessageBusiOS</AssemblyName>
-    <MtouchI18n>
-    </MtouchI18n>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>full</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\unified\iPhone\Release</OutputPath>
-    <IntermediateOutputPath>obj\unified\iPhone\Release</IntermediateOutputPath>
+    <IntermediateOutputPath>obj\unified\$(Platform)\$(Configuration)\</IntermediateOutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <MtouchArch>ARMv7, ARM64</MtouchArch>
     <ConsolePause>false</ConsolePause>
     <CodesignKey>iPhone Developer</CodesignKey>
-    <AssemblyName>MessageBusiOS</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Ad-Hoc|iPhone' ">
     <DebugType>full</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\unified\iPhone\Ad-Hoc</OutputPath>
-    <IntermediateOutputPath>obj\unified\iPhone\Ad-Hoc</IntermediateOutputPath>
+    <IntermediateOutputPath>obj\unified\$(Platform)\$(Configuration)\</IntermediateOutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
@@ -88,13 +80,12 @@
     <BuildIpa>true</BuildIpa>
     <CodesignProvision>Automatic:AdHoc</CodesignProvision>
     <CodesignKey>iPhone Distribution</CodesignKey>
-    <AssemblyName>MessageBusiOS</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'AppStore|iPhone' ">
     <DebugType>full</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\unified\iPhone\AppStore</OutputPath>
-    <IntermediateOutputPath>obj\unified\iPhone\AppStore</IntermediateOutputPath>
+    <IntermediateOutputPath>obj\unified\$(Platform)\$(Configuration)\</IntermediateOutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
@@ -102,19 +93,16 @@
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <CodesignProvision>Automatic:AppStore</CodesignProvision>
     <CodesignKey>iPhone Distribution</CodesignKey>
-    <AssemblyName>MessageBusiOS</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="Xamarin.iOS" />
-    <Reference Include="DSoft.Messaging">
-      <HintPath>..\..\src\MessageBus\DSoft.Messaging\bin\Debug\DSoft.Messaging.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\Default-568h%402x.png" />
+    <BundleResource Include="Resources\Entitlements.plist" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />
@@ -131,6 +119,12 @@
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
+    <ProjectReference Include="..\..\src\MessageBus\DSoft.Messaging\DSoft.Messaging.csproj">
+      <Project>{59BFF815-1B16-485D-BA2A-22ADF9B4C8F7}</Project>
+      <Name>DSoft.Messaging</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
     <InterfaceDefinition Include="Resources\DetailViewController.xib" />
     <InterfaceDefinition Include="Resources\MessageBus_iOSViewController.xib" />
   </ItemGroup>
@@ -140,6 +134,5 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Info.plist" />
-    <None Include="Resources\Entitlements.plist" />
   </ItemGroup>
 </Project>

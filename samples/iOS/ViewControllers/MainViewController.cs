@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Drawing;
+using DSoft.Messaging;
+using MessageBus_iOS.ViewControllers;
 
 #if __UNIFIED__
-using UIKit;
 using Foundation;
+using UIKit;
 #else
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 #endif
-
-using DSoft.Messaging;
-using MessageBus_iOS.ViewControllers;
 
 namespace MessageBus_iOS
 {

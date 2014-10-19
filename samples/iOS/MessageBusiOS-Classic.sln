@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DSoft.Messaging", "..\..\src\MessageBus\DSoft.Messaging\DSoft.Messaging.csproj", "{59BFF815-1B16-485D-BA2A-22ADF9B4C8F7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessageBusiOS_Classic", "MessageBusiOS_Classic.csproj", "{9358D515-4CAC-4E87-821D-C7BFBFFDE274}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessageBusiOS-Classic", "MessageBusiOS-Classic.csproj", "{9358D515-4CAC-4E87-821D-C7BFBFFDE274}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +41,6 @@ Global
 		{9358D515-4CAC-4E87-821D-C7BFBFFDE274}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = MessageBusiOS_Classic.csproj
+		StartupItem = MessageBusiOS-Classic.csproj
 	EndGlobalSection
 EndGlobal

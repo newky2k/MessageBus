@@ -14,21 +14,18 @@ libraries:
   ios-unified: src/MessageBus/DSoft.Messaging/bin/Release/DSoft.Messaging.dll
   android: src/MessageBus/DSoft.Messaging/bin/Release/DSoft.Messaging.dll
   wp8: src/MessageBus/DSoft.Messaging/bin/Release/DSoft.Messaging.dll
-summary: Cross platform EventBus framework for iOS, Android and Windows Phone
+  mac-unified: src/MessageBus/DSoft.Messaging/bin/Release/DSoft.Messaging.dll
+summary: Cross platform EventBus framework for iOS, Android, Windows Phone and Mac
 details: component/Details.md
 screenshots: 
   - component/MessageBus001.png
 getting-started: component/GettingStarted.md
-version: "1.1"
+version: "1.2"
 build:
     - src/MessageBus/MessageBus.sln
 samples: 
-  - name: "iOS Unified Sample"
+  - name: "iOS Sample"
     path: samples/iOS/MessageBusiOS.sln
-    configuration: "Release|iPhone"  
-    nobuild: true
-  - name: "iOS Classic Sample"
-    path: samples/iOS/MessageBusiOSClassic.sln
     configuration: "Release|iPhone"  
     nobuild: true
   - name: "Android Sample"
@@ -37,6 +34,10 @@ samples:
     nobuild: true
   - name: "Windows Phone Sample"
     path: samples/WindowsPhone/MessageBusWP.sln
+    configuration: "Release"  
+    nobuild: true
+  - name: "Mac Unified Sample"
+    path: samples/Mac/MessageBusMac.sln
     configuration: "Release"  
     nobuild: true
 ...

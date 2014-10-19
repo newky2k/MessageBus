@@ -1,5 +1,7 @@
 .xpkg/
 /bin/
+bin
+obj
 
 *.xam
 

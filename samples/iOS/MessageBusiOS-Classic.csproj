@@ -17,7 +17,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\classic\iPhoneSimulator\Debug</OutputPath>
-    <IntermediateOutputPath>obj\classic\iPhoneSimulator\Debug</IntermediateOutputPath>
+   <IntermediateOutputPath>obj\classic\$(Platform)\$(Configuration)\</IntermediateOutputPath>
     <DefineConstants>DEBUG;__MOBILE__;__IOS__;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -27,15 +27,12 @@
     <MtouchDebug>true</MtouchDebug>
     <MtouchProfiling>true</MtouchProfiling>
     <MtouchUseSGen>true</MtouchUseSGen>
-    <MtouchI18n>
-    </MtouchI18n>
-    <MtouchArch>i386</MtouchArch>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>full</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\classic\iPhoneSimulator\Release</OutputPath>
-    <IntermediateOutputPath>obj\classic\iPhoneSimulator\Release</IntermediateOutputPath>
+    <IntermediateOutputPath>obj\classic\$(Platform)\$(Configuration)\</IntermediateOutputPath>
     <DefineConstants>__MOBILE__;__IOS__;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -48,7 +45,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\classic\iPhone\Debug</OutputPath>
-    <IntermediateOutputPath>obj\classic\iPhone\Debug</IntermediateOutputPath>
+       <IntermediateOutputPath>obj\classic\$(Platform)\$(Configuration)\</IntermediateOutputPath>
     <DefineConstants>DEBUG;__MOBILE__;__IOS__;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -64,8 +61,8 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>full</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\classic\iPhone\Release</OutputPath>
-    <IntermediateOutputPath>obj\classic\iPhone\Release</IntermediateOutputPath>
+    <OutputPath>bin\iPhone\Release</OutputPath>
+       <IntermediateOutputPath>obj\classic\$(Platform)\$(Configuration)\</IntermediateOutputPath>
     <DefineConstants>__MOBILE__;__IOS__;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -76,7 +73,7 @@
     <DebugType>full</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\classic\iPhone\Ad-Hoc</OutputPath>
-    <IntermediateOutputPath>obj\classic\iPhone\Ad-Hoc</IntermediateOutputPath>
+       <IntermediateOutputPath>obj\classic\$(Platform)\$(Configuration)\</IntermediateOutputPath>
     <DefineConstants>__MOBILE__;__IOS__;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -90,7 +87,7 @@
     <DebugType>full</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\classic\iPhone\AppStore</OutputPath>
-    <IntermediateOutputPath>obj\classic\iPhone\AppStore</IntermediateOutputPath>
+       <IntermediateOutputPath>obj\classic\$(Platform)\$(Configuration)\</IntermediateOutputPath>
     <DefineConstants>__MOBILE__;__IOS__;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
