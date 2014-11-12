@@ -87,8 +87,27 @@ If you are only using the default MessageBus you can post using the class method
 	MessageBus.PostEvent("1234",this);
 	MessageBus.PostEvent("1234",this, new object[]{"This is a message"});
 
-*Note: You must execute any code that updates the UI, contained within your event action or delegate, on the UI thread*
+**UI Thread**  
+You must execute any code that updates the UI, contained within your event action or delegate, on the UI thread*
 
+This is an example on iOS withing a `UIView` but other platforms have a similar concept.
+
+	using DSoft.Messaging;
+	...
+	
+	var newEvHandler = new MessageBusEventHandler()
+	{
+		EventId = "1234",
+		Action = (sender, evnt) =>
+		{
+			//Code goes here
+			BeginInvokeOnMainThread (() => {
+				//post to the output box
+				txtOutput.Text += data2 + Environment.NewLine;
+			});
+		},
+	};
+	
 **Custom Events**	
 
 You can sub-class `MessageBusEvent` to allow you to pass additional information in the event, without having to pass it in the Data property.  
