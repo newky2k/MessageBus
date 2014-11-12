@@ -34,5 +34,6 @@ Global
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = DSoft.Messaging\DSoft.Messaging.csproj
+		version = 1.3
 	EndGlobalSection
 EndGlobal

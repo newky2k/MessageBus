@@ -166,12 +166,11 @@ namespace DSoft.Messaging
 
 		private void Execute (Action<object,MessageBusEvent> Action, object Sender, MessageBusEvent Evnt)
 		{
-			SyncContext = TaskScheduler.FromCurrentSynchronizationContext();
-
 			Task.Factory.StartNew (() => {
 				Action (Sender, Evnt);
 			}, 
 				CancellationToken.None, TaskCreationOptions.LongRunning, TaskScheduler.Default);
+
 		}
 
 		/// <summary>

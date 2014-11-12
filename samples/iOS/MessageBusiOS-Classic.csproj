@@ -17,7 +17,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\classic\iPhoneSimulator\Debug</OutputPath>
-   <IntermediateOutputPath>obj\classic\$(Platform)\$(Configuration)\</IntermediateOutputPath>
+    <IntermediateOutputPath>obj\classic\$(Platform)\$(Configuration)\</IntermediateOutputPath>
     <DefineConstants>DEBUG;__MOBILE__;__IOS__;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -45,7 +45,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\classic\iPhone\Debug</OutputPath>
-       <IntermediateOutputPath>obj\classic\$(Platform)\$(Configuration)\</IntermediateOutputPath>
+    <IntermediateOutputPath>obj\classic\$(Platform)\$(Configuration)\</IntermediateOutputPath>
     <DefineConstants>DEBUG;__MOBILE__;__IOS__;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -62,7 +62,7 @@
     <DebugType>full</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\iPhone\Release</OutputPath>
-       <IntermediateOutputPath>obj\classic\$(Platform)\$(Configuration)\</IntermediateOutputPath>
+    <IntermediateOutputPath>obj\classic\$(Platform)\$(Configuration)\</IntermediateOutputPath>
     <DefineConstants>__MOBILE__;__IOS__;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -73,7 +73,7 @@
     <DebugType>full</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\classic\iPhone\Ad-Hoc</OutputPath>
-       <IntermediateOutputPath>obj\classic\$(Platform)\$(Configuration)\</IntermediateOutputPath>
+    <IntermediateOutputPath>obj\classic\$(Platform)\$(Configuration)\</IntermediateOutputPath>
     <DefineConstants>__MOBILE__;__IOS__;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -87,7 +87,7 @@
     <DebugType>full</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\classic\iPhone\AppStore</OutputPath>
-       <IntermediateOutputPath>obj\classic\$(Platform)\$(Configuration)\</IntermediateOutputPath>
+    <IntermediateOutputPath>obj\classic\$(Platform)\$(Configuration)\</IntermediateOutputPath>
     <DefineConstants>__MOBILE__;__IOS__;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
