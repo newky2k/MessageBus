@@ -20,7 +20,7 @@ details: component/Details.md
 screenshots: 
   - component/MessageBus001.png
 getting-started: component/GettingStarted.md
-version: "1.3"
+version: 1.4
 build:
     - src/MessageBus/MessageBus.sln
 samples: 
