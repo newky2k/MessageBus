@@ -1,9 +1,9 @@
-﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+﻿<Properties StartupItem="MessageBoxAndroid.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Android.SelectDevice" />
   <MonoDevelop.Ide.Workbench ActiveDocument="MainActivity.cs">
     <Files>
-      <File FileName="MainActivity.cs" Line="125" Column="4" />
-      <File FileName="SecondActivity.cs" Line="50" Column="28" />
+      <File FileName="MainActivity.cs" Line="4" Column="4" />
+      <File FileName="SecondActivity.cs" Line="1" Column="1" />
       <File FileName="../iOS/ViewControllers/MainViewController.cs" Line="1" Column="1" />
       <File FileName="../iOS/ViewControllers/DetailViewController.cs" Line="1" Column="1" />
     </Files>
