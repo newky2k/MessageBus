@@ -18,6 +18,8 @@ namespace DSoft.Messaging
 		private static object syncRoot = new Object();
 		private MessageBusEventHandlerCollection mEventHandlers;
 
+        private Dictionary<string, MessageBusEvent> mStickyEvents;
+
 		#endregion
 
 		#region Constructors
@@ -25,7 +27,7 @@ namespace DSoft.Messaging
 		public MessageBus()
 		{
 			var aSyncContext = TaskScheduler.FromCurrentSynchronizationContext();
-
+            mStickyEvents = new Dictionary<string, MessageBusEvent>();
 		}
 
 		#endregion
@@ -98,6 +100,38 @@ namespace DSoft.Messaging
 			}
 		}
 
+        /// <summary>
+        /// Registers the sticky event handler. If there is any sticky event waiting, it will be posted immediately.
+        /// </summary>
+        /// <param name="EventHandler">The event handler.</param>
+        public void RegisterSticky(MessageBusEventHandler EventHandler)
+        {
+            Register(EventHandler);
+
+            postStickyAfterRegistation(EventHandler);
+        }
+
+        void postStickyAfterRegistation(MessageBusEventHandler EventHandler)
+        {
+            MessageBusEvent eventToBePosted = null;
+
+            lock (mStickyEvents)
+            {
+                if (mStickyEvents.ContainsKey(EventHandler.EventId))
+                {
+                    // consider using this:
+                    // Execute(EventHandler.EventAction, this, mStickyEvents[EventHandler.EventId]);
+
+                    eventToBePosted = mStickyEvents[EventHandler.EventId];
+                }
+            }
+
+            if (eventToBePosted != null)
+            {
+                EventHandler.EventAction(this, eventToBePosted);
+            }
+        }
+
 		/// <summary>
 		/// DeRegister the event handler
 		/// </summary>
@@ -140,7 +174,27 @@ namespace DSoft.Messaging
 			};
 
 			EventHandlers.Add (typeHandler);
+
 		}
+
+        /// <summary>
+        /// Register for a type of MessageBusEvent. If there is any sticky event waiting, it will be posted immediately 
+        /// </summary>
+        /// <typeparam name="T">The 1st type parameter.</typeparam>
+        public void RegisterSticky<T>(Action<object, MessageBusEvent> Action) where T : MessageBusEvent, new()
+        {
+            var aType = typeof(T);
+
+            var typeHandler = new TypedMessageBusEventHandler()
+            {
+                EventType = aType,
+                EventAction = Action,
+            };
+
+            EventHandlers.Add(typeHandler);
+
+            postStickyAfterRegistation(typeHandler);
+        }
 
 		/// <summary>
 		/// Deregister the event action for a Generic message bus type
@@ -236,13 +290,104 @@ namespace DSoft.Messaging
 			Post (aEvent);
 		}
 
-		#endregion
+        /// <summary>
+        /// Posts the sticky event.
+        /// </summary>
+        /// <param name="Event">The event object</param>
+        public void PostSticky(MessageBusEvent Event)
+        {
+            lock (mStickyEvents)
+            {
+                mStickyEvents.Add(Event.EventId, Event);
+            }
+
+            Post(Event);
+        }
+
+        /// <summary>
+        /// Posts the sticky event.
+        /// </summary>
+        /// <param name="EventId">Event Id</param>
+        public void PostSticky(String EventId)
+        {
+            PostSticky(EventId, null);
+        }
+
+        /// <summary>
+        /// Posts the sticky event
+        /// </summary>
+        /// <param name="EventId">Event Id</param>
+        /// <param name="Sender">The Sender</param>
+        public void PostSticky(String EventId, object Sender)
+        {
+            PostSticky(EventId, null, null);
+        }
+
+        /// <summary>
+        /// Posts the sticky event.
+        /// </summary>
+        /// <param name="EventId">Event Id</param>
+        /// <param name="Sender">The Sender</param>
+        /// <param name="Data">Data objects to pass through with the event </param>
+        public void PostSticky(String EventId, object Sender, object[] Data)
+        {
+            var aEvent = new CoreMessageBusEvent(EventId)
+            {
+                Sender = Sender,
+                Data = Data,
+            };
+
+            PostSticky(aEvent);
+        }
 
 		#endregion
 
-		#region Static Methods
+        #region Sticky events
 
-		/// <summary>
+        /// <summary>
+        /// Removes all stored sticky events
+        /// </summary>
+        public void RemoveAllStickyEvents()
+        {
+            lock (mStickyEvents)
+            {
+                mStickyEvents.Clear();
+            }
+        }
+
+        /// <summary>
+        /// Removes a sticky event of a given ID
+        /// </summary>
+        /// <param name="eventId">event ID</param>
+        public void RemoveStickyEvent(string eventId)
+        {
+            lock (mStickyEvents)
+            {
+                mStickyEvents.Remove(eventId);
+            }
+        }
+
+        /// <summary>
+        /// Gets a last stored sticky event.
+        /// </summary>
+        /// <param name="eventId">Event ID</param>
+        /// <returns>Sticky Event</returns>
+        public MessageBusEvent GetStickyEvent(string eventId)
+        {
+            lock (mStickyEvents)
+            {
+                return mStickyEvents[eventId];
+            }
+        }
+
+        #endregion
+
+
+        #endregion
+
+        #region Static Methods
+
+        /// <summary>
 		/// Post the specified Event to the Default MessageBus
 		/// </summary>
 		/// <param name="Event">Event.</param>
