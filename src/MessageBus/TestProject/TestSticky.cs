@@ -13,23 +13,38 @@ namespace TestProject
         object lastSender;
         MessageBusEvent lastEvent;
 
+        MessageBusEventHandler handler;
+
         [TestInitialize]
         public void Init()
         {
             SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
 
             target = new MessageBus();
-            target.Register(new MessageBusEventHandler()
+
+            registerForStickyEvent("stickyEvent");
+
+            resetLastEvent();
+        }
+
+        void registerForStickyEvent(string eventId)
+        {
+            handler = new MessageBusEventHandler()
             {
                 EventAction = (obj, message) =>
                 {
                     lastSender = obj;
                     lastEvent = message;
                 },
-                EventId = "stickyEvent"
-            });
+                EventId = eventId
+            };
 
-            resetLastEvent();
+            target.RegisterSticky(handler);
+        }
+
+        void unregisterEvent(string eventId)
+        {
+            target.DeRegister(handler);
         }
 
         void resetLastEvent()
@@ -39,7 +54,7 @@ namespace TestProject
         }
 
         [TestMethod]
-        public void ShouldFireStickyLikeNormalEvent()
+        public void ShouldFireValidStickyLikeNormalEvent()
         {
             target.PostSticky("stickyEvent", this, new object[] { 1, 2 });
 
@@ -49,6 +64,21 @@ namespace TestProject
             Assert.AreEqual("stickyEvent", lastEvent.EventId);
             Assert.IsNotNull(lastEvent.Data);
             Assert.IsInstanceOfType(lastEvent.Data, typeof(object[]));
+        }
+
+        [TestMethod]
+        public void ShouldFireStickyJustAfterRegistration()
+        {
+            unregisterEvent("stickyEvent");
+
+            target.PostSticky("stickyEvent", this, new object[] { 1, 2 });
+
+            Assert.IsFalse(receivedEvent);
+
+            registerForStickyEvent("stickyEvent");
+
+            Assert.IsNotNull(lastEvent);
+            Assert.AreEqual("stickyEvent", lastEvent.EventId);
         }
 
         bool receivedEvent
