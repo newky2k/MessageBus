@@ -164,9 +164,9 @@ An example of the second approach is below.
 	
 	MessageBus.Default.Register(newEvHandler);
 	
- ** Sticky events ** 
+** Sticky events ** 
  
-Sticky work like normal events but provide additional functionality of caching the last occurrence of a given event. 
+Sticky events work like normal events but provide additional functionality of caching the last instance of a given event ID. 
 
 Registering for sticky event:
 	
@@ -179,7 +179,7 @@ You can post the sticky event using one of the overloaded methods:
 	void PostSticky(String EventId, object Sender);
 	void PostSticky(String EventId, object Sender, object[] Data);
 
-Posting sticky events works as a normal Posting, but additionally it save the event in a container inside MessageBus instance. The last sticky event is available to be retrieved using the following method:
+Posting sticky events works as a normal posting, but additionally it saves the event in a container inside MessageBus instance. The last sticky event of a given ID is available by the following method:
 
 	MessageBusEvent GetStickyEvent(string eventId);
 	
@@ -198,11 +198,11 @@ Apart from that, the last sticky event is distributed to appropriate handler, ju
 
 	target.RegisterSticky(handler);		//at this point the above handler will be executed
 
-You can remove the sticky event by calling:
+You can remove the sticky event of a given ID by calling:
 
 	void RemoveStickyEvent(string eventId);
 	
-or remove all sticky events:
+You can also remove all sticky events:
 
 	void RemoveAllStickyEvents();
 	
