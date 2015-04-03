@@ -28,6 +28,7 @@ namespace DSoft.Messaging
 		{
 			SyncContext = TaskScheduler.FromCurrentSynchronizationContext();
 
+            mStickyEvents = new Dictionary<string, MessageBusEvent>();
 		}
 
 		#endregion
