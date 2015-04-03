@@ -164,7 +164,7 @@ An example of the second approach is below.
 	
 	MessageBus.Default.Register(newEvHandler);
 	
-** Sticky events ** 
+**Sticky events** 
  
 Sticky events work like normal events but provide additional functionality of caching the last instance of a given event ID. 
 
