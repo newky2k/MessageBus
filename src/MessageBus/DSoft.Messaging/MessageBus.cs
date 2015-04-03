@@ -24,7 +24,7 @@ namespace DSoft.Messaging
 
 		public MessageBus()
 		{
-			var aSyncContext = TaskScheduler.FromCurrentSynchronizationContext();
+			SyncContext = TaskScheduler.FromCurrentSynchronizationContext();
 
 		}
 
