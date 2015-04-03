@@ -21,7 +21,7 @@ To subscribe to an event you can create a `MessageBusEventHandler` object and th
 	var newEvHandler = new MessageBusEventHandler()
 	{
 		EventId = "1234",
-		Action = (sender, evnt) =>
+		EventAction = (sender, evnt) =>
 		{
 			//Code goes here
 		},
@@ -98,7 +98,7 @@ This is an example on iOS withing a `UIView` but other platforms have a similar 
 	var newEvHandler = new MessageBusEventHandler()
 	{
 		EventId = "1234",
-		Action = (sender, evnt) =>
+		EventAction = (sender, evnt) =>
 		{
 			//Code goes here
 			BeginInvokeOnMainThread (() => {
@@ -146,7 +146,7 @@ An example of the second approach is below.
 	var newEvHandler = new MessageBusEventHandler()
 	{
 		EventId = "1234",
-		Action = (sender, data) =>
+		EventAction = (sender, data) =>
 		{
 			//Code goes here
 			for (int i = 1; i <= 5; i++)
@@ -164,4 +164,48 @@ An example of the second approach is below.
 	
 	MessageBus.Default.Register(newEvHandler);
 	
+ ** Sticky events ** 
  
+Sticky work like normal events but provide additional functionality of caching the last occurrence of a given event. 
+
+Registering for sticky event:
+	
+	void RegisterSticky(handler);
+
+You can post the sticky event using one of the overloaded methods:
+
+	void PostSticky(MessageBusEvent Event);
+	void PostSticky(String EventId);
+	void PostSticky(String EventId, object Sender);
+	void PostSticky(String EventId, object Sender, object[] Data);
+
+Posting sticky events works as a normal Posting, but additionally it save the event in a container inside MessageBus instance. The last sticky event is available to be retrieved using the following method:
+
+	MessageBusEvent GetStickyEvent(string eventId);
+	
+Apart from that, the last sticky event is distributed to appropriate handler, just after registration:
+
+	target.PostSticky("sticky_event");
+	
+	var handler = new MessageBusEventHandler()
+	{
+		EventAction = (obj, message) =>
+		{
+			//code goes here
+		},
+		EventId = eventId
+	};
+
+	target.RegisterSticky(handler);		//at this point the above handler will be executed
+
+You can remove the sticky event by calling:
+
+	void RemoveStickyEvent(string eventId);
+	
+or remove all sticky events:
+
+	void RemoveAllStickyEvents();
+	
+
+	
+	

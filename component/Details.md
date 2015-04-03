@@ -30,7 +30,7 @@ To subscribe to an event you can create a `MessageBusEventHandler` object, and t
 	var newEvHandler = new MessageBusEventHandler()
 	{
 		EventId = "1234",
-		Action = (sender, data) =>
+		EventAction = (sender, data) =>
 		{
 			//Code goes here
 		},
