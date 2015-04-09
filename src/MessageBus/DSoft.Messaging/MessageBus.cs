@@ -24,8 +24,6 @@ namespace DSoft.Messaging
 
 		public MessageBus()
 		{
-			var aSyncContext = TaskScheduler.FromCurrentSynchronizationContext();
-
 		}
 
 		#endregion
@@ -69,10 +67,10 @@ namespace DSoft.Messaging
 		}
 
 		/// <summary>
-		/// Gets or sets the sync context.
+		/// Gets or sets the sync context for the UI thread.
 		/// </summary>
 		/// <value>The sync context.</value>
-		private TaskScheduler SyncContext
+		public TaskScheduler SyncContext
 		{
 			get;
 			set;
@@ -166,11 +164,7 @@ namespace DSoft.Messaging
 
 		private void Execute (Action<object,MessageBusEvent> Action, object Sender, MessageBusEvent Evnt)
 		{
-			Task.Factory.StartNew (() => {
-				Action (Sender, Evnt);
-			}, 
-				CancellationToken.None, TaskCreationOptions.LongRunning, TaskScheduler.Default);
-
+            Action(Sender, Evnt);
 		}
 
 		/// <summary>
@@ -287,9 +281,10 @@ namespace DSoft.Messaging
 		/// <param name="Command">Command.</param>
 		public void RunOnUiThread(Action Command)
 		{
-			var cul = Thread.CurrentThread;
+            if (SyncContext == null)
+                throw new ArgumentNullException ("SyncContext");
 
-			//update the UI
+            //update the UI
 			Task.Factory.StartNew(() =>
 			{
 				if (Command != null)
