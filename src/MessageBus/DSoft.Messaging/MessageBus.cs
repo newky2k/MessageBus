@@ -24,9 +24,12 @@ namespace DSoft.Messaging
 
 		#region Constructors
 
+        /// <summary>
+        /// Creates MessageBus object
+        /// </summary>
 		public MessageBus()
 		{
-			var aSyncContext = TaskScheduler.FromCurrentSynchronizationContext();
+			SyncContext = TaskScheduler.FromCurrentSynchronizationContext();
 
             mStickyEvents = new Dictionary<string, MessageBusEvent>();
 		}
@@ -295,6 +298,11 @@ namespace DSoft.Messaging
         {
             lock (mStickyEvents)
             {
+                if (mStickyEvents.ContainsKey(Event.EventId))
+                {
+                    mStickyEvents.Remove(Event.EventId);
+                }
+
                 mStickyEvents.Add(Event.EventId, Event);
             }
 
