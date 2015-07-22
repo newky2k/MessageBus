@@ -54,6 +54,21 @@ namespace TestProject
         }
 
         [TestMethod]
+        public void PostTwiceStickyEvent()
+        {
+            target.PostSticky("stickyEvent", this, new object[] { 1, 2 });
+
+            target.PostSticky("stickyEvent", this, new object[] { 1, 2 });
+
+            Assert.IsTrue(receivedEvent);
+            Assert.AreEqual(this, lastSender);
+            Assert.AreEqual(this, lastEvent.Sender);
+            Assert.AreEqual("stickyEvent", lastEvent.EventId);
+            Assert.IsNotNull(lastEvent.Data);
+            Assert.IsInstanceOfType(lastEvent.Data, typeof(object[]));
+        }
+
+        [TestMethod]
         public void ShouldFireValidStickyLikeNormalEvent()
         {
             target.PostSticky("stickyEvent", this, new object[] { 1, 2 });
