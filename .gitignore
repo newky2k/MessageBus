@@ -2,6 +2,7 @@
 /bin/
 bin
 obj
+.vs
 
 *.xam
 

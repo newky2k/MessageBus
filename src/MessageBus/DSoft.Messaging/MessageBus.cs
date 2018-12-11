@@ -22,6 +22,9 @@ namespace DSoft.Messaging
 
 		#region Constructors
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
 		public MessageBus()
 		{
 		}
