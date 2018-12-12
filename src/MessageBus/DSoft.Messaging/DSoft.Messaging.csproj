@@ -21,4 +21,7 @@
     <AssemblyOriginatorKeyFile>wpfkey.pfx</AssemblyOriginatorKeyFile>
     <PackageLicenseUrl>https://github.com/newky2k/MessageBus/blob/master/LICENSE</PackageLicenseUrl>
   </PropertyGroup>
+  <ItemGroup>
+    <None Remove=".gitignore" />
+  </ItemGroup>
 </Project>
