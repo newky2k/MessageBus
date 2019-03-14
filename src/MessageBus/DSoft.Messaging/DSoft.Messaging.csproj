@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <PackageId>DSoft.MessageBus</PackageId>
-    <TargetFramework>netstandard1.5</TargetFramework>
+    <TargetFrameworks>netstandard2.0; portable40-net45+sl5+win8+wp8</TargetFrameworks>
     <ReleaseVersion>1.3.0</ReleaseVersion>
     <AssemblyTitle>DSoft.Messaging</AssemblyTitle>
     <Company>DSoft Developments</Company>
@@ -9,16 +9,30 @@
     <Title>DSoft.MessageBus</Title>
     <Description>Portable MessageBus system</Description>
     <Copyright>DSoft</Copyright>
-    <AssemblyVersion>1.3.0.0</AssemblyVersion>
-    <FileVersion>1.3.0.0</FileVersion>
+    <AssemblyVersion>1.3.1.0</AssemblyVersion>
+    <FileVersion>1.3.1.0</FileVersion>
     <ConsolePause>false</ConsolePause>
-    <Version>1.3.0</Version>
+    <Version>1.3.1</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageProjectUrl>https://github.com/newky2k/MessageBus</PackageProjectUrl>
-    <PackageReleaseNotes>Migrated to .Net standard</PackageReleaseNotes>
+    <PackageReleaseNotes>Updated to .Net Standard 2.0</PackageReleaseNotes>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>wpfkey.pfx</AssemblyOriginatorKeyFile>
     <PackageLicenseUrl>https://github.com/newky2k/MessageBus/blob/master/LICENSE</PackageLicenseUrl>
   </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)'=='portable40-net45+sl5+win8+wp8'">
+    <TargetFrameworkIdentifier>.NETPortable</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Profile158</TargetFrameworkProfile>
+    <DefineConstants>$(DefineConstants);Profile158</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)'=='portable40-net45+sl5+win8+wp8'">
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Windows" />
+  </ItemGroup>
 </Project>
