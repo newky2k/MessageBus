@@ -16,7 +16,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageProjectUrl>https://github.com/newky2k/MessageBus</PackageProjectUrl>
-    <PackageReleaseNotes>Added Multi-Targeting support for PCL</PackageReleaseNotes>
+    <PackageReleaseNotes>Added PCL Profile111</PackageReleaseNotes>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>wpfkey.pfx</AssemblyOriginatorKeyFile>
     <PackageLicenseUrl>https://github.com/newky2k/MessageBus/blob/master/LICENSE</PackageLicenseUrl>
