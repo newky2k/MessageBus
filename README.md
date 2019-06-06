@@ -1,5 +1,5 @@
 # MessageBus
-MessageBus is a cross platform EventBus system similar to NSNoticationCenter on iOS and otto on Android that allow you to decouple your code, whilst still allowing your applications components to commincate with each other.  MesssageBus can be used instead of events, can be used to communicate between objects that are not directly linked.
+MessageBus is a cross platform EventBus system similar to NSNoticationCenter on iOS and otto on Android that allow you to decouple your code, whilst still allowing your applications components to communicate with each other. MessageBus can be used instead of events, can be used to communicate between objects that are not directly linked.
 
 # Features
 
