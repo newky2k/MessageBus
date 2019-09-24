@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using DSoft.Messaging.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -98,6 +99,16 @@ namespace DSoft.Messaging
 				EventHandlers.Add (EventHandler);
 			}
 		}
+
+        /// <summary>
+        /// Register for an eventId
+        /// </summary>
+        /// <param name="eventId"></param>
+        /// <param name="action"></param>
+        public void Register (string eventId, Action<object, MessageBusEvent> action)
+        {
+            Register(new MessageBusEventHandler(eventId, action));
+        }
 
 		/// <summary>
 		/// DeRegister the event handler

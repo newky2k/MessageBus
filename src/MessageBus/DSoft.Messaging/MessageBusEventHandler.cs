@@ -36,7 +36,7 @@ namespace DSoft.Messaging
 		/// </summary>
 		/// <param name="EventId">Event identifier.</param>
 		/// <param name="Action">Action.</param>
-		public MessageBusEventHandler (String EventId, Action<object, MessageBusEvent> Action)
+		public MessageBusEventHandler (string EventId, Action<object, MessageBusEvent> Action)
 		{
 			this.EventId = EventId;
 			this.EventAction = Action;

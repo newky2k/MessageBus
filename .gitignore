@@ -10,3 +10,4 @@ obj
 
 *.userprefs
 /src/MessageBus/*.userprefs
+samples/iOS/MessageBusiOS.userprefs
