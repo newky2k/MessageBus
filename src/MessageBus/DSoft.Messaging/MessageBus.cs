@@ -261,6 +261,16 @@ namespace DSoft.Messaging
 			Post (aEvent);
 		}
 
+        /// <summary>
+        /// Posts the event.
+        /// </summary>
+        /// <param name="EventId">Event Id</param>
+        /// <param name="Data">Data objects to pass through with the event </param>
+        public void Post(String EventId, params object[] Data)
+        {
+            Post(EventId, null, Data);
+        }
+
         #endregion
 
         #region Private Methods
@@ -318,6 +328,16 @@ namespace DSoft.Messaging
 		{
 			Default.Post (EventId, Sender, Data);
 		}
+
+        /// <summary>
+        /// Post the specified EventId and Data packet to the Default MessageBus
+        /// </summary>
+        /// <param name="EventId">Event identifier.</param>
+        /// <param name="Data">Data.</param>
+        public static void PostEvent(String EventId, params object[] Data)
+        {
+            Default.Post(EventId, null, Data);
+        }
 
         /// <summary>
         /// Register a handler for the specified event id
