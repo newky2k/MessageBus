@@ -16,7 +16,7 @@ namespace DSoft.Messaging
 		#region Fields
 
 		private static volatile MessageBus mDefault;
-		private static object syncRoot = new Object();
+		private static object syncRoot = new object();
 		private MessageBusEventHandlerCollection mEventHandlers;
 
 		#endregion
@@ -31,6 +31,7 @@ namespace DSoft.Messaging
 		}
 
 		#endregion
+
 		#region Properties
 
 		/// <summary>
@@ -122,13 +123,29 @@ namespace DSoft.Messaging
 			}
 		}
 
-		/// <summary>
-		/// Clear Handlers for the specified event id
-		/// </summary>
-		/// <param name="EventID">Event I.</param>
-		public void Clear (string EventID)
+        /// <summary>
+        /// Deregister a specific action for an event
+        /// </summary>
+        /// <param name="eventId">the event id</param>
+        /// <param name="action">the action</param>
+        public void DeRegister(string eventId, Action<object, MessageBusEvent> action)
+        {
+            foreach (var item in FindHandlersForEvent(eventId))
+            {
+                if (item.EventAction.Equals(action))
+                {
+                    EventHandlers.Remove(item);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Clear Handlers for the specified event id
+        /// </summary>
+        /// <param name="eventId">The event id.</param>
+        public void Clear (string eventId)
 		{
-			foreach (var item in EventHandlers.HandlersForEvent(EventID))
+			foreach (var item in FindHandlersForEvent(eventId))
 			{
 				EventHandlers.Remove (item);
 			}
@@ -244,17 +261,30 @@ namespace DSoft.Messaging
 			Post (aEvent);
 		}
 
-		#endregion
+        #endregion
 
-		#endregion
+        #region Private Methods
 
-		#region Static Methods
+        private IEnumerable<MessageBusEventHandler> FindHandlersForEvent(string eventId)
+        {
+            if (string.IsNullOrWhiteSpace(eventId))
+                throw new Exception("EventId cannot be null or blank");
 
-		/// <summary>
-		/// Post the specified Event to the Default MessageBus
-		/// </summary>
-		/// <param name="Event">Event.</param>
-		public static void PostEvent (MessageBusEvent Event)
+            var results = EventHandlers.HandlersForEvent(eventId);
+
+            return results;
+        }
+        #endregion
+
+        #endregion
+
+        #region Static Methods
+
+        /// <summary>
+        /// Post the specified Event to the Default MessageBus
+        /// </summary>
+        /// <param name="Event">Event.</param>
+        public static void PostEvent (MessageBusEvent Event)
 		{
 			Default.Post (Event);
 		}
@@ -289,11 +319,31 @@ namespace DSoft.Messaging
 			Default.Post (EventId, Sender, Data);
 		}
 
-		/// <summary>
-		/// Execute the action on the UI thread
-		/// </summary>
-		/// <param name="Command">Command.</param>
-		public void RunOnUiThread(Action Command)
+        /// <summary>
+        /// Register a handler for the specified event id
+        /// </summary>
+        /// <param name="eventId">Event identifier.</param>
+        /// <param name="action">Handler action</param>
+        public static void RegisterHandler(string eventId, Action<object, MessageBusEvent> action)
+        {
+            Default.Register(eventId, action);
+        }
+
+        /// <summary>
+        /// Deregisters a previously register handler for the specified event id
+        /// </summary>
+        /// <param name="eventId">Event identifier.</param>
+        /// <param name="action">Handler action</param>
+        public static void DeRegisterHandler(string eventId, Action<object, MessageBusEvent> action)
+        {
+            Default.DeRegister(eventId, action);
+        }
+
+        /// <summary>
+        /// Execute the action on the UI thread
+        /// </summary>
+        /// <param name="Command">Command.</param>
+        public void RunOnUiThread(Action Command)
 		{
             if (SyncContext == null)
                 throw new ArgumentNullException ("SyncContext");
