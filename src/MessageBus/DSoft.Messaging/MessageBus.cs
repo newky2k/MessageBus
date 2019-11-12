@@ -251,7 +251,7 @@ namespace DSoft.Messaging
 		/// <param name="EventId">Event Id</param>
 		/// <param name="Sender">The Sender</param>
 		/// <param name="Data">Data objects to pass through with the event </param>
-		public void Post (String EventId, object Sender, object[] Data)
+		public void Post (String EventId, object Sender, params object[] Data)
 		{
 			var aEvent = new CoreMessageBusEvent (EventId) {
 				Sender = Sender,
@@ -314,7 +314,7 @@ namespace DSoft.Messaging
 		/// <param name="EventId">Event identifier.</param>
 		/// <param name="Sender">Sender.</param>
 		/// <param name="Data">Data.</param>
-		public static void PostEvent (String EventId, object Sender, object[] Data)
+		public static void PostEvent (String EventId, object Sender, params object[] Data)
 		{
 			Default.Post (EventId, Sender, Data);
 		}
