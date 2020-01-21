@@ -1,7 +1,7 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras/2.0.54">
   <PropertyGroup>
-    <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">netstandard2.0;net452;Xamarin.iOS10;Xamarin.TVOS10;Xamarin.WatchOS10;MonoAndroid80;MonoAndroid81;MonoAndroid90;uap10.0.16299;tizen40;</TargetFrameworks>
-    <TargetFrameworks Condition=" '$(OS)' != 'Windows_NT' ">nenetstandard2.0;net452;Xamarin.iOS10;Xamarin.TVOS10;Xamarin.WatchOS10;MonoAndroid80;MonoAndroid81;MonoAndroid90;tizen40;</TargetFrameworks>
+    <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">netstandard2.0;netcoreapp3.0;Xamarin.iOS10;Xamarin.TVOS10;Xamarin.WatchOS10;MonoAndroid80;MonoAndroid81;MonoAndroid90;uap10.0.16299;tizen40;</TargetFrameworks>
+    <TargetFrameworks Condition=" '$(OS)' != 'Windows_NT' ">nenetstandard2.0;netcoreapp3.0;Xamarin.iOS10;Xamarin.TVOS10;Xamarin.WatchOS10;MonoAndroid80;MonoAndroid81;MonoAndroid90;tizen40;</TargetFrameworks>
     <PackageId>DSoft.MessageBus</PackageId>
     <ReleaseVersion>1.3.4</ReleaseVersion>
     <AssemblyName>DSoft.MessageBus</AssemblyName>
@@ -43,9 +43,10 @@
     <Compile Include="**\*.netstandard.*.cs" />
   </ItemGroup>
 
-  <ItemGroup Condition=" $(TargetFramework.StartsWith('net452')) ">
-    <Compile Include="**\*.netf.cs" />
-    <Compile Include="**\*.netf.*.cs" />
+  <ItemGroup Condition=" $(TargetFramework.StartsWith('netcoreapp3.0')) ">
+    <PackageReference Include="Microsoft.Windows.Compatibility" Version="3.1.0" />
+    <Compile Include="**\*.wpf.cs" />
+    <Compile Include="**\*.wpf.*.cs" />
   </ItemGroup>
   
   <ItemGroup Condition=" $(TargetFramework.StartsWith('uap10.0')) ">
@@ -80,5 +81,5 @@
     <PackageReference Include="Tizen.NET" Version="4.0.0" />
     <Compile Include="**\*.tizen.cs" />
     <Compile Include="**\*.tizen.*.cs" />
-  </ItemGroup>  
+  </ItemGroup>
 </Project>

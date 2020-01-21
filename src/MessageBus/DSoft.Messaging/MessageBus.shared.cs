@@ -11,13 +11,11 @@ namespace DSoft.Messaging
 	/// <summary>
 	/// Message bus.
 	/// </summary>
-	public class MessageBus
+	public partial class MessageBus
 	{
 		#region Fields
 
-		private static volatile MessageBus mDefault;
-		private static object syncRoot = new object();
-		private MessageBusEventHandlerCollection mEventHandlers;
+		private static MessageBusEventHandlerCollection mEventHandlers;
 
 		#endregion
 
@@ -34,36 +32,11 @@ namespace DSoft.Messaging
 
 		#region Properties
 
-		[Obsolete("Use static methods instead")]
-		/// <summary>
-		/// Gets the default message bus
-		/// </summary>
-		/// <value>The default.</value>
-		public static MessageBus Default => DefaultInternal;
-
-		private static MessageBus DefaultInternal
-		{
-			get
-			{
-				if (mDefault == null)
-				{
-					lock (syncRoot)
-					{
-						if (mDefault == null)
-							mDefault = new MessageBus();
-					}
-
-				}
-
-				return mDefault;
-			}
-		}
-
 		/// <summary>
 		/// Gets the registered event handlers.
 		/// </summary>
 		/// <value>The event handlers.</value>
-		internal MessageBusEventHandlerCollection EventHandlers {
+		private static MessageBusEventHandlerCollection EventHandlers {
 			get
 			{
 				if (mEventHandlers == null)
@@ -90,55 +63,6 @@ namespace DSoft.Messaging
 
 		#region Registration
 
-        [Obsolete("Use SubscribeTo instead")]
-		/// <summary>
-		/// Registers the specified event handler.
-		/// </summary>
-		/// <param name="EventHandler">The event handler.</param>
-		public void Register (MessageBusEventHandler EventHandler)
-		{
-			SubscribeTo(EventHandler);
-		}
-
-		[Obsolete("Use SubscribeTo instead")]
-		/// <summary>
-		/// Register for an eventId
-		/// </summary>
-		/// <param name="eventId"></param>
-		/// <param name="action"></param>
-		public void Register (string eventId, Action<object, MessageBusEvent> action)
-        {
-            SubscribeTo(new MessageBusEventHandler(eventId, action));
-        }
-
-		/// <summary>
-		/// DeRegister the event handler
-		/// </summary>
-		/// <param name="EventHandler">The event handler.</param>
-		public void DeRegister (MessageBusEventHandler EventHandler)
-		{
-			if (EventHandlers.Contains (EventHandler))
-			{
-				EventHandlers.Remove (EventHandler);
-			}
-		}
-
-        /// <summary>
-        /// Deregister a specific action for an event
-        /// </summary>
-        /// <param name="eventId">the event id</param>
-        /// <param name="action">the action</param>
-        public void DeRegister(string eventId, Action<object, MessageBusEvent> action)
-        {
-            foreach (var item in FindHandlersForEvent(eventId))
-            {
-                if (item.EventAction.Equals(action))
-                {
-                    EventHandlers.Remove(item);
-                }
-            }
-        }
-
         /// <summary>
         /// Clear Handlers for the specified event id
         /// </summary>
@@ -153,177 +77,14 @@ namespace DSoft.Messaging
 
 		#endregion
 
-		#region Subscribe
+		#region Private Methods
 
-		/// <summary>
-		/// Subscribe to the specified event handler.
-		/// </summary>
-		/// <param name="EventHandler">The event handler.</param>
-		public void SubscribeTo(MessageBusEventHandler EventHandler)
+		private static void Execute(Action<object, MessageBusEvent> Action, object Sender, MessageBusEvent Evnt)
 		{
-			if (EventHandler == null)
-				return;
-
-			if (!EventHandlers.Contains(EventHandler))
-			{
-				EventHandlers.Add(EventHandler);
-			}
+			Action(Sender, Evnt);
 		}
 
-		/// <summary>
-		/// Subscribe to the event with an action
-		/// </summary>
-		/// <param name="eventId">Event Id</param>
-		/// <param name="action">Action to execute on the event occuring</param>
-		public void SubscribeTo(string eventId, Action<object, MessageBusEvent> action)
-		{
-			SubscribeTo(new MessageBusEventHandler(eventId, action));
-		}
-		#endregion
-
-		#region Generic Methods
-
-		[Obsolete("Use SubscribeTo instead")]
-		/// <summary>
-		/// Register for a type of MessageBusEvent
-		/// </summary>
-		/// <typeparam name="T">The 1st type parameter.</typeparam>
-		public void Register<T> (Action<object,MessageBusEvent> Action) where T : MessageBusEvent, new()
-		{
-			var aType = typeof(T);
-
-			var typeHandler = new TypedMessageBusEventHandler () {
-				EventType = aType,
-				EventAction = Action,
-			};
-
-			EventHandlers.Add (typeHandler);
-		}
-
-		/// <summary>
-		/// Deregister the event action for a Generic message bus type
-		/// </summary>
-		/// <param name="Action">Action.</param>
-		/// <typeparam name="T">The 1st type parameter.</typeparam>
-		public void DeRegister<T> (Action<object,MessageBusEvent> Action) where T : MessageBusEvent
-		{
-			var results = new List<MessageBusEventHandler> (EventHandlers.HandlersForEvent<T> ());
-
-			foreach (var item in results)
-			{
-				if (item.EventAction == Action)
-				{
-					EventHandlers.Remove (item);
-				}
-			}
-		}
-
-		/// <summary>
-		/// Subscribe for notifications of a specific a type of MessageBusEvent
-		/// </summary>
-		/// <typeparam name="T">The 1st type parameter.</typeparam>
-		public void SubscribeTo<T>(Action<object, MessageBusEvent> Action) where T : MessageBusEvent, new()
-		{
-			var aType = typeof(T);
-
-			var typeHandler = new TypedMessageBusEventHandler()
-			{
-				EventType = aType,
-				EventAction = Action,
-			};
-
-			EventHandlers.Add(typeHandler);
-		}
-
-
-
-		#endregion
-
-		#region Posting
-
-		private void Execute (Action<object,MessageBusEvent> Action, object Sender, MessageBusEvent Evnt)
-		{
-            Action(Sender, Evnt);
-		}
-
-		/// <summary>
-		/// Posts the even
-		/// </summary>
-		/// <param name="Event">The event object</param>
-		public void Post (MessageBusEvent Event)
-		{
-			if (!(Event is CoreMessageBusEvent))
-			{
-				foreach (var item in EventHandlers.HandlersForEvent(Event.GetType()))
-				{
-					if (item.EventAction != null)
-					{
-						Execute (item.EventAction, Event.Sender, Event);
-					}
-				}
-			}
-
-			//find all the registered handlers
-			foreach (var item in EventHandlers.HandlersForEvent(Event.EventId))
-			{
-				if (item.EventAction != null)
-				{
-					Execute (item.EventAction, Event.Sender, Event);
-				}
-			}
-
-		}
-
-		/// <summary>
-		/// Posts the event.
-		/// </summary>
-		/// <param name="EventId">Event Id</param>
-		public void Post (String EventId)
-		{
-			Post (EventId, null);
-		}
-
-		/// <summary>
-		/// Posts the event
-		/// </summary>
-		/// <param name="EventId">Event Id</param>
-		/// <param name="Sender">The Sender</param>
-		public void Post (String EventId, object Sender)
-		{
-			Post (EventId, null, null);
-		}
-
-		/// <summary>
-		/// Posts the event.
-		/// </summary>
-		/// <param name="EventId">Event Id</param>
-		/// <param name="Sender">The Sender</param>
-		/// <param name="Data">Data objects to pass through with the event </param>
-		public void Post (String EventId, object Sender, params object[] Data)
-		{
-			var aEvent = new CoreMessageBusEvent (EventId) {
-				Sender = Sender,
-				Data = Data,
-			};
-
-			Post (aEvent);
-		}
-
-        /// <summary>
-        /// Posts the event.
-        /// </summary>
-        /// <param name="EventId">Event Id</param>
-        /// <param name="Data">Data objects to pass through with the event </param>
-        public void Post (String EventId, params object[] Data)
-        {
-            Post(EventId, null, Data);
-        }
-
-        #endregion
-
-        #region Private Methods
-
-        private IEnumerable<MessageBusEventHandler> FindHandlersForEvent(string eventId)
+		private static IEnumerable<MessageBusEventHandler> FindHandlersForEvent(string eventId)
         {
             if (string.IsNullOrWhiteSpace(eventId))
                 throw new Exception("EventId cannot be null or blank");
@@ -334,8 +95,6 @@ namespace DSoft.Messaging
         }
         #endregion
 
-        #endregion
-
         #region Static Methods
 
         #region Post
@@ -344,18 +103,36 @@ namespace DSoft.Messaging
         /// Post the specified Event to the Default MessageBus
         /// </summary>
         /// <param name="Event">Event.</param>
-        public static void PostEvent (MessageBusEvent Event)
+        public static void Post (MessageBusEvent Event)
 		{
-			DefaultInternal.Post (Event);
+			if (!(Event is CoreMessageBusEvent))
+			{
+				foreach (var item in EventHandlers.HandlersForEvent(Event.GetType()))
+				{
+					if (item.EventAction != null)
+					{
+						Execute(item.EventAction, Event.Sender, Event);
+					}
+				}
+			}
+
+			//find all the registered handlers
+			foreach (var item in EventHandlers.HandlersForEvent(Event.EventId))
+			{
+				if (item.EventAction != null)
+				{
+					Execute(item.EventAction, Event.Sender, Event);
+				}
+			}
 		}
 
 		/// <summary>
 		/// Posts the event to the Default MessageBus
 		/// </summary>
 		/// <param name="EventId">Event identifier.</param>
-		public static void PostEvent (String EventId)
+		public static void Post (String EventId)
 		{
-			DefaultInternal.Post (EventId);
+			Post (EventId, null);
 		}
 
 		/// <summary>
@@ -363,20 +140,26 @@ namespace DSoft.Messaging
 		/// </summary>
 		/// <param name="EventId">Event identifier.</param>
 		/// <param name="Sender">Sender.</param>
-		public static void PostEvent (String EventId, object Sender)
+		public static void Post (String EventId, object Sender)
 		{
-			DefaultInternal.Post (EventId, Sender);
+			Post(EventId, Sender, null);
 		}
-
+		
 		/// <summary>
 		/// Post the specified EventId, Sender and Data to the Default MessageBus
 		/// </summary>
 		/// <param name="EventId">Event identifier.</param>
 		/// <param name="Sender">Sender.</param>
 		/// <param name="Data">Data.</param>
-		public static void PostEvent (String EventId, object Sender, params object[] Data)
+		public static void Post (String EventId, object Sender, params object[] Data)
 		{
-			DefaultInternal.Post (EventId, Sender, Data);
+			var aEvent = new CoreMessageBusEvent(EventId)
+			{
+				Sender = Sender,
+				Data = Data,
+			};
+
+			Post(aEvent);
 		}
 
         /// <summary>
@@ -384,35 +167,59 @@ namespace DSoft.Messaging
         /// </summary>
         /// <param name="EventId">Event identifier.</param>
         /// <param name="Data">Data.</param>
-        public static void PostEvent(String EventId, params object[] Data)
+        public static void Post(String EventId, params object[] Data)
         {
-			DefaultInternal.Post(EventId, null, Data);
+			Post(EventId, null, Data);
         }
-        #endregion
+		#endregion
 
-        #region Register
-
-        [Obsolete("Use Subscribe instead")]
-        /// <summary>
-        /// Register a handler for the specified event id
-        /// </summary>
-        /// <param name="eventId">Event identifier.</param>
-        /// <param name="action">Handler action</param>
-        public static void RegisterHandler(string eventId, Action<object, MessageBusEvent> action)
-        {
-            Subscribe(eventId, action);
-        }
+		#region Unsubscribe
 
 		/// <summary>
-		/// Deregisters a previously register handler for the specified event id
+		/// Unsubscribe a previously registered handler for the specified event id
 		/// </summary>
 		/// <param name="eventId">Event identifier.</param>
 		/// <param name="action">Handler action</param>
-		public static void DeRegisterHandler(string eventId, Action<object, MessageBusEvent> action)
+		public static void Unsubscribe(string eventId, Action<object, MessageBusEvent> action)
 		{
-			DefaultInternal.DeRegister(eventId, action);
+			foreach (var item in FindHandlersForEvent(eventId))
+			{
+				if (item.EventAction.Equals(action))
+				{
+					EventHandlers.Remove(item);
+				}
+			}
 		}
 
+		/// <summary>
+		/// Unsubscribe a previously registered event handler
+		/// </summary>
+		/// <param name="EventHandler">The event handler.</param>
+		public static void Unsubscribe(MessageBusEventHandler EventHandler)
+		{
+			if (EventHandlers.Contains(EventHandler))
+			{
+				EventHandlers.Remove(EventHandler);
+			}
+		}
+
+		/// <summary>
+		/// Unsubscribe the event action for a Generic message bus type
+		/// </summary>
+		/// <param name="Action">Action.</param>
+		/// <typeparam name="T">The 1st type parameter.</typeparam>
+		public static void Unsubscribe<T>(Action<object, MessageBusEvent> Action) where T : MessageBusEvent
+		{
+			var results = new List<MessageBusEventHandler>(EventHandlers.HandlersForEvent<T>());
+
+			foreach (var item in results)
+			{
+				if (item.EventAction == Action)
+				{
+					EventHandlers.Remove(item);
+				}
+			}
+		}
 		#endregion
 
 		#region Subscribe
@@ -451,30 +258,48 @@ namespace DSoft.Messaging
 		/// <param name="action">Action to execute on the event occuring</param>
 		public static void Subscribe(string eventId, Action<object, MessageBusEvent> action)
 		{
-			DefaultInternal.SubscribeTo(eventId, action);
+			Subscribe(new MessageBusEventHandler(eventId, action));
 		}
 
+		/// <summary>
+		/// Subscribe to the specified event handler.
+		/// </summary>
+		/// <param name="EventHandler">The event handler.</param>
+		public static void Subscribe(MessageBusEventHandler EventHandler)
+		{
+			if (EventHandler == null)
+				return;
+
+			if (!EventHandlers.Contains(EventHandler))
+			{
+				EventHandlers.Add(EventHandler);
+			}
+		}
+		/// <summary>
+		/// Subscribe for notifications of a specific a type of MessageBusEvent
+		/// </summary>
+		/// <typeparam name="T">The 1st type parameter.</typeparam>
+		public static void Subscribe<T>(Action<object, MessageBusEvent> Action) where T : MessageBusEvent, new()
+		{
+			var aType = typeof(T);
+
+			var typeHandler = new TypedMessageBusEventHandler()
+			{
+				EventType = aType,
+				EventAction = Action,
+			};
+
+			Subscribe(typeHandler);
+
+
+		}
+		#endregion
 		#endregion
 
 
-        /// <summary>
-        /// Execute the action on the UI thread
-        /// </summary>
-        /// <param name="Command">Command.</param>
-        public void RunOnUiThread(Action Command)
-		{
-            if (SyncContext == null)
-                throw new ArgumentNullException ("SyncContext");
 
-            //update the UI
-			Task.Factory.StartNew(() =>
-			{
-				if (Command != null)
-				{
-					Command();
-				}
-			}, CancellationToken.None, TaskCreationOptions.None, SyncContext);
-		}
+
+
 		#endregion
 	}
 }
