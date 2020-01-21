@@ -25,7 +25,7 @@ namespace DSoft.Messaging.Extensions
 		/// <param name="Data">Additonal data</param>
 		public static void PostEvent (this object Sender, String EventId, object[] Data)
 		{
-			MessageBus.Default.Post (EventId, Sender, Data);
+			MessageBus.PostEvent (EventId, Sender, Data);
 		}
 	}
 }

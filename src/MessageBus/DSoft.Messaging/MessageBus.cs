@@ -34,19 +34,23 @@ namespace DSoft.Messaging
 
 		#region Properties
 
+		[Obsolete("Use static methods instead")]
 		/// <summary>
 		/// Gets the default message bus
 		/// </summary>
 		/// <value>The default.</value>
-		public static MessageBus Default {
+		public static MessageBus Default => DefaultInternal;
+
+		private static MessageBus DefaultInternal
+		{
 			get
 			{
 				if (mDefault == null)
 				{
-					lock (syncRoot) 
+					lock (syncRoot)
 					{
 						if (mDefault == null)
-							mDefault = new MessageBus ();
+							mDefault = new MessageBus();
 					}
 
 				}
@@ -86,29 +90,25 @@ namespace DSoft.Messaging
 
 		#region Registration
 
+        [Obsolete("Use SubscribeTo instead")]
 		/// <summary>
 		/// Registers the specified event handler.
 		/// </summary>
 		/// <param name="EventHandler">The event handler.</param>
 		public void Register (MessageBusEventHandler EventHandler)
 		{
-			if (EventHandler == null)
-				return;
-
-			if (!EventHandlers.Contains (EventHandler))
-			{
-				EventHandlers.Add (EventHandler);
-			}
+			SubscribeTo(EventHandler);
 		}
 
-        /// <summary>
-        /// Register for an eventId
-        /// </summary>
-        /// <param name="eventId"></param>
-        /// <param name="action"></param>
-        public void Register (string eventId, Action<object, MessageBusEvent> action)
+		[Obsolete("Use SubscribeTo instead")]
+		/// <summary>
+		/// Register for an eventId
+		/// </summary>
+		/// <param name="eventId"></param>
+		/// <param name="action"></param>
+		public void Register (string eventId, Action<object, MessageBusEvent> action)
         {
-            Register(new MessageBusEventHandler(eventId, action));
+            SubscribeTo(new MessageBusEventHandler(eventId, action));
         }
 
 		/// <summary>
@@ -153,8 +153,37 @@ namespace DSoft.Messaging
 
 		#endregion
 
+		#region Subscribe
+
+		/// <summary>
+		/// Subscribe to the specified event handler.
+		/// </summary>
+		/// <param name="EventHandler">The event handler.</param>
+		public void SubscribeTo(MessageBusEventHandler EventHandler)
+		{
+			if (EventHandler == null)
+				return;
+
+			if (!EventHandlers.Contains(EventHandler))
+			{
+				EventHandlers.Add(EventHandler);
+			}
+		}
+
+		/// <summary>
+		/// Subscribe to the event with an action
+		/// </summary>
+		/// <param name="eventId">Event Id</param>
+		/// <param name="action">Action to execute on the event occuring</param>
+		public void SubscribeTo(string eventId, Action<object, MessageBusEvent> action)
+		{
+			SubscribeTo(new MessageBusEventHandler(eventId, action));
+		}
+		#endregion
+
 		#region Generic Methods
 
+		[Obsolete("Use SubscribeTo instead")]
 		/// <summary>
 		/// Register for a type of MessageBusEvent
 		/// </summary>
@@ -188,6 +217,25 @@ namespace DSoft.Messaging
 				}
 			}
 		}
+
+		/// <summary>
+		/// Subscribe for notifications of a specific a type of MessageBusEvent
+		/// </summary>
+		/// <typeparam name="T">The 1st type parameter.</typeparam>
+		public void SubscribeTo<T>(Action<object, MessageBusEvent> Action) where T : MessageBusEvent, new()
+		{
+			var aType = typeof(T);
+
+			var typeHandler = new TypedMessageBusEventHandler()
+			{
+				EventType = aType,
+				EventAction = Action,
+			};
+
+			EventHandlers.Add(typeHandler);
+		}
+
+
 
 		#endregion
 
@@ -266,7 +314,7 @@ namespace DSoft.Messaging
         /// </summary>
         /// <param name="EventId">Event Id</param>
         /// <param name="Data">Data objects to pass through with the event </param>
-        public void Post(String EventId, params object[] Data)
+        public void Post (String EventId, params object[] Data)
         {
             Post(EventId, null, Data);
         }
@@ -290,13 +338,15 @@ namespace DSoft.Messaging
 
         #region Static Methods
 
+        #region Post
+
         /// <summary>
         /// Post the specified Event to the Default MessageBus
         /// </summary>
         /// <param name="Event">Event.</param>
         public static void PostEvent (MessageBusEvent Event)
 		{
-			Default.Post (Event);
+			DefaultInternal.Post (Event);
 		}
 
 		/// <summary>
@@ -305,7 +355,7 @@ namespace DSoft.Messaging
 		/// <param name="EventId">Event identifier.</param>
 		public static void PostEvent (String EventId)
 		{
-			Default.Post (EventId);
+			DefaultInternal.Post (EventId);
 		}
 
 		/// <summary>
@@ -315,7 +365,7 @@ namespace DSoft.Messaging
 		/// <param name="Sender">Sender.</param>
 		public static void PostEvent (String EventId, object Sender)
 		{
-			Default.Post (EventId, Sender);
+			DefaultInternal.Post (EventId, Sender);
 		}
 
 		/// <summary>
@@ -326,7 +376,7 @@ namespace DSoft.Messaging
 		/// <param name="Data">Data.</param>
 		public static void PostEvent (String EventId, object Sender, params object[] Data)
 		{
-			Default.Post (EventId, Sender, Data);
+			DefaultInternal.Post (EventId, Sender, Data);
 		}
 
         /// <summary>
@@ -336,9 +386,13 @@ namespace DSoft.Messaging
         /// <param name="Data">Data.</param>
         public static void PostEvent(String EventId, params object[] Data)
         {
-            Default.Post(EventId, null, Data);
+			DefaultInternal.Post(EventId, null, Data);
         }
+        #endregion
 
+        #region Register
+
+        [Obsolete("Use Subscribe instead")]
         /// <summary>
         /// Register a handler for the specified event id
         /// </summary>
@@ -346,18 +400,62 @@ namespace DSoft.Messaging
         /// <param name="action">Handler action</param>
         public static void RegisterHandler(string eventId, Action<object, MessageBusEvent> action)
         {
-            Default.Register(eventId, action);
+            Subscribe(eventId, action);
         }
 
-        /// <summary>
-        /// Deregisters a previously register handler for the specified event id
-        /// </summary>
-        /// <param name="eventId">Event identifier.</param>
-        /// <param name="action">Handler action</param>
-        public static void DeRegisterHandler(string eventId, Action<object, MessageBusEvent> action)
+		/// <summary>
+		/// Deregisters a previously register handler for the specified event id
+		/// </summary>
+		/// <param name="eventId">Event identifier.</param>
+		/// <param name="action">Handler action</param>
+		public static void DeRegisterHandler(string eventId, Action<object, MessageBusEvent> action)
+		{
+			DefaultInternal.DeRegister(eventId, action);
+		}
+
+		#endregion
+
+		#region Subscribe
+		/// <summary>
+		/// Subscribe to the event with an parameterless action
+		/// </summary>
+		/// <param name="evenId">Event Id</param>
+		/// <param name="action">Action to execute on the event occuring</param>
+		public static void Subscribe(string evenId, Action action)
         {
-            Default.DeRegister(eventId, action);
+			Subscribe(evenId, (obj, evt) =>
+			{
+				action();
+
+			});
         }
+
+		/// <summary>
+		/// Subscribe to the event with an action that recieve the data object from the event
+		/// </summary>
+		/// <param name="evenId">Event Id</param>
+		/// <param name="action">Action to execute on the event occuring</param>
+		public static void Subscribe(string evenId, Action<object[]> action)
+		{
+			Subscribe(evenId, (obj, evt) =>
+			{
+				action(evt.Data);
+
+			});
+		}
+
+		/// <summary>
+		/// Subscribe to the event with an action
+		/// </summary>
+		/// <param name="eventId">Event Id</param>
+		/// <param name="action">Action to execute on the event occuring</param>
+		public static void Subscribe(string eventId, Action<object, MessageBusEvent> action)
+		{
+			DefaultInternal.SubscribeTo(eventId, action);
+		}
+
+		#endregion
+
 
         /// <summary>
         /// Execute the action on the UI thread
