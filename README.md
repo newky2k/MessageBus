@@ -13,4 +13,4 @@ MessageBus is a cross platform EventBus system similar to NSNoticationCenter on 
 
 ### Attribution
 
-`ThreadControl` contains portions of code from Xamarin.Essentials, specifically the `MainThread` functionality
+`ThreadControl` contains portions of code from [Xamarin.Essentials](https://github.com/xamarin/Essentials/tree/master/Xamarin.Essentials/MainThread), specifically the `MainThread` functionality
