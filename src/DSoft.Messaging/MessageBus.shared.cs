@@ -1,12 +1,12 @@
 ﻿
 using System;
-using DSoft.Messaging.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Threading;
 using System.Diagnostics;
+using DSoft.MessageBus.Collections;
 
-namespace DSoft.Messaging
+namespace DSoft.MessageBus
 {
 	/// <summary>
 	/// Message bus.
