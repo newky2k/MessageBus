@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DSoft.Messaging
+namespace DSoft.MessageBus
 {
 	/// <summary>
 	/// Message bus event class

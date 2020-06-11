@@ -3,10 +3,14 @@ MessageBus is a cross platform EventBus system similar to NSNoticationCenter on 
 
 # Features
 
-* Cross platform  
-  * Works on iOS, Android, Windows Phone, Mac and Windows  
+* Cross-platform  
+  * Works on iOS, WatchOS, TVOS, Android, UWP, Tizen(2.0), Mac and Windows  
 * Small footprint
 * Simple API
 * Create custom events to easily pass addtional data
 * Allows you to decouple objects and classes within your projects  
 * Portable Class library
+
+### Attribution
+
+`ThreadControl` contains portions of code from [Xamarin.Essentials](https://github.com/xamarin/Essentials/tree/master/Xamarin.Essentials/MainThread), specifically the `MainThread` functionality

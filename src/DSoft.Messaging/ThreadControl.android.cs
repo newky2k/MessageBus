@@ -13,12 +13,12 @@ namespace DSoft.MessageBus
         {
             get
             {
-                if (Platform.HasApiLevel(BuildVersionCodes.M))
+                if ((int)Build.VERSION.SdkInt > (int)BuildVersionCodes.M)
                     return Looper.MainLooper.IsCurrentThread;
 
                 return Looper.MyLooper() == Looper.MainLooper;
             }
-        }
+        } 
 
         static void PlatformBeginInvokeOnMainThread(Action action)
         {
