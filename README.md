@@ -9,7 +9,6 @@ MessageBus is a cross platform EventBus system similar to NSNoticationCenter on 
 * Simple API
 * Create custom events to easily pass addtional data
 * Allows you to decouple objects and classes within your projects  
-* Portable Class library
 
 ### Attribution
 
