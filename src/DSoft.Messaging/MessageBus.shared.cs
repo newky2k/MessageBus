@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Threading;
 using System.Diagnostics;
-using DSoft.MessageBus.Collections;
 
 namespace DSoft.MessageBus
 {
@@ -14,16 +13,15 @@ namespace DSoft.MessageBus
 	public partial class MessageBus
 	{
 		#region Fields
-
-		private static MessageBusEventHandlerCollection mEventHandlers;
-
+		private static Lazy<MessageBusEventHandlerCollection> _eventHandlers = new Lazy<MessageBusEventHandlerCollection>(() => new MessageBusEventHandlerCollection());
+		private static Lazy<LogListernersCollection> _logListeners = new Lazy<LogListernersCollection>(() => new LogListernersCollection());
 		#endregion
 
 		#region Constructors
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
+		/// <summary>
+		/// Constructor
+		/// </summary>
 		public MessageBus()
 		{
 		}
@@ -36,46 +34,18 @@ namespace DSoft.MessageBus
 		/// Gets the registered event handlers.
 		/// </summary>
 		/// <value>The event handlers.</value>
-		private static MessageBusEventHandlerCollection EventHandlers {
-			get
-			{
-				if (mEventHandlers == null)
-				{
-					mEventHandlers = new MessageBusEventHandlerCollection ();
-				}
+		private static MessageBusEventHandlerCollection EventHandlers => _eventHandlers.Value;
 
-				return mEventHandlers;
-			}
-		}
-
-		/// <summary>
-		/// Gets or sets the sync context for the UI thread.
-		/// </summary>
-		/// <value>The sync context.</value>
-		public TaskScheduler SyncContext
-		{
-			get;
-			set;
-		}
+        /// <summary>
+        /// Gets the register log listeners
+        /// </summary>
+        /// <value>
+        /// The current log listeners
+        /// </value>
+        private static LogListernersCollection LogListeners => _logListeners.Value;
 		#endregion
 
 		#region Methods
-
-		#region Registration
-
-        /// <summary>
-        /// Clear Handlers for the specified event id
-        /// </summary>
-        /// <param name="eventId">The event id.</param>
-        public void Clear (string eventId)
-		{
-			foreach (var item in FindHandlersForEvent(eventId))
-			{
-				EventHandlers.Remove (item);
-			}
-		}
-
-		#endregion
 
 		#region Private Methods
 
@@ -194,7 +164,7 @@ namespace DSoft.MessageBus
 		/// <summary>
 		/// Unsubscribe a previously registered event handler
 		/// </summary>
-		/// <param name="EventHandler">The event handler.</param>
+		/// <param name="EventHandler">The event handler instance</param>
 		public static void Unsubscribe(MessageBusEventHandler EventHandler)
 		{
 			if (EventHandlers.Contains(EventHandler))
@@ -203,11 +173,12 @@ namespace DSoft.MessageBus
 			}
 		}
 
+
 		/// <summary>
 		/// Unsubscribe the event action for a Generic message bus type
 		/// </summary>
-		/// <param name="Action">Action.</param>
-		/// <typeparam name="T">The 1st type parameter.</typeparam>
+		/// <typeparam name="T">Type of MessageBusEvent to unsubscribe from</typeparam>
+		/// <param name="Action">The action to remove</param>
 		public static void Unsubscribe<T>(Action<object, MessageBusEvent> Action) where T : MessageBusEvent
 		{
 			var results = new List<MessageBusEventHandler>(EventHandlers.HandlersForEvent<T>());
@@ -218,6 +189,18 @@ namespace DSoft.MessageBus
 				{
 					EventHandlers.Remove(item);
 				}
+			}
+		}
+
+		/// <summary>
+		/// Unsubscribes all handlers for the specified event id
+		/// </summary>
+		/// <param name="eventId">Event identifier</param>
+		public static void Unsubscribe(string eventId)
+		{
+			foreach (var item in FindHandlersForEvent(eventId))
+			{
+				EventHandlers.Remove(item);
 			}
 		}
 		#endregion
@@ -293,12 +276,59 @@ namespace DSoft.MessageBus
 
 
 		}
+        #endregion
+
+        #region Logging
+
+        /// <summary>
+        /// Send out a log message
+        /// </summary>
+        /// <param name="title">The title of the log entry</param>
+        /// <param name="message">The message.</param>
+        /// <param name="severity">The severity.</param>
+        public static void Log(string title, string message = null, LogSeverity severity = LogSeverity.Notification) => Log(Channels.All, title, message);
+
+		/// <summary>
+		///Send out a log message to the specified channel only
+		/// </summary>
+		/// <param name="channelName">Name of the channel.</param>
+		/// <param name="title">The title of the log entry</param>
+		/// <param name="message">The message.</param>
+		/// <param name="severity">The severity.</param>
+		public static void Log(string channelName, string title, string message = null, LogSeverity severity = LogSeverity.Notification)
+        {
+			var newLog = new LogEvent()
+			{
+				Channel = channelName,
+				Title = title,
+				Message = message,
+				Severity = severity,
+			};
+
+			var listeners = LogListeners.FindAll(channelName);
+
+			foreach (var listener in listeners)
+				listener.OnMessageRecieved(newLog);
+		}
+
+        /// <summary>
+        /// Register a type of class that implements ILogListener to listen for log messages
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        public static void Listen<T>() where T : class, ILogListener, new() => Listen(new T());
+
+		/// <summary>
+		/// Register a class instance that implements ILogListener to listen for log messages
+		/// </summary>
+		/// <param name="instance">The instance of the class</param>
+		public static void Listen(ILogListener instance)
+		{
+			LogListeners.Register(instance);
+
+		}
 		#endregion
+
 		#endregion
-
-
-
-
 
 		#endregion
 	}

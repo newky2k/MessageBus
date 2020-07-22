@@ -3,7 +3,7 @@ using System.Linq;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
 
-namespace DSoft.MessageBus.Collections
+namespace DSoft.MessageBus
 {
 	/// <summary>
 	/// Collection of messagebuseventhandlers
