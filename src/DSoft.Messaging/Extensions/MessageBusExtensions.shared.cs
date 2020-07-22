@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DSoft.MessageBus.Extensions
+namespace DSoft.MessageBus
 {
 	/// <summary>
 	/// MessageBus object extensions
