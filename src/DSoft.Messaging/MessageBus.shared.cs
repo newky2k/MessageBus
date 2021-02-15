@@ -12,6 +12,11 @@ namespace DSoft.MessageBus
 	/// </summary>
 	public partial class MessageBus
 	{
+        /// <summary>
+        /// Execute Post action on a seperate task using Task.Run
+        /// </summary>
+        public static bool RunPostOnSeperateTask = false;
+
 		#region Fields
 		private static Lazy<MessageBusEventHandlerCollection> _eventHandlers = new Lazy<MessageBusEventHandlerCollection>(() => new MessageBusEventHandlerCollection());
 		private static Lazy<LogListernersCollection> _logListeners = new Lazy<LogListernersCollection>(() => new LogListernersCollection());
@@ -69,61 +74,77 @@ namespace DSoft.MessageBus
 
         #region Post
 
-        /// <summary>
-        /// Post the specified Event to the Default MessageBus
-        /// </summary>
-        /// <param name="Event">Event.</param>
-        public static void Post (MessageBusEvent Event)
-		{
-			if (!(Event is CoreMessageBusEvent))
+		private static void PostInternal(MessageBusEvent busEvent)
+        {
+			if (!(busEvent is CoreMessageBusEvent))
 			{
-				foreach (var item in EventHandlers.HandlersForEvent(Event.GetType()))
+				foreach (var item in EventHandlers.HandlersForEvent(busEvent.GetType()))
 				{
 					if (item.EventAction != null)
 					{
-						Execute(item.EventAction, Event.Sender, Event);
+						Execute(item.EventAction, busEvent.Sender, busEvent);
 					}
 				}
 			}
 
 			//find all the registered handlers
-			foreach (var item in EventHandlers.HandlersForEvent(Event.EventId))
+			foreach (var item in EventHandlers.HandlersForEvent(busEvent.EventId))
 			{
 				if (item.EventAction != null)
 				{
-					Execute(item.EventAction, Event.Sender, Event);
+					Execute(item.EventAction, busEvent.Sender, busEvent);
 				}
 			}
 		}
+		/// <summary>
+		/// Post the specified Event to the Default MessageBus
+		/// </summary>
+		/// <param name="busEvent">Event.</param>
+		public static void Post (MessageBusEvent busEvent)
+		{
+			if (RunPostOnSeperateTask == true)
+            {
+				Task.Run(() =>
+				{
+					PostInternal(busEvent);
+				});
+			}
+			else
+            {
+				PostInternal(busEvent);
+			}
+
+
+        }
 
 		/// <summary>
 		/// Posts the event to the Default MessageBus
 		/// </summary>
-		/// <param name="EventId">Event identifier.</param>
-		public static void Post (String EventId)
+		/// <param name="eventId">Event identifier.</param>
+		public static void Post (string eventId)
 		{
-			Post (EventId, null);
+			Post (eventId, null);
 		}
 
 		/// <summary>
 		/// Post the specified EventId and Sender to the Default MessageBus
 		/// </summary>
-		/// <param name="EventId">Event identifier.</param>
+		/// <param name="eventId">Event identifier.</param>
 		/// <param name="Sender">Sender.</param>
-		public static void Post (String EventId, object Sender)
+		public static void Post (string eventId, object Sender)
 		{
-			Post(EventId, Sender, null);
+			Post(eventId, Sender, null);
 		}
 		
 		/// <summary>
 		/// Post the specified EventId, Sender and Data to the Default MessageBus
 		/// </summary>
-		/// <param name="EventId">Event identifier.</param>
+		/// <param name="eventId">Event identifier.</param>
 		/// <param name="Sender">Sender.</param>
 		/// <param name="Data">Data.</param>
-		public static void Post (String EventId, object Sender, params object[] Data)
+		public static void Post (string eventId, object Sender, params object[] Data)
 		{
-			var aEvent = new CoreMessageBusEvent(EventId)
+			var aEvent = new CoreMessageBusEvent(eventId)
 			{
 				Sender = Sender,
 				Data = Data,
@@ -135,11 +156,11 @@ namespace DSoft.MessageBus
         /// <summary>
         /// Post the specified EventId and Data packet to the Default MessageBus
         /// </summary>
-        /// <param name="EventId">Event identifier.</param>
+        /// <param name="eventId">Event identifier.</param>
         /// <param name="Data">Data.</param>
-        public static void Post(String EventId, params object[] Data)
+        public static void Post(string eventId, params object[] Data)
         {
-			Post(EventId, null, Data);
+			Post(eventId, null, Data);
         }
 		#endregion
 
