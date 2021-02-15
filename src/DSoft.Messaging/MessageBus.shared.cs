@@ -318,6 +318,24 @@ namespace DSoft.MessageBus
 		/// <param name="severity">The severity.</param>
 		public static void Log(string channelName, string title, string message = null, LogSeverity severity = LogSeverity.Notification)
         {
+
+			if (RunPostOnSeperateTask == true)
+			{
+				Task.Run(() =>
+				{
+					LogInternal(channelName, title, message, severity);
+
+				});
+			}
+			else
+			{
+				LogInternal(channelName, title, message, severity);
+			}
+
+		}
+
+		private static void LogInternal(string channelName, string title, string message = null, LogSeverity severity = LogSeverity.Notification)
+        {
 			var newLog = new LogEvent()
 			{
 				Channel = channelName,
@@ -332,11 +350,11 @@ namespace DSoft.MessageBus
 				listener.OnMessageRecieved(newLog);
 		}
 
-        /// <summary>
-        /// Register a type of class that implements ILogListener to listen for log messages
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        public static void Listen<T>() where T : class, ILogListener, new() => Listen(new T());
+		/// <summary>
+		/// Register a type of class that implements ILogListener to listen for log messages
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		public static void Listen<T>() where T : class, ILogListener, new() => Listen(new T());
 
 		/// <summary>
 		/// Register a class instance that implements ILogListener to listen for log messages
