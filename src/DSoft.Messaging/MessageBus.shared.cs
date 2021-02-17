@@ -350,11 +350,6 @@ namespace DSoft.MessageBus
 				listener.OnMessageRecieved(newLog);
 		}
 
-		/// <summary>
-		/// Register a type of class that implements ILogListener to listen for log messages
-		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		public static void Listen<T>() where T : class, ILogListener, new() => Listen(new T());
 
 		/// <summary>
 		/// Register a class instance that implements ILogListener to listen for log messages
@@ -365,6 +360,18 @@ namespace DSoft.MessageBus
 			LogListeners.Register(instance);
 
 		}
+
+        /// <summary>
+        /// Stops listening to the log channel
+        /// </summary>
+        /// <param name="instance">The instance.</param>
+        public static void StopListening(ILogListener instance)
+        {
+			if (LogListeners == null)
+				return;
+
+			LogListeners.Remove(instance);
+        }
 		#endregion
 
 		#endregion
