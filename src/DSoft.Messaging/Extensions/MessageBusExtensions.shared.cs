@@ -12,10 +12,7 @@ namespace DSoft.MessageBus
 		/// </summary>
 		/// <param name="Sender">Sender.</param>
 		/// <param name="EventId">Event Id</param>
-		public static void PostEvent (this object Sender, String EventId)
-		{
-			Sender.PostEvent (EventId, null);
-		}
+		public static void PostEvent (this object Sender, string EventId) => Sender.PostEvent(EventId, null);
 
 		/// <summary>
 		/// Posts the event.
@@ -23,10 +20,7 @@ namespace DSoft.MessageBus
 		/// <param name="Sender">Sender.</param>
 		/// <param name="EventId">Event Id</param>
 		/// <param name="Data">Additonal data</param>
-		public static void PostEvent (this object Sender, String EventId, object[] Data)
-		{
-			MessageBus.Post (EventId, Sender, Data);
-		}
+		public static void PostEvent (this object Sender, string EventId, object[] Data) => MessageBus.Post(EventId, Sender, Data);
 	}
 }
 

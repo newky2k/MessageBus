@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29709.97
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DSoft.MessageBus", "DSoft.Messaging\DSoft.MessageBus.csproj", "{59BFF815-1B16-485D-BA2A-22ADF9B4C8F7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPFSample", "WPFSample\WPFSample.csproj", "{DFFF869B-D948-45E7-9F8E-F8136B29F38F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WPFSample", "WPFSample\WPFSample.csproj", "{DFFF869B-D948-45E7-9F8E-F8136B29F38F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
