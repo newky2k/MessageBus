@@ -1,6 +1,6 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras/3.0.38">
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;netcoreapp3.1;Xamarin.iOS10;Xamarin.Mac20;Xamarin.TVOS10;Xamarin.WatchOS10;MonoAndroid81;MonoAndroid90;MonoAndroid10.0;tizen40;</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;netcoreapp3.1;Xamarin.iOS10;Xamarin.Mac20;Xamarin.TVOS10;Xamarin.WatchOS10;MonoAndroid90;MonoAndroid10.0;MonoAndroid11.0;MonoAndroid12.0;tizen40;</TargetFrameworks>
     <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">$(TargetFrameworks);uap10.0.19041;net5.0-windows7.0;net5.0-windows10.0.19041;</TargetFrameworks>
     <PackageId>DSoft.MessageBus</PackageId>
     <ReleaseVersion>1.3.4</ReleaseVersion>
