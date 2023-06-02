@@ -28,6 +28,8 @@
     <Configurations>Debug;Release;</Configurations>
     <PackageReadmeFile>README.md</PackageReadmeFile>
 	<GenerateDocumentationFile>true</GenerateDocumentationFile>
+	<EnablePreviewMsixTooling>true</EnablePreviewMsixTooling>
+	<GenerateLibraryLayout>true</GenerateLibraryLayout>
   </PropertyGroup>
 
 	<PropertyGroup Condition=" '$(Configuration)'=='Release' ">
@@ -112,12 +114,12 @@
     <Compile Include="**\*.tvos.*.cs" />
   </ItemGroup>
 
-  <ItemGroup Condition=" $(TargetFramework.StartsWith('tizen')) ">
+  <ItemGroup Condition=" $(TargetFramework) == 'net6.0-tizen'">
     <Compile Include="**\*.tizen.cs" />
     <Compile Include="**\*.tizen.*.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\README.md">
+    <None Include="..\README.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
