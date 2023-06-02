@@ -1,6 +1,6 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project  Sdk="MSBuild.Sdk.Extras/3.0.44">
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net6.0;net6.0-ios;net6.0-macos;net6.0-maccatalyst;net6.0-tvos;net6.0-android;</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net6.0;net6.0-ios;net6.0-macos;net6.0-maccatalyst;net6.0-tvos;net6.0-android;;Xamarin.iOS10;Xamarin.Mac20;Xamarin.TVOS10;MonoAndroid90;MonoAndroid10.0;MonoAndroid11.0;MonoAndroid12.0;tizen40;</TargetFrameworks>
     <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">$(TargetFrameworks);net6.0-windows7.0;net6.0-windows10.0.19041;</TargetFrameworks>
     <PackageId>DSoft.MessageBus</PackageId>
     <ReleaseVersion>1.3.4</ReleaseVersion>
@@ -94,27 +94,27 @@
 
 	</ItemGroup>
 	
-  <ItemGroup Condition=" $(TargetFramework) == 'net6.0-android'">
+  <ItemGroup Condition=" $(TargetFramework) == 'net6.0-android' Or $(TargetFramework.StartsWith('MonoAndroid'))">
     <Compile Include="**\*.android.cs" />
     <Compile Include="**\*.android.*.cs" />
   </ItemGroup>
 
-  <ItemGroup Condition=" $(TargetFramework) == 'net6.0-ios' Or $(TargetFramework) == 'net6.0-maccatalyst'">
+  <ItemGroup Condition=" $(TargetFramework) == 'net6.0-ios' Or $(TargetFramework) == 'net6.0-maccatalyst' or $(TargetFramework.StartsWith('Xamarin.iOS'))">
     <Compile Include="**\*.ios.cs" />
     <Compile Include="**\*.ios.*.cs" />
   </ItemGroup>
 
-  <ItemGroup Condition=" $(TargetFramework) == 'net6.0-macos'">
+  <ItemGroup Condition=" $(TargetFramework) == 'net6.0-macos' Or $(TargetFramework.StartsWith('Xamarin.Mac'))">
     <Compile Include="**\*.mac.cs" />
     <Compile Include="**\*.mac.*.cs" />
   </ItemGroup>
 
-  <ItemGroup Condition=" $(TargetFramework) == 'net6.0-tvos'">
+  <ItemGroup Condition=" $(TargetFramework) == 'net6.0-tvos' Or $(TargetFramework.StartsWith('Xamarin.TVOS'))">
     <Compile Include="**\*.tvos.cs" />
     <Compile Include="**\*.tvos.*.cs" />
   </ItemGroup>
 
-  <ItemGroup Condition=" $(TargetFramework) == 'net6.0-tizen'">
+  <ItemGroup Condition=" $(TargetFramework) == 'tizen40'">
     <Compile Include="**\*.tizen.cs" />
     <Compile Include="**\*.tizen.*.cs" />
   </ItemGroup>
