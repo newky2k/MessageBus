@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net6.0;net7.0-ios;net7.0-macos;net7.0-maccatalyst;net7.0-tvos;net7.0-android;</TargetFrameworks>
-    <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">$(TargetFrameworks);net7.0-windows7.0;net7.0-windows10.0.19041;</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net6.0;net6.0-ios;net6.0-macos;net6.0-maccatalyst;net6.0-tvos;net6.0-android;</TargetFrameworks>
+    <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">$(TargetFrameworks);net6.0-windows7.0;net6.0-windows10.0.19041;</TargetFrameworks>
     <PackageId>DSoft.MessageBus</PackageId>
     <ReleaseVersion>1.3.4</ReleaseVersion>
     <AssemblyName>DSoft.MessageBus</AssemblyName>
@@ -64,7 +64,7 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
-	<PropertyGroup Condition=" $(TargetFramework.StartsWith('net7.0-windows7.0')) ">
+	<PropertyGroup Condition=" $(TargetFramework.StartsWith('net6.0-windows7.0')) ">
 		<UseWPF>true</UseWPF>
 	</PropertyGroup>
 	
@@ -78,12 +78,12 @@
     <Compile Include="**\*.netstandard.*.cs" />
   </ItemGroup>
 
-	<ItemGroup Condition=" $(TargetFramework.StartsWith('net7.0-windows7.0')) ">
+	<ItemGroup Condition=" $(TargetFramework.StartsWith('net6.0-windows7.0')) ">
 		<Compile Include="**\*.wpf.cs" />
 		<Compile Include="**\*.wpf.*.cs" />
 	</ItemGroup>
 	
-	<ItemGroup Condition=" $(TargetFramework.StartsWith('net7.0-windows10')) ">
+	<ItemGroup Condition=" $(TargetFramework.StartsWith('net6.0-windows10')) ">
 		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.0.0" />
 		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22000.194" />
 
@@ -92,22 +92,22 @@
 
 	</ItemGroup>
 	
-  <ItemGroup Condition=" $(TargetFramework) == 'net7.0-android'">
+  <ItemGroup Condition=" $(TargetFramework) == 'net6.0-android'">
     <Compile Include="**\*.android.cs" />
     <Compile Include="**\*.android.*.cs" />
   </ItemGroup>
 
-  <ItemGroup Condition=" $(TargetFramework) == 'net7.0-ios' Or $(TargetFramework) == 'net7.0-maccatalyst'">
+  <ItemGroup Condition=" $(TargetFramework) == 'net6.0-ios' Or $(TargetFramework) == 'net6.0-maccatalyst'">
     <Compile Include="**\*.ios.cs" />
     <Compile Include="**\*.ios.*.cs" />
   </ItemGroup>
 
-  <ItemGroup Condition=" $(TargetFramework) == 'net7.0-macos'">
+  <ItemGroup Condition=" $(TargetFramework) == 'net6.0-macos'">
     <Compile Include="**\*.mac.cs" />
     <Compile Include="**\*.mac.*.cs" />
   </ItemGroup>
 
-  <ItemGroup Condition=" $(TargetFramework) == 'net7.0-tvos'">
+  <ItemGroup Condition=" $(TargetFramework) == 'net6.0-tvos'">
     <Compile Include="**\*.tvos.cs" />
     <Compile Include="**\*.tvos.*.cs" />
   </ItemGroup>
