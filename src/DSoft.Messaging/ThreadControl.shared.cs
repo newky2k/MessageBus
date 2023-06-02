@@ -10,11 +10,11 @@ namespace DSoft.MessageBus
     {
 		public static bool IsMainThread => PlatformIsMainThread;
 
-		/// <summary>
-		/// Execute the action on the UI thread
-		/// </summary>
-		/// <param name="Command">Command.</param>
-		public static void RunOnMainThread(Action action)
+        /// <summary>
+        /// Execute the action on the UI thread
+        /// </summary>
+        /// <param name="action">Action.</param>
+        public static void RunOnMainThread(Action action)
 		{
 			if (IsMainThread)
 			{
