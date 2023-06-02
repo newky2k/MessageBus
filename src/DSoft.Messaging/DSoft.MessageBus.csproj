@@ -14,8 +14,6 @@
     <FileVersion>1.3.5.0</FileVersion>
     <ConsolePause>false</ConsolePause>
     <Version>1.3.4.0</Version>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageProjectUrl>https://github.com/newky2k/MessageBus</PackageProjectUrl>
     <PackageReleaseNotes>Added optional MessageBus.RunPostOnSeperateTask option to improve Post performance.</PackageReleaseNotes>
     <SignAssembly>true</SignAssembly>
@@ -29,7 +27,31 @@
     <DefineConstants>$(DefineConstants);</DefineConstants>
     <Configurations>Debug;Release;</Configurations>
     <PackageReadmeFile>README.md</PackageReadmeFile>
+	<GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
+
+	<PropertyGroup Condition=" '$(Configuration)'=='Release' ">
+		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<DebugType>embedded</DebugType>
+	</PropertyGroup>
+
+	<PropertyGroup Condition=" '$(Configuration)'=='Release'">
+		<!-- sourcelink: Declare that the Repository URL can be published to NuSpec -->
+		<PublishRepositoryUrl>true</PublishRepositoryUrl>
+		<!-- sourcelink: Embed source files that are not tracked by the source control manager to the PDB -->
+		<EmbedUntrackedSources>true</EmbedUntrackedSources>
+		<!-- sourcelink: Include PDB in the built .nupkg -->
+		<!-- <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder> -->
+	</PropertyGroup>
+
+	<ItemGroup Condition=" '$(Configuration)'=='Release'">
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All"/>
+	</ItemGroup>
+
+	<PropertyGroup Condition="'$(TF_BUILD)' == 'true'">
+		<ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+	</PropertyGroup>
 
     <PropertyGroup Condition=" $(TargetFramework.StartsWith('net6.0-windows10')) ">
 	    <UseWinUI>true</UseWinUI>

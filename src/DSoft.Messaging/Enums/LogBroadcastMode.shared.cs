@@ -4,6 +4,9 @@ using System.Text;
 
 namespace DSoft.MessageBus
 {
+    /// <summary>
+    /// LogBroadcastMode Enum 
+    /// </summary>
     public enum LogBroadcastMode
     {
         /// <summary>

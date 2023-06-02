@@ -4,6 +4,9 @@ using System.Text;
 
 namespace DSoft.MessageBus
 {
+    /// <summary>
+    /// Channels class
+    /// </summary>
     public class Channels
     {
         /// <summary>
