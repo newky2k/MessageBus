@@ -35,16 +35,18 @@ steps:
     script: 
       dotnet workload install android ios maccatalyst tvos macos maui wasm-tools
 
-- task: DotNetCoreCLI@2
+- task: NuGetCommand@2
+  displayName: Nuget Restore
   inputs:
-    command: 'restore'
-    projects: '$(solution)'
+    restoreSolution: '$(solution)'
   
-- task: DotNetCoreCLI@2
-  displayName: dotnet build
+- task: VSBuild@1
+  displayName: Build Solution
   inputs:
-    projects: '$(solution)'
-    arguments: '--configuration=$(buildConfiguration) /p:Platform="$(buildPlatform)" /p:Version=$(Build.BuildNumber) /p:AssemblyVersion=$(Build.BuildNumber) /p:FileVersion=$(Build.BuildNumber) '
+    solution: '$(solution)'
+    msbuildArgs: '/p:Version=$(Build.BuildNumber)$(releaseSuffix) /p:AssemblyVersion=$(Build.BuildNumber) /p:FileVersion=$(Build.BuildNumber)'
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
     
 - task: CopyFiles@2
   displayName: Copy Files to $(build.artifactstagingdirectory)
