@@ -6,15 +6,22 @@ using System.Threading.Tasks;
 
 namespace DSoft.MessageBus
 {
+    /// <summary>
+    /// ThreadControl.
+    /// </summary>
     public partial class ThreadControl
     {
-		public static bool IsMainThread => PlatformIsMainThread;
+        /// <summary>
+        /// Gets a value indicating whether this instance is main thread.
+        /// </summary>
+        /// <value><c>true</c> if this instance is main thread; otherwise, <c>false</c>.</value>
+        public static bool IsMainThread => PlatformIsMainThread;
 
-		/// <summary>
-		/// Execute the action on the UI thread
-		/// </summary>
-		/// <param name="Command">Command.</param>
-		public static void RunOnMainThread(Action action)
+        /// <summary>
+        /// Execute the action on the UI thread
+        /// </summary>
+        /// <param name="action">Action.</param>
+        public static void RunOnMainThread(Action action)
 		{
 			if (IsMainThread)
 			{
@@ -26,7 +33,12 @@ namespace DSoft.MessageBus
 			}
 		}
 
-		public static Task RunOnMainThreadAsync(Action action)
+        /// <summary>
+        /// Runs the on main thread asynchronous.
+        /// </summary>
+        /// <param name="action">The action.</param>
+        /// <returns>Task.</returns>
+        public static Task RunOnMainThreadAsync(Action action)
 		{
 			if (IsMainThread)
 			{
@@ -53,7 +65,11 @@ namespace DSoft.MessageBus
 			return tcs.Task;
 		}
 
-		public static async Task<TaskScheduler> GetMainTaskSchedulerAsync()
+        /// <summary>
+        /// Get main task scheduler as an asynchronous operation.
+        /// </summary>
+        /// <returns>A Task&lt;TaskScheduler&gt; representing the asynchronous operation.</returns>
+        public static async Task<TaskScheduler> GetMainTaskSchedulerAsync()
 		{
 			TaskScheduler ret = null;
 			await RunOnMainThreadAsync(() =>

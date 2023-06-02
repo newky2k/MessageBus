@@ -19,24 +19,24 @@ namespace DSoft.MessageBus
 		/// </summary>
 		public Action<object, MessageBusEvent> EventAction { get; set; }
 
-		#endregion
+        #endregion
 
-		#region Constructors
+        #region Constructors
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="DSoft.Messaging.MessageBusEventHandler"/> class.
-		/// </summary>
-		public MessageBusEventHandler ()
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DSoft.MessageBus.MessageBusEventHandler"/> class.
+        /// </summary>
+        public MessageBusEventHandler ()
 		{
 			EventId = String.Empty;
 		}
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="DSoft.Messaging.MessageBusEventHandler"/> class.
-		/// </summary>
-		/// <param name="EventId">Event identifier.</param>
-		/// <param name="Action">Action.</param>
-		public MessageBusEventHandler (string EventId, Action<object, MessageBusEvent> Action)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DSoft.MessageBus.MessageBusEventHandler"/> class.
+        /// </summary>
+        /// <param name="EventId">Event identifier.</param>
+        /// <param name="Action">Action.</param>
+        public MessageBusEventHandler (string EventId, Action<object, MessageBusEvent> Action)
 		{
 			this.EventId = EventId;
 			this.EventAction = Action;
@@ -58,14 +58,14 @@ namespace DSoft.MessageBus
 		/// <value>The type of the event.</value>
 		internal Type EventType { get; set; }
 
-		#endregion
+        #endregion
 
-		#region Constructors
+        #region Constructors
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="DSoft.Messaging.TypedMessageBusEventHandler"/> class.
-		/// </summary>
-		internal TypedMessageBusEventHandler ()
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DSoft.MessageBus.TypedMessageBusEventHandler"/> class.
+        /// </summary>
+        internal TypedMessageBusEventHandler ()
 		{
 			
 		}

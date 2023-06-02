@@ -25,23 +25,23 @@ namespace DSoft.MessageBus
 		/// </summary>
 		public object[] Data { get; set; }
 
-		#endregion
+        #endregion
 
-		#region Constructors
+        #region Constructors
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="DSoft.Messaging.MessageBusEvent"/> class.
-		/// </summary>
-		public MessageBusEvent ()
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DSoft.MessageBus.MessageBusEvent"/> class.
+        /// </summary>
+        public MessageBusEvent ()
 		{
 		}
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="DSoft.Messaging.MessageBusEvent"/> class.
-		/// </summary>
-		/// <param name="Sender">Sender.</param>
-		/// <param name="Data">Data.</param>
-		public MessageBusEvent (object Sender, object[] Data)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DSoft.MessageBus.MessageBusEvent"/> class.
+        /// </summary>
+        /// <param name="Sender">Sender.</param>
+        /// <param name="Data">Data.</param>
+        public MessageBusEvent (object Sender, object[] Data)
 		{
 			this.Sender = Sender;
 			this.Data = Data;
@@ -85,30 +85,30 @@ namespace DSoft.MessageBus
 		#region Constructors
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="DSoft.Messaging.CoreMessageBusEvent"/> class.
+		/// Initializes a new instance of the <see cref="DSoft.MessageBus.CoreMessageBusEvent"/> class.
 		/// </summary>
 		public CoreMessageBusEvent () : base ()
 		{
 			
 		}
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="DSoft.Messaging.CoreMessageBusEvent"/> class.
-		/// </summary>
-		/// <param name="EventID">Event Identifier.</param>
-		public CoreMessageBusEvent (String EventID) 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DSoft.MessageBus.CoreMessageBusEvent"/> class.
+        /// </summary>
+        /// <param name="EventID">Event Identifier.</param>
+        public CoreMessageBusEvent (String EventID) 
 			: this ()
 		{
 			mEventID = EventID;
 		}
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="DSoft.Messaging.CoreMessageBusEvent"/> class.
-		/// </summary>
-		/// <param name="Sender">Sender.</param>
-		/// <param name="EventID">Event I.</param>
-		/// <param name="Data">Data.</param>
-		public CoreMessageBusEvent (object Sender, String EventID, object[] Data) 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DSoft.MessageBus.CoreMessageBusEvent"/> class.
+        /// </summary>
+        /// <param name="Sender">Sender.</param>
+        /// <param name="EventID">Event I.</param>
+        /// <param name="Data">Data.</param>
+        public CoreMessageBusEvent (object Sender, String EventID, object[] Data) 
 			: base (Sender, Data)
 		{
 			mEventID = EventID;
