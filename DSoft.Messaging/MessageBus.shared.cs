@@ -96,6 +96,7 @@ namespace DSoft.MessageBus
 				}
 			}
 		}
+
 		/// <summary>
 		/// Post the specified Event to the Default MessageBus
 		/// </summary>
