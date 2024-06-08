@@ -22,14 +22,13 @@ variables:
   netVersion: '6.0.x'
   releaseSuffix: ''
 
-name: 3.0.$(date:yyMM).$(date:dd)$(rev:r)
+name: 4.0.$(date:yyMM).$(date:dd)$(rev:r)
 steps:
 - task: NuGetToolInstaller@1
   displayName: Install Latest Nuget
 
 - task: Bash@3
   displayName: Install MAUI
-
   inputs:
     targetType: 'inline'
     script: 
