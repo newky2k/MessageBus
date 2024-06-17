@@ -73,7 +73,7 @@ namespace DSoft.MessageBus
 		/// </summary>
 		/// <param name="eventId">Event identifier.</param>
 		/// <param name="Data">Data.</param>
-		public static void Post(string eventId, params object[] Data) => Service.Post(eventId, Data);
+		public static void Post(string eventId, params object[] Data) => Service.PostData(eventId, Data);
 
 		#endregion
 

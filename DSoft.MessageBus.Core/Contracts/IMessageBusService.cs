@@ -43,7 +43,7 @@ namespace DSoft.MessageBus.Contracts
         /// </summary>
         /// <param name="eventId">Event identifier.</param>
         /// <param name="Data">Data.</param>
-        public void Post(string eventId, params object[] Data);
+        public void PostData(string eventId, params object[] Data);
 
         #endregion
 

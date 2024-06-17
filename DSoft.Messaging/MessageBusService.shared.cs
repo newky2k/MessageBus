@@ -120,7 +120,7 @@ namespace DSoft.MessageBus
         /// <param name="eventId">Event identifier.</param>
         public void Post(string eventId)
         {
-            Post(eventId, null);
+            PostData(eventId, null);
         }
 
         /// <summary>
@@ -155,7 +155,7 @@ namespace DSoft.MessageBus
         /// </summary>
         /// <param name="eventId">Event identifier.</param>
         /// <param name="Data">Data.</param>
-        public void Post(string eventId, params object[] Data)
+        public void PostData(string eventId, params object[] Data)
         {
             Post(eventId, null, Data);
         }
@@ -346,7 +346,6 @@ namespace DSoft.MessageBus
             foreach (var listener in listeners)
                 listener.OnMessageRecieved(newLog);
         }
-
 
         /// <summary>
         /// Register a class instance that implements ILogListener to listen for log messages

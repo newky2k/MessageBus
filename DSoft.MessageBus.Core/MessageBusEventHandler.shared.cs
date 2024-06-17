@@ -12,7 +12,7 @@ namespace DSoft.MessageBus
 		/// <summary>
 		/// Event Id
 		/// </summary>
-		public String EventId { get; set; }
+		public string EventId { get; set; }
 
 		/// <summary>
 		/// Action to perform on event
@@ -28,7 +28,7 @@ namespace DSoft.MessageBus
         /// </summary>
         public MessageBusEventHandler ()
 		{
-			EventId = String.Empty;
+			EventId = string.Empty;
 		}
 
         /// <summary>
