@@ -6,9 +6,9 @@ using System.Text;
 
 namespace DSoft.MessageBus
 {
-    internal class LogListernersCollection : Collection<ILogListener>
+    public class LogListernersCollection : Collection<ILogListener>
     {
-        internal void Register(ILogListener instance)
+        public void Register(ILogListener instance)
         {
             if (this.Contains(instance))
                 return;
@@ -19,7 +19,7 @@ namespace DSoft.MessageBus
             this.Add(instance);
         }
 
-        internal IEnumerable<ILogListener> FindAll(string channelName)
+        public IEnumerable<ILogListener> FindAll(string channelName)
         {
             var results = from item in this.Items
                           where item.Channels.Contains(channelName, StringComparer.OrdinalIgnoreCase)

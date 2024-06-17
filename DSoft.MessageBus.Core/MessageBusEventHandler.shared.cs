@@ -48,7 +48,7 @@ namespace DSoft.MessageBus
 	/// <summary>
 	/// Typed message bus event handler.
 	/// </summary>
-	internal class TypedMessageBusEventHandler : MessageBusEventHandler
+	public class TypedMessageBusEventHandler : MessageBusEventHandler
 	{
 		#region Properties
 
@@ -56,7 +56,7 @@ namespace DSoft.MessageBus
 		/// Gets or sets the type of the event.
 		/// </summary>
 		/// <value>The type of the event.</value>
-		internal Type EventType { get; set; }
+		public Type EventType { get; set; }
 
         #endregion
 
@@ -65,7 +65,7 @@ namespace DSoft.MessageBus
         /// <summary>
         /// Initializes a new instance of the <see cref="DSoft.MessageBus.TypedMessageBusEventHandler"/> class.
         /// </summary>
-        internal TypedMessageBusEventHandler ()
+        public TypedMessageBusEventHandler ()
 		{
 			
 		}
