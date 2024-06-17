@@ -8,7 +8,7 @@ namespace DSoft.MessageBus
 	/// <summary>
 	/// Collection of messagebuseventhandlers
 	/// </summary>
-	internal class MessageBusEventHandlerCollection : Collection<MessageBusEventHandler>
+	public class MessageBusEventHandlerCollection : Collection<MessageBusEventHandler>
 	{
 		#region Methods
 
@@ -17,7 +17,7 @@ namespace DSoft.MessageBus
 		/// </summary>
 		/// <param name="EventId">The event identifier.</param>
 		/// <returns></returns>
-		internal MessageBusEventHandler[] HandlersForEvent (String EventId)
+		public MessageBusEventHandler[] HandlersForEvent (String EventId)
 		{
 			var results = from item in this.Items
 			              where !String.IsNullOrWhiteSpace (item.EventId)
@@ -34,7 +34,7 @@ namespace DSoft.MessageBus
 		/// </summary>
 		/// <returns>The for event.</returns>
 		/// <param name="EventType">Event type.</param>
-		internal MessageBusEventHandler[] HandlersForEvent (Type EventType)
+		public MessageBusEventHandler[] HandlersForEvent (Type EventType)
 		{
 			var results = from item in this.Items
 			              where item is TypedMessageBusEventHandler
@@ -59,7 +59,7 @@ namespace DSoft.MessageBus
 		/// </summary>
 		/// <returns>The for event.</returns>
 		/// <typeparam name="T">The 1st type parameter.</typeparam>
-		internal MessageBusEventHandler[] HandlersForEvent<T> () where T : MessageBusEvent
+		public MessageBusEventHandler[] HandlersForEvent<T> () where T : MessageBusEvent
 		{
 			return HandlersForEvent (typeof(T));
 		}

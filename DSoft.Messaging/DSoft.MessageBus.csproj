@@ -1,4 +1,4 @@
-﻿<Project  Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<TargetFrameworks>netstandard2.1;net8.0;net8.0-ios;net8.0-macos;net8.0-maccatalyst;net8.0-tvos;net8.0-android;</TargetFrameworks>
 		<TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">$(TargetFrameworks);net8.0-windows7.0;net8.0-windows10.0.19041;</TargetFrameworks>
@@ -8,26 +8,17 @@
 		<Company>DSoft Developments</Company>
 		<Product>$(AssemblyName) ($(TargetFramework))</Product>
 		<Title>DSoft.MessageBus</Title>
-		<Description>Cross-platform MessageBus system</Description>
+		<Description>MessageBus is a cross platform EventBus system similar to NSNoticationCenter on iOS and otto on Android</Description>
 		<Copyright>© DSoft Developments. All rights reserved.</Copyright>
 		<AssemblyVersion>1.3.5.0</AssemblyVersion>
 		<FileVersion>1.3.5.0</FileVersion>
 		<ConsolePause>false</ConsolePause>
 		<Version>1.3.4.0</Version>
-		<PackageProjectUrl>https://github.com/newky2k/MessageBus</PackageProjectUrl>
-		<PackageReleaseNotes>Added optional MessageBus.RunPostOnSeperateTask option to improve Post performance.</PackageReleaseNotes>
-		<SignAssembly>true</SignAssembly>
-		<AssemblyOriginatorKeyFile>DSoft.snk</AssemblyOriginatorKeyFile>
-		<PackageLicenseUrl></PackageLicenseUrl>
-		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<RepositoryUrl>https://github.com/newky2k/MessageBus</RepositoryUrl>
-		<RepositoryType>GIT</RepositoryType>
 		<PackageTags>MessageBus</PackageTags>
 		<EnableDefaultCompileItems>false</EnableDefaultCompileItems>
 		<DefineConstants>$(DefineConstants);</DefineConstants>
 		<Configurations>Debug;Release;</Configurations>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<EnablePreviewMsixTooling>true</EnablePreviewMsixTooling>
 		<GenerateLibraryLayout>true</GenerateLibraryLayout>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.2</SupportedOSPlatformVersion>
@@ -37,35 +28,13 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'macos'">11.0</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tvos'">11.0</SupportedOSPlatformVersion>
 		<NoWarn>$(NoWarn);NETSDK1206;CA1416;</NoWarn>
+		<PackageReleaseNotes>Added Dependency Injecton support</PackageReleaseNotes>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<None Include="../README.md" Pack="true" PackagePath="\" />
 	</ItemGroup>
 	
-	<PropertyGroup Condition=" '$(Configuration)'=='Release' ">
-		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<DebugType>embedded</DebugType>
-	</PropertyGroup>
-
-	<PropertyGroup Condition=" '$(Configuration)'=='Release'">
-		<!-- sourcelink: Declare that the Repository URL can be published to NuSpec -->
-		<PublishRepositoryUrl>true</PublishRepositoryUrl>
-		<!-- sourcelink: Embed source files that are not tracked by the source control manager to the PDB -->
-		<EmbedUntrackedSources>true</EmbedUntrackedSources>
-		<!-- sourcelink: Include PDB in the built .nupkg -->
-		<!-- <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder> -->
-	</PropertyGroup>
-
-	<ItemGroup Condition=" '$(Configuration)'=='Release'">
-		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All"/>
-	</ItemGroup>
-
-	<PropertyGroup Condition="'$(TF_BUILD)' == 'true'">
-		<ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
-	</PropertyGroup>
-
 	<PropertyGroup Condition=" $(TargetFramework.StartsWith('net8.0-windows10')) ">
 		<SupportedOSPlatformVersion>10.0.17763.0</SupportedOSPlatformVersion>
 		<UseWinUI>true</UseWinUI>
@@ -124,6 +93,14 @@
 	<ItemGroup Condition=" $(TargetFramework) == 'net8.0-tvos'">
 		<Compile Include="**\*.tvos.cs" />
 		<Compile Include="**\*.tvos.*.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.1" />
+	</ItemGroup>	 
+
+	<ItemGroup>
+	  <ProjectReference Include="..\DSoft.MessageBus.Core\DSoft.MessageBus.Core.csproj" />
 	</ItemGroup>
 
 </Project>

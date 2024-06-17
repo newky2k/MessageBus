@@ -1,0 +1,39 @@
+<Project>
+	<PropertyGroup>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+		<PackageProjectUrl>https://github.com/newky2k/MessageBus</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/newky2k/MessageBus</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<LangVersion>Latest</LangVersion>
+		<NoWarn>1701;1702;CS8002;CS8653;CS8600;CS1591;CS8603;CS8602;CS8765;CS8618;CS8604;</NoWarn>
+	</PropertyGroup>
+
+	<PropertyGroup Condition=" '$(Configuration)'=='Debug' ">
+		<DebugSymbols>true</DebugSymbols>
+	</PropertyGroup>
+
+	<PropertyGroup Condition=" '$(Configuration)'=='Release'">
+		<!-- sourcelink: Declare that the Repository URL can be published to NuSpec -->
+		<PublishRepositoryUrl>true</PublishRepositoryUrl>
+		<!-- sourcelink: Embed source files that are not tracked by the source control manager to the PDB -->
+		<EmbedUntrackedSources>true</EmbedUntrackedSources>
+		<!-- sourcelink: Include PDB in the built .nupkg -->
+		<AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+	</PropertyGroup>
+
+	<ItemGroup Condition=" '$(Configuration)'=='Release'">
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
+	</ItemGroup>
+
+	<PropertyGroup Condition="'$(TF_BUILD)' == 'true'">
+		<ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<SignAssembly>True</SignAssembly>
+		<AssemblyOriginatorKeyFile>$(MSBuildProjectDirectory)\DSoft.snk</AssemblyOriginatorKeyFile>
+	</PropertyGroup>
+</Project>

@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>netstandard2.1</TargetFramework>
+		<Nullable>enable</Nullable>
+		<Product>$(AssemblyName) ($(TargetFramework))</Product>
+		<Title>DSoft.MessageBus.Core</Title>
+		<Description>Core classes and contractrs for DSoft.MessageBus</Description>
+		<Copyright>© DSoft Developments. All rights reserved.</Copyright>
+		<RootNamespace>DSoft.MessageBus</RootNamespace>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageReleaseNotes>Initial Release to support new Dependency Injection features of DSoft.MessageBus</PackageReleaseNotes>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="../README.md" Pack="true" PackagePath="\" />
+	</ItemGroup>
+
+</Project>

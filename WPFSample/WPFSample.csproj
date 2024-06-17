@@ -1,17 +1,19 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0-windows</TargetFramework>
-    <UseWPF>true</UseWPF>
-  </PropertyGroup>
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net8.0-windows</TargetFramework>
+		<UseWPF>true</UseWPF>
+		<SignAssembly>False</SignAssembly>
+		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="DSoft.System.Mvvm" Version="2.1.2102.81" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="DSoft.System.Mvvm" Version="2.1.2102.81" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\DSoft.Messaging\DSoft.MessageBus.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\DSoft.Messaging\DSoft.MessageBus.csproj" />
+	</ItemGroup>
 
 </Project>
