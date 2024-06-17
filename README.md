@@ -4,12 +4,27 @@ MessageBus is a cross platform EventBus system similar to `NSNoticationCenter` o
 # Features
 
 * Cross-platform  
-  * Works on iOS, WatchOS, TVOS, Android, UWP, Tizen(4.0), Mac and Windows
-    * .NETCore 3.1, .NET 5+, WPF, UWP and WinUI
+  * .NETStandard 2.1, .NET 8+ including iOS, TVOS, Android, UWP, Mac and Windows with support for WPF and WinUI
 * Small footprint
 * Simple API
 * Create custom events to easily pass additional data
-* Allows you to decouple objects and classes within your projects  
+* Allows you to decouple objects and classes within your projects
+* New in 3.1 - Dependency Injection support
+
+## Usage
+
+To use Dependency Injection follow these steps.
+
+Add package `DSoft.MessageBus` to your main application and call `RegisterMessageBus` to register the services.
+
+	private static void ConfigureServices(IServiceCollection services)
+    {
+        services.RegisterMessageBus();
+    }
+
+You can then inject `IMessageBusService` into your own services.
+
+Please check the Unit tests and sample WPF app for examples of usage
 
 ### Attribution
 
