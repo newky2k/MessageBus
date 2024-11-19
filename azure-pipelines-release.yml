@@ -19,13 +19,19 @@ variables:
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
-  netVersion: '6.0.x'
+  netVersion: '9.x'
   releaseSuffix: ''
 
-name: 4.1.$(date:yyMM).$(date:dd)$(rev:r)
+name: 4.2.$(date:yyMM).$(date:dd)$(rev:r)
 steps:
 - task: NuGetToolInstaller@1
   displayName: Install Latest Nuget
+
+- task: UseDotNet@2
+  displayName: 'Install .NET sdk'
+  inputs:
+    packageType: 'sdk'
+    version: $(netVersion)
 
 - task: Bash@3
   displayName: Install MAUI

@@ -45,6 +45,43 @@ namespace DSoft.MessageBus.Contracts
         /// <param name="Data">Data.</param>
         public void PostData(string eventId, params object[] Data);
 
+        #region Async
+
+        /// <summary>
+        /// Post the specified Event to the Default MessageBus
+        /// </summary>
+        /// <param name="busEvent">Event.</param>
+        public Task PostAsync(MessageBusEvent busEvent);
+
+        /// <summary>
+        /// Posts the event to the Default MessageBus
+        /// </summary>
+        /// <param name="eventId">Event identifier.</param>
+        public Task PostAsync(string eventId);
+
+        /// <summary>
+        /// Post the specified EventId and Sender to the Default MessageBus
+        /// </summary>
+        /// <param name="eventId">Event identifier.</param>
+        /// <param name="Sender">Sender.</param>
+        public Task PostAsync(string eventId, object Sender);
+
+        /// <summary>
+        /// Post the specified EventId, Sender and Data to the Default MessageBus
+        /// </summary>
+        /// <param name="eventId">Event identifier.</param>
+        /// <param name="Sender">Sender.</param>
+        /// <param name="Data">Data.</param>
+        public Task PostAsync(string eventId, object Sender, params object[] Data);
+
+        /// <summary>
+        /// Post the specified EventId and Data packet to the Default MessageBus
+        /// </summary>
+        /// <param name="eventId">Event identifier.</param>
+        /// <param name="Data">Data.</param>
+        public Task PostDataAsync(string eventId, params object[] Data);
+
+        #endregion
         #endregion
 
         #region Unsubscribe

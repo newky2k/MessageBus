@@ -159,6 +159,63 @@ namespace DSoft.MessageBus
         {
             Post(eventId, null, Data);
         }
+
+        #region Async
+
+        private Task PostInternalAsync(MessageBusEvent busEvent)
+        {
+            return Task.Run(() =>
+            {
+                PostInternal(busEvent);
+            });
+
+        }
+
+        /// <summary>
+        /// Post the specified Event to the Default MessageBus
+        /// </summary>
+        /// <param name="busEvent">Event.</param>
+        public Task PostAsync(MessageBusEvent busEvent) => PostInternalAsync(busEvent);
+
+        /// <summary>
+        /// Posts the event to the Default MessageBus
+        /// </summary>
+        /// <param name="eventId">Event identifier.</param>
+        public Task PostAsync(string eventId) => PostDataAsync(eventId, null);
+
+        /// <summary>
+        /// Post the specified EventId and Sender to the Default MessageBus
+        /// </summary>
+        /// <param name="eventId">Event identifier.</param>
+        /// <param name="Sender">Sender.</param>
+        public Task PostAsync(string eventId, object Sender) => PostAsync(eventId, Sender, null);
+
+        /// <summary>
+        /// Post the specified EventId, Sender and Data to the Default MessageBus
+        /// </summary>
+        /// <param name="eventId">Event identifier.</param>
+        /// <param name="Sender">Sender.</param>
+        /// <param name="Data">Data.</param>
+        public Task PostAsync(string eventId, object Sender, params object[] Data)
+        {
+            var aEvent = new CoreMessageBusEvent(eventId)
+            {
+                Sender = Sender,
+                Data = Data,
+            };
+
+            return PostAsync(aEvent);
+        }
+
+        /// <summary>
+        /// Post the specified EventId and Data packet to the Default MessageBus
+        /// </summary>
+        /// <param name="eventId">Event identifier.</param>
+        /// <param name="Data">Data.</param>
+        public Task PostDataAsync(string eventId, params object[] Data) => PostAsync(eventId, null, Data);
+
+        #endregion
+
         #endregion
 
         #region Unsubscribe
