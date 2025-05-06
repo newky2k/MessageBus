@@ -75,16 +75,26 @@ namespace DSoft.MessageBus
 		/// <param name="Data">Data.</param>
 		public static void Post(string eventId, params object[] Data) => Service.PostData(eventId, Data);
 
-		#endregion
+        /// <summary>
+        ///Post the specified event Type to the Default MessageBus
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        public static void Post<T>() where T : MessageBusEvent, new()
+		{
+			var newEvent = new T();
 
-		#region Unsubscribe
+			Post(newEvent);
+        }
+        #endregion
 
-		/// <summary>
-		/// Unsubscribe a previously registered handler for the specified event id
-		/// </summary>
-		/// <param name="eventId">Event identifier.</param>
-		/// <param name="action">Handler action</param>
-		public static void Unsubscribe(string eventId, Action<object, MessageBusEvent> action) => Service.Unsubscribe(eventId, action);
+        #region Unsubscribe
+
+        /// <summary>
+        /// Unsubscribe a previously registered handler for the specified event id
+        /// </summary>
+        /// <param name="eventId">Event identifier.</param>
+        /// <param name="action">Handler action</param>
+        public static void Unsubscribe(string eventId, Action<object, MessageBusEvent> action) => Service.Unsubscribe(eventId, action);
 
 		/// <summary>
 		/// Unsubscribe a previously registered event handler

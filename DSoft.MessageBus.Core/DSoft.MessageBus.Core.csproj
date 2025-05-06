@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>netstandard2.1</TargetFramework>
+		<TargetFramework>netstandard2.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<Product>$(AssemblyName) ($(TargetFramework))</Product>
 		<Title>DSoft.MessageBus.Core</Title>
@@ -9,7 +9,8 @@
 		<Copyright>© DSoft Developments. All rights reserved.</Copyright>
 		<RootNamespace>DSoft.MessageBus</RootNamespace>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<PackageReleaseNotes>Initial Release to support new Dependency Injection features of DSoft.MessageBus</PackageReleaseNotes>
+		<PackageReleaseNotes>Reverted minimum .NETStandard to 2.0 so it will work with .NET Framework 4.7.2
+		</PackageReleaseNotes>
 	</PropertyGroup>
 
 	<ItemGroup>
