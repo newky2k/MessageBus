@@ -19,10 +19,10 @@ variables:
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
-  netVersion: '9.x'
+  netVersion: '10.x'
   releaseSuffix: ''
 
-name: 4.2.$(date:yyMM).$(date:dd)$(rev:r)
+name: 4.3.$(date:yyMM).$(date:dd)$(rev:r)
 steps:
 - task: NuGetToolInstaller@1
   displayName: Install Latest Nuget
