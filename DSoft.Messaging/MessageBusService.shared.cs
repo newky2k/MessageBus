@@ -160,6 +160,12 @@ namespace DSoft.MessageBus
             Post(eventId, null, Data);
         }
 
+        /// <summary>
+        ///Post the specified event Type to the Default MessageBus
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        public void Post<T>() where T : MessageBusEvent, new() => Post(new T());
+
         #region Async
 
         private Task PostInternalAsync(MessageBusEvent busEvent)
@@ -213,6 +219,12 @@ namespace DSoft.MessageBus
         /// <param name="eventId">Event identifier.</param>
         /// <param name="Data">Data.</param>
         public Task PostDataAsync(string eventId, params object[] Data) => PostAsync(eventId, null, Data);
+
+        /// <summary>
+        ///Post the specified event Type to the Default MessageBus
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        public Task PostAsync<T>() where T : MessageBusEvent, new() => PostAsync(new T());
 
         #endregion
 

@@ -45,6 +45,12 @@ namespace DSoft.MessageBus.Contracts
         /// <param name="Data">Data.</param>
         public void PostData(string eventId, params object[] Data);
 
+        /// <summary>
+        ///Post the specified event Type to the Default MessageBus
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        public void Post<T>() where T : MessageBusEvent, new();
+
         #region Async
 
         /// <summary>
@@ -81,7 +87,14 @@ namespace DSoft.MessageBus.Contracts
         /// <param name="Data">Data.</param>
         public Task PostDataAsync(string eventId, params object[] Data);
 
+        /// <summary>
+        ///Post the specified event Type to the Default MessageBus
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        public Task PostAsync<T>() where T : MessageBusEvent, new();
+
         #endregion
+
         #endregion
 
         #region Unsubscribe
