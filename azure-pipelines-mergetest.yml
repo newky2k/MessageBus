@@ -6,7 +6,7 @@
 trigger: none
 
 pool:
-  vmImage: 'windows-2025-vs2026'
+  vmImage: 'windows-latest'
 
 variables:
   solution: '**/*.slnx'
@@ -37,11 +37,12 @@ steps:
 #     targetType: 'inline'
 #     script: 
 #       dotnet workload install android ios maccatalyst tvos macos maui wasm-tools
-
-- task: NuGetCommand@2
-  displayName: Nuget Restore
+    
+- task: DotNetCoreCLI@2
+  displayName: dotnet restore
   inputs:
-    restoreSolution: '$(solution)'
+    command: 'restore'
+    projects: '$(solution)'
   
 - task: DotNetCoreCLI@2
   displayName: dotnet build
