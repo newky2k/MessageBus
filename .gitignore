@@ -12,3 +12,4 @@ obj
 /src/MessageBus/*.userprefs
 samples/iOS/MessageBusiOS.userprefs
 *.user
+/.idea

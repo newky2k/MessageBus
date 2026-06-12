@@ -6,6 +6,7 @@
 		<UseWPF>true</UseWPF>
 		<SignAssembly>False</SignAssembly>
 		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+		<EnableWindowsTargeting>true</EnableWindowsTargeting>
 	</PropertyGroup>
 
 	<ItemGroup>

@@ -1,0 +1,43 @@
+<Solution>
+  <Configurations>
+    <BuildType Name="Ad-Hoc" />
+    <BuildType Name="AppStore" />
+    <BuildType Name="Debug" />
+    <BuildType Name="Release" />
+    <Platform Name="Any CPU" />
+    <Platform Name="iPhone" />
+    <Platform Name="iPhoneSimulator" />
+  </Configurations>
+  <Folder Name="/.ci/">
+    <File Path="azure-pipelines-mergetest.yml" />
+    <File Path="azure-pipelines-release.yml" />
+    <File Path="Directory.Build.props" />
+    <File Path="README.md" />
+  </Folder>
+  <Folder Name="/Tests/">
+    <Project Path="UnitTest/UnitTest.csproj">
+      <BuildType Solution="Ad-Hoc|*" Project="Debug" />
+      <BuildType Solution="AppStore|*" Project="Debug" />
+    </Project>
+  </Folder>
+  <Project Path="DSoft.MessageBus.Core/DSoft.MessageBus.Core.csproj">
+    <BuildType Solution="Ad-Hoc|*" Project="Debug" />
+    <BuildType Solution="AppStore|*" Project="Debug" />
+  </Project>
+  <Project Path="DSoft.Messaging/DSoft.MessageBus.csproj">
+    <BuildType Solution="Ad-Hoc|Any CPU" Project="Release" />
+    <BuildType Solution="Ad-Hoc|iPhone" Project="Debug" />
+    <BuildType Solution="Ad-Hoc|iPhoneSimulator" Project="Release" />
+    <BuildType Solution="AppStore|Any CPU" Project="Release" />
+    <BuildType Solution="AppStore|iPhone" Project="Debug" />
+    <BuildType Solution="AppStore|iPhoneSimulator" Project="Release" />
+  </Project>
+  <Project Path="WPFSample/WPFSample.csproj">
+    <BuildType Solution="Ad-Hoc|*" Project="Debug" />
+    <BuildType Solution="AppStore|*" Project="Debug" />
+  </Project>
+  <Properties Name="MonoDevelopProperties">
+    <Property Name="StartupItem" Value="DSoft.Messaging\DSoft.Messaging.csproj" />
+    <Property Name="version" Value="1.3" />
+  </Properties>
+</Solution>
