@@ -9,12 +9,17 @@
 		<Copyright>© DSoft Developments. All rights reserved.</Copyright>
 		<RootNamespace>DSoft.MessageBus</RootNamespace>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageIcon>DSIcon.png</PackageIcon>
 		<PackageReleaseNotes>Reverted minimum .NETStandard to 2.0 so it will work with .NET Framework 4.7.2
 		</PackageReleaseNotes>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<None Include="../README.md" Pack="true" PackagePath="\" />
+		<None Include="..\DSIcon.png">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
 	</ItemGroup>
 
 </Project>
