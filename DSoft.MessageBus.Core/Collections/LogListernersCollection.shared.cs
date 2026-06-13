@@ -8,25 +8,35 @@ namespace DSoft.MessageBus
 {
     public class LogListernersCollection : Collection<ILogListener>
     {
+        private readonly object _syncRoot = new object();
+
+        /// <summary>
+        /// Lock object guarding access to this collection.
+        /// </summary>
+        public object SyncRoot => _syncRoot;
+
         public void Register(ILogListener instance)
         {
-            if (this.Contains(instance))
-                return;
-
             if (instance.Channels == null || instance.Channels.Count() == 0)
                 throw new Exception($"Cannot register {instance.GetType().FullName} as an ILogListener as it has no channels to listen too");
 
-            this.Add(instance);
+            lock (_syncRoot)
+            {
+                if (this.Contains(instance))
+                    return;
+
+                this.Add(instance);
+            }
         }
 
         public IEnumerable<ILogListener> FindAll(string channelName)
         {
-            var results = from item in this.Items
-                          where item.Channels.Contains(channelName, StringComparer.OrdinalIgnoreCase)
-                          select item;
-
-            
-            return results;
+            lock (_syncRoot)
+            {
+                return this.Items
+                    .Where(item => item.Channels.Contains(channelName, StringComparer.OrdinalIgnoreCase))
+                    .ToArray();
+            }
         }
     }
 }

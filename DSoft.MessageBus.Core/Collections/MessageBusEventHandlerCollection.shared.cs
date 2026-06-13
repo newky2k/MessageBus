@@ -9,6 +9,22 @@ namespace DSoft.MessageBus
 	/// </summary>
 	public class MessageBusEventHandlerCollection : Collection<MessageBusEventHandler>
 	{
+		#region Fields
+
+		private readonly object _syncRoot = new object ();
+
+		#endregion
+
+		#region Properties
+
+		/// <summary>
+		/// Lock object guarding access to this collection. Callers performing
+		/// compound (check-then-act) operations should lock on this.
+		/// </summary>
+		public object SyncRoot => _syncRoot;
+
+		#endregion
+
 		#region Methods
 
 		/// <summary>
@@ -20,15 +36,18 @@ namespace DSoft.MessageBus
 		{
 			List<MessageBusEventHandler> results = null;
 
-			foreach (var item in this.Items)
+			lock (_syncRoot)
 			{
-				if (item.EventAction == null || String.IsNullOrWhiteSpace (item.EventId))
-					continue;
+				foreach (var item in this.Items)
+				{
+					if (item.EventAction == null || String.IsNullOrWhiteSpace (item.EventId))
+						continue;
 
-				if (!String.Equals (item.EventId, EventId, StringComparison.OrdinalIgnoreCase))
-					continue;
+					if (!String.Equals (item.EventId, EventId, StringComparison.OrdinalIgnoreCase))
+						continue;
 
-				(results ??= new List<MessageBusEventHandler> ()).Add (item);
+					(results ??= new List<MessageBusEventHandler> ()).Add (item);
+				}
 			}
 
 			return results == null ? Array.Empty<MessageBusEventHandler> () : results.ToArray ();
@@ -43,15 +62,18 @@ namespace DSoft.MessageBus
 		{
 			List<MessageBusEventHandler> results = null;
 
-			foreach (var item in this.Items)
+			lock (_syncRoot)
 			{
-				if (item.EventAction == null || !(item is TypedMessageBusEventHandler typed))
-					continue;
+				foreach (var item in this.Items)
+				{
+					if (item.EventAction == null || !(item is TypedMessageBusEventHandler typed))
+						continue;
 
-				if (typed.EventType == null || !typed.EventType.Equals (EventType))
-					continue;
+					if (typed.EventType == null || !typed.EventType.Equals (EventType))
+						continue;
 
-				(results ??= new List<MessageBusEventHandler> ()).Add (typed);
+					(results ??= new List<MessageBusEventHandler> ()).Add (typed);
+				}
 			}
 
 			return results == null ? Array.Empty<MessageBusEventHandler> () : results.ToArray ();
