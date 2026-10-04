@@ -34,12 +34,12 @@ jobs:
     environment: nuget
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v5
+        uses: actions/setup-dotnet@v6
         with:
           dotnet-version: 10.0.x
 
@@ -84,7 +84,7 @@ jobs:
           Get-ChildItem artifacts
 
       - name: Upload packages
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: packages-${{ steps.version.outputs.version }}
           path: artifacts/*.nupkg
