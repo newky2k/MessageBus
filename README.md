@@ -33,7 +33,7 @@ Builds run on GitHub Actions:
 * `.github/workflows/build.yml` builds and tests every pull request and every push to a branch other than `main`, and uploads the packages as a build artifact.
 * `.github/workflows/release.yml` runs on every push to `main` (or manually from the Actions tab). It builds, tests, versions the packages as `4.5.<yyMM>.<run number>` (or the version you enter when running it manually) and pushes them to nuget.org.
 
-Publishing needs a nuget.org API key stored as the `NUGET_API_KEY` secret (repository secret, or a secret of the `nuget` environment).
+Publishing uses [NuGet trusted publishing](https://learn.microsoft.com/nuget/nuget-org/trusted-publishing), so no API key is stored. On nuget.org add a trusted publishing policy for repository owner `newky2k`, repository `MessageBus`, workflow file `release.yml` (environment `nuget`), and set the `NUGET_USER` secret in GitHub to your nuget.org profile name.
 
 ### Attribution
 
