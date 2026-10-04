@@ -239,11 +239,14 @@ namespace DSoft.MessageBus
         /// <param name="action">Handler action</param>
         public void Unsubscribe(string eventId, Action<object, MessageBusEvent> action)
         {
-            foreach (var item in FindHandlersForEvent(eventId))
+            lock (EventHandlers.SyncRoot)
             {
-                if (item.EventAction.Equals(action))
+                foreach (var item in FindHandlersForEvent(eventId))
                 {
-                    EventHandlers.Remove(item);
+                    if (item.EventAction.Equals(action))
+                    {
+                        EventHandlers.Remove(item);
+                    }
                 }
             }
         }
@@ -254,9 +257,12 @@ namespace DSoft.MessageBus
         /// <param name="EventHandler">The event handler instance</param>
         public void Unsubscribe(MessageBusEventHandler EventHandler)
         {
-            if (EventHandlers.Contains(EventHandler))
+            lock (EventHandlers.SyncRoot)
             {
-                EventHandlers.Remove(EventHandler);
+                if (EventHandlers.Contains(EventHandler))
+                {
+                    EventHandlers.Remove(EventHandler);
+                }
             }
         }
 
@@ -268,13 +274,16 @@ namespace DSoft.MessageBus
         /// <param name="Action">The action to remove</param>
         public void Unsubscribe<T>(Action<object, MessageBusEvent> Action) where T : MessageBusEvent
         {
-            var results = new List<MessageBusEventHandler>(EventHandlers.HandlersForEvent<T>());
-
-            foreach (var item in results)
+            lock (EventHandlers.SyncRoot)
             {
-                if (item.EventAction == Action)
+                var results = new List<MessageBusEventHandler>(EventHandlers.HandlersForEvent<T>());
+
+                foreach (var item in results)
                 {
-                    EventHandlers.Remove(item);
+                    if (item.EventAction == Action)
+                    {
+                        EventHandlers.Remove(item);
+                    }
                 }
             }
         }
@@ -285,9 +294,12 @@ namespace DSoft.MessageBus
         /// <param name="eventId">Event identifier</param>
         public void Unsubscribe(string eventId)
         {
-            foreach (var item in FindHandlersForEvent(eventId))
+            lock (EventHandlers.SyncRoot)
             {
-                EventHandlers.Remove(item);
+                foreach (var item in FindHandlersForEvent(eventId))
+                {
+                    EventHandlers.Remove(item);
+                }
             }
         }
         #endregion
@@ -340,9 +352,12 @@ namespace DSoft.MessageBus
             if (EventHandler == null)
                 return;
 
-            if (!EventHandlers.Contains(EventHandler))
+            lock (EventHandlers.SyncRoot)
             {
-                EventHandlers.Add(EventHandler);
+                if (!EventHandlers.Contains(EventHandler))
+                {
+                    EventHandlers.Add(EventHandler);
+                }
             }
         }
         /// <summary>
@@ -435,7 +450,10 @@ namespace DSoft.MessageBus
             if (LogListeners == null)
                 return;
 
-            LogListeners.Remove(instance);
+            lock (LogListeners.SyncRoot)
+            {
+                LogListeners.Remove(instance);
+            }
         }
         #endregion
 

@@ -22,7 +22,7 @@ variables:
   netVersion: '10.x'
   releaseSuffix: ''
 
-name: 4.3.$(date:yyMM).$(date:dd)$(rev:r)
+name: 4.4.$(date:yyMM).$(date:dd)$(rev:r)
 steps:
 - task: NuGetToolInstaller@1
   displayName: Install Latest Nuget
