@@ -1,0 +1,104 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - '.github/**'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Package version (leave blank to generate one)'
+        required: false
+        type: string
+      publish:
+        description: 'Publish to nuget.org'
+        required: false
+        type: boolean
+        default: true
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+env:
+  DOTNET_NOLOGO: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+  BUILD_CONFIGURATION: Release
+  VERSION_PREFIX: '4.4'
+
+jobs:
+  release:
+    runs-on: windows-latest
+    environment: nuget
+
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Calculate version
+        id: version
+        shell: pwsh
+        run: |
+          $version = '${{ inputs.version }}'
+          if ([string]::IsNullOrWhiteSpace($version)) {
+            # <prefix>.<yyMM>.<run number>, e.g. 4.4.2610.12
+            $version = "$env:VERSION_PREFIX.$((Get-Date).ToUniversalTime().ToString('yyMM')).${{ github.run_number }}"
+          }
+          # AssemblyVersion/FileVersion must be numeric (strip any prerelease suffix)
+          $assemblyVersion = ($version -split '-')[0]
+          "version=$version" >> $env:GITHUB_OUTPUT
+          "assembly_version=$assemblyVersion" >> $env:GITHUB_OUTPUT
+          Write-Host "Version: $version"
+
+      - name: Restore workloads
+        run: dotnet workload restore DSoft.Messaging/DSoft.MessageBus.csproj
+
+      - name: Restore
+        run: dotnet restore MessageBus.slnx
+
+      - name: Build
+        run: >
+          dotnet build MessageBus.slnx --configuration ${{ env.BUILD_CONFIGURATION }} --no-restore
+          -p:Version=${{ steps.version.outputs.version }}
+          -p:AssemblyVersion=${{ steps.version.outputs.assembly_version }}
+          -p:FileVersion=${{ steps.version.outputs.assembly_version }}
+
+      - name: Test
+        run: dotnet test UnitTest/UnitTest.csproj --configuration ${{ env.BUILD_CONFIGURATION }} --no-build
+
+      - name: Collect packages
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path artifacts | Out-Null
+          Get-ChildItem -Recurse -Path . -Include 'DSoft.*.nupkg' |
+            Where-Object { $_.FullName -match "[\\/]bin[\\/]$env:BUILD_CONFIGURATION[\\/]" } |
+            Copy-Item -Destination artifacts
+          Get-ChildItem artifacts
+
+      - name: Upload packages
+        uses: actions/upload-artifact@v4
+        with:
+          name: packages-${{ steps.version.outputs.version }}
+          path: artifacts/*.nupkg
+          if-no-files-found: error
+
+      - name: Publish to nuget.org
+        if: github.event_name == 'push' || inputs.publish
+        shell: pwsh
+        env:
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+        run: |
+          if ([string]::IsNullOrWhiteSpace($env:NUGET_API_KEY)) {
+            throw 'The NUGET_API_KEY secret is not set.'
+          }
+          Get-ChildItem artifacts -Filter *.nupkg | ForEach-Object {
+            dotnet nuget push $_.FullName --api-key $env:NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate
+          }

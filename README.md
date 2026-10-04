@@ -4,7 +4,7 @@ MessageBus is a cross platform EventBus system similar to `NSNoticationCenter` o
 # Features
 
 * Cross-platform  
-  * .NETStandard 2.1, .NET 8+ including iOS, TVOS, Android, UWP, Mac and Windows with support for WPF and WinUI
+  * .NETStandard 2.1, .NET Framework 4.7.2, .NET 8 and .NET 10 including iOS, tvOS, Android, Mac Catalyst, macOS and Windows with support for WPF and WinUI
 * Small footprint
 * Simple API
 * Create custom events to easily pass additional data
@@ -25,6 +25,15 @@ Add package `DSoft.MessageBus` to your main application and call `RegisterMessag
 You can then inject `IMessageBusService` into your own services.
 
 Please check the Unit tests and sample WPF app for examples of usage
+
+## Building and releasing
+
+Builds run on GitHub Actions:
+
+* `.github/workflows/build.yml` builds and tests every pull request and every push to a branch other than `main`, and uploads the packages as a build artifact.
+* `.github/workflows/release.yml` runs on every push to `main` (or manually from the Actions tab). It builds, tests, versions the packages as `4.4.<yyMM>.<run number>` (or the version you enter when running it manually) and pushes them to nuget.org.
+
+Publishing needs a nuget.org API key stored as the `NUGET_API_KEY` secret (repository secret, or a secret of the `nuget` environment).
 
 ### Attribution
 

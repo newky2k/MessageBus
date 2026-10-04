@@ -1,0 +1,50 @@
+name: Build
+
+on:
+  push:
+    branches-ignore:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  DOTNET_NOLOGO: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+  BUILD_CONFIGURATION: Release
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Restore workloads
+        run: dotnet workload restore DSoft.Messaging/DSoft.MessageBus.csproj
+
+      - name: Restore
+        run: dotnet restore MessageBus.slnx
+
+      - name: Build
+        run: dotnet build MessageBus.slnx --configuration ${{ env.BUILD_CONFIGURATION }} --no-restore
+
+      - name: Test
+        run: dotnet test UnitTest/UnitTest.csproj --configuration ${{ env.BUILD_CONFIGURATION }} --no-build
+
+      - name: Upload packages
+        uses: actions/upload-artifact@v4
+        with:
+          name: packages
+          path: '**/bin/${{ env.BUILD_CONFIGURATION }}/DSoft.*.nupkg'
+          if-no-files-found: error
