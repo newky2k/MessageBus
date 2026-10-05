@@ -49,4 +49,4 @@ Both routes hit the same `MessageBusService` logic.
 ## Conventions
 - Keep `IMessageBusService`, the static `MessageBus` facade, and `MessageBusService` in sync — all three expose the same Post/Subscribe/Unsubscribe/Log surface.
 - New public APIs need XML doc comments (`GenerateDocumentationFile=true`; many nullable/doc warnings are suppressed in `Directory.Build.props`).
-- Release notes live in `PackageReleaseNotes` in the `.csproj`. Package/assembly versions are set by CI: `.github/workflows/release.yml` builds `4.5.<yyMM>.<run number>` (prefix in `VERSION_PREFIX`) on every push to `main` and publishes to nuget.org via NuGet trusted publishing (OIDC, `NUGET_USER` secret); `.github/workflows/build.yml` builds and tests PRs and other branches.
+- Release notes live in `PackageReleaseNotes` in the `.csproj`. Package/assembly versions are set by CI: `.github/workflows/release.yml` builds `4.5.<yyMM>.<run number>` (plus `RELEASE_SUFFIX`) on every push to `main`, publishes to nuget.org via NuGet trusted publishing (OIDC, `NUGET_USER` secret), then tags `v<version>` and creates a GitHub release; `.github/workflows/ci.yml` builds and tests pull requests into `main`.

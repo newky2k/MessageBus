@@ -1,65 +1,51 @@
+# Release: on every push to main, builds Release, runs the tests and pushes the
+# DSoft.*.nupkg packages to nuget.org as 4.5.yyMM.<run number>, then tags the
+# commit and creates a GitHub release with the packages attached.
+# RELEASE_SUFFIX is empty for a stable version; set it to a suffix such as
+# '-prerelease' to publish a prerelease.
+# Signs in to nuget.org with Trusted Publishing (OIDC), so no API key is stored.
 name: Release
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
     paths-ignore:
-      - '.github/**'
+      - '**.md'
+      - '.github/workflows/**'
   workflow_dispatch:
-    inputs:
-      version:
-        description: 'Package version (leave blank to generate one)'
-        required: false
-        type: string
-      publish:
-        description: 'Publish to nuget.org'
-        required: false
-        type: boolean
-        default: true
+
+permissions:
+  contents: read
 
 concurrency:
   group: release
   cancel-in-progress: false
 
 env:
-  DOTNET_NOLOGO: true
-  DOTNET_CLI_TELEMETRY_OPTOUT: true
-  BUILD_CONFIGURATION: Release
-  VERSION_PREFIX: '4.5'
+  RELEASE_SUFFIX: ''
 
 jobs:
   release:
     runs-on: windows-latest
     environment: nuget
     permissions:
-      contents: read
-      id-token: write # required for NuGet trusted publishing (OIDC)
-
+      contents: write # GitHub release and tag
+      id-token: write # Trusted Publishing
     steps:
       - uses: actions/checkout@v7
-        with:
-          fetch-depth: 0
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v6
+      - uses: actions/setup-dotnet@v6
         with:
-          dotnet-version: 10.0.x
+          dotnet-version: '10.x'
 
-      - name: Calculate version
+      - name: Version
         id: version
-        shell: pwsh
+        shell: bash
         run: |
-          $version = '${{ inputs.version }}'
-          if ([string]::IsNullOrWhiteSpace($version)) {
-            # <prefix>.<yyMM>.<run number>, e.g. 4.5.2610.12
-            $version = "$env:VERSION_PREFIX.$((Get-Date).ToUniversalTime().ToString('yyMM')).${{ github.run_number }}"
-          }
-          # AssemblyVersion/FileVersion must be numeric (strip any prerelease suffix)
-          $assemblyVersion = ($version -split '-')[0]
-          "version=$version" >> $env:GITHUB_OUTPUT
-          "assembly_version=$assemblyVersion" >> $env:GITHUB_OUTPUT
-          Write-Host "Version: $version"
+          version="4.5.$(date -u +%y%m).${{ github.run_number }}"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "package=$version$RELEASE_SUFFIX" >> "$GITHUB_OUTPUT"
+          echo "Version: $version$RELEASE_SUFFIX"
 
       - name: Restore workloads
         run: dotnet workload restore DSoft.Messaging/DSoft.MessageBus.csproj
@@ -69,43 +55,46 @@ jobs:
 
       - name: Build
         run: >
-          dotnet build MessageBus.slnx --configuration ${{ env.BUILD_CONFIGURATION }} --no-restore
-          -p:Version=${{ steps.version.outputs.version }}
-          -p:AssemblyVersion=${{ steps.version.outputs.assembly_version }}
-          -p:FileVersion=${{ steps.version.outputs.assembly_version }}
+          dotnet build MessageBus.slnx --configuration Release --no-restore
+          /p:Version=${{ steps.version.outputs.package }}
+          /p:AssemblyVersion=${{ steps.version.outputs.version }}
+          /p:FileVersion=${{ steps.version.outputs.version }}
 
       - name: Test
-        run: dotnet test UnitTest/UnitTest.csproj --configuration ${{ env.BUILD_CONFIGURATION }} --no-build
+        run: dotnet test UnitTest/UnitTest.csproj --configuration Release --no-build
 
       - name: Collect packages
-        shell: pwsh
+        shell: bash
         run: |
-          New-Item -ItemType Directory -Force -Path artifacts | Out-Null
-          Get-ChildItem -Recurse -Path . -Include 'DSoft.*.nupkg' |
-            Where-Object { $_.FullName -match "[\\/]bin[\\/]$env:BUILD_CONFIGURATION[\\/]" } |
-            Copy-Item -Destination artifacts
-          Get-ChildItem artifacts
+          mkdir -p artifacts
+          find . -path '*/bin/Release/*' -name 'DSoft.*.nupkg' -exec cp {} artifacts/ \;
+          ls artifacts
 
-      - name: Upload packages
-        uses: actions/upload-artifact@v7
+      - uses: actions/upload-artifact@v7
         with:
-          name: packages-${{ steps.version.outputs.version }}
+          name: drop
           path: artifacts/*.nupkg
-          if-no-files-found: error
 
-      - name: NuGet login (trusted publishing)
-        id: nuget-login
-        if: github.event_name == 'push' || inputs.publish
+      - name: NuGet login
+        id: nuget
         uses: NuGet/login@v1
         with:
           user: ${{ secrets.NUGET_USER }}
 
-      - name: Publish to nuget.org
-        if: github.event_name == 'push' || inputs.publish
-        shell: pwsh
-        env:
-          NUGET_API_KEY: ${{ steps.nuget-login.outputs.NUGET_API_KEY }}
+      - name: Push to nuget.org
+        shell: bash
         run: |
-          Get-ChildItem artifacts -Filter *.nupkg | ForEach-Object {
-            dotnet nuget push $_.FullName --api-key $env:NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate
-          }
+          for package in artifacts/*.nupkg; do
+            dotnet nuget push "$package" --api-key "${{ steps.nuget.outputs.NUGET_API_KEY }}" --source https://api.nuget.org/v3/index.json --skip-duplicate
+          done
+
+      - name: GitHub release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "v${{ steps.version.outputs.package }}" artifacts/*.nupkg \
+            --target "${{ github.sha }}" \
+            --title "${{ steps.version.outputs.package }}" \
+            --generate-notes \
+            ${RELEASE_SUFFIX:+--prerelease}

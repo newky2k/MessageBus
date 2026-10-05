@@ -9,7 +9,7 @@
     <Platform Name="iPhoneSimulator" />
   </Configurations>
   <Folder Name="/.ci/">
-    <File Path=".github/workflows/build.yml" />
+    <File Path=".github/workflows/ci.yml" />
     <File Path=".github/workflows/release.yml" />
     <File Path="Directory.Build.props" />
     <File Path="README.md" />
