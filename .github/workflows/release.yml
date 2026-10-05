@@ -1,0 +1,100 @@
+# Release: on every push to main, builds Release, runs the tests and pushes the
+# DSoft.*.nupkg packages to nuget.org as 4.5.yyMM.<run number>, then tags the
+# commit and creates a GitHub release with the packages attached.
+# RELEASE_SUFFIX is empty for a stable version; set it to a suffix such as
+# '-prerelease' to publish a prerelease.
+# Signs in to nuget.org with Trusted Publishing (OIDC), so no API key is stored.
+name: Release
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - '**.md'
+      - '.github/workflows/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+env:
+  RELEASE_SUFFIX: ''
+
+jobs:
+  release:
+    runs-on: windows-latest
+    environment: nuget
+    permissions:
+      contents: write # GitHub release and tag
+      id-token: write # Trusted Publishing
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: '10.x'
+
+      - name: Version
+        id: version
+        shell: bash
+        run: |
+          version="4.5.$(date -u +%y%m).${{ github.run_number }}"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "package=$version$RELEASE_SUFFIX" >> "$GITHUB_OUTPUT"
+          echo "Version: $version$RELEASE_SUFFIX"
+
+      - name: Restore workloads
+        run: dotnet workload restore DSoft.Messaging/DSoft.MessageBus.csproj
+
+      - name: Restore
+        run: dotnet restore MessageBus.slnx
+
+      - name: Build
+        run: >
+          dotnet build MessageBus.slnx --configuration Release --no-restore
+          /p:Version=${{ steps.version.outputs.package }}
+          /p:AssemblyVersion=${{ steps.version.outputs.version }}
+          /p:FileVersion=${{ steps.version.outputs.version }}
+
+      - name: Test
+        run: dotnet test UnitTest/UnitTest.csproj --configuration Release --no-build
+
+      - name: Collect packages
+        shell: bash
+        run: |
+          mkdir -p artifacts
+          find . -path '*/bin/Release/*' -name 'DSoft.*.nupkg' -exec cp {} artifacts/ \;
+          ls artifacts
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: drop
+          path: artifacts/*.nupkg
+
+      - name: NuGet login
+        id: nuget
+        uses: NuGet/login@v1
+        with:
+          user: ${{ secrets.NUGET_USER }}
+
+      - name: Push to nuget.org
+        shell: bash
+        run: |
+          for package in artifacts/*.nupkg; do
+            dotnet nuget push "$package" --api-key "${{ steps.nuget.outputs.NUGET_API_KEY }}" --source https://api.nuget.org/v3/index.json --skip-duplicate
+          done
+
+      - name: GitHub release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "v${{ steps.version.outputs.package }}" artifacts/*.nupkg \
+            --target "${{ github.sha }}" \
+            --title "${{ steps.version.outputs.package }}" \
+            --generate-notes \
+            ${RELEASE_SUFFIX:+--prerelease}

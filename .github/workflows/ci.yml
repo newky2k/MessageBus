@@ -1,0 +1,36 @@
+# Pull request validation: builds Release and runs the tests. Publishes nothing.
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: '10.x'
+
+      - name: Restore workloads
+        run: dotnet workload restore DSoft.Messaging/DSoft.MessageBus.csproj
+
+      - name: Restore
+        run: dotnet restore MessageBus.slnx
+
+      - name: Build
+        run: dotnet build MessageBus.slnx --configuration Release --no-restore
+
+      - name: Test
+        run: dotnet test UnitTest/UnitTest.csproj --configuration Release --no-build

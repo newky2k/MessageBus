@@ -2,6 +2,7 @@
 	<PropertyGroup>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
 		<PackageProjectUrl>https://github.com/newky2k/MessageBus</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/newky2k/MessageBus</RepositoryUrl>
@@ -24,16 +25,13 @@
 		<AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
 	</PropertyGroup>
 
-	<ItemGroup Condition=" '$(Configuration)'=='Release'">
-		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
-	</ItemGroup>
-
-	<PropertyGroup Condition="'$(TF_BUILD)' == 'true'">
+	<!-- sourcelink: Source Link for GitHub is included in the .NET SDK (8.0+) -->
+	<PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true' Or '$(TF_BUILD)' == 'true'">
 		<ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
 	</PropertyGroup>
 
 	<PropertyGroup>
 		<SignAssembly>True</SignAssembly>
-		<AssemblyOriginatorKeyFile>$(MSBuildProjectDirectory)\DSoft.snk</AssemblyOriginatorKeyFile>
+		<AssemblyOriginatorKeyFile>$(MSBuildProjectDirectory)/DSoft.snk</AssemblyOriginatorKeyFile>
 	</PropertyGroup>
 </Project>

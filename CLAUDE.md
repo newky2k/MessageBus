@@ -13,11 +13,11 @@ Solution file is `MessageBus.slnx` (new XML solution format — requires recent 
 ```bash
 dotnet restore MessageBus.slnx
 dotnet build MessageBus.slnx --configuration Release
-dotnet test UnitTest/UnitTest.csproj          # tests target net9.0, MSTest
+dotnet test UnitTest/UnitTest.csproj          # tests target net10.0, MSTest
 dotnet test UnitTest/UnitTest.csproj --filter "FullyQualifiedName~MessageBusTest.MethodName"   # single test
 ```
 
-Building the full `DSoft.Messaging` project requires platform workloads (`dotnet workload restore`) because it multi-targets iOS/Android/macOS/tvos/MacCatalyst/Windows. To iterate quickly without workloads, build/test against a single TFM via the UnitTest project (which references the main project but is consumed as `net9.0`). Note `Directory.Build.props` sets `GeneratePackageOnBuild=true` and signs assemblies with `DSoft.snk`.
+Building the full `DSoft.Messaging` project requires platform workloads (`dotnet workload restore`) because it multi-targets iOS/Android/macOS/tvos/MacCatalyst/Windows. To iterate quickly without workloads, build/test against a single TFM via the UnitTest project (which references the main project but is consumed as `net10.0`). Note `Directory.Build.props` sets `GeneratePackageOnBuild=true` and signs assemblies with `DSoft.snk`.
 
 ## Architecture
 
@@ -41,7 +41,7 @@ Both routes hit the same `MessageBusService` logic.
 ### Platform-specific compilation
 `DSoft.Messaging` uses **filename-suffix conventions** instead of one file per TFM — the `.csproj` includes files by suffix via `EnableDefaultCompileItems=false`:
 - `*.shared.cs` — all targets
-- `*.netstandard.cs` — netstandard/net8/net9/net10/net472
+- `*.netstandard.cs` — netstandard/net8/net10/net472
 - `*.wpf.cs` (windows7.0), `*.winui.cs` (windows10), `*.android.cs`, `*.ios.cs` (ios+maccatalyst), `*.mac.cs` (macos), `*.tvos.cs`
 
 `ThreadControl` is the main example: `ThreadControl.shared.cs` defines the public API and calls `partial` members (`PlatformIsMainThread`, `PlatformBeginInvokeOnMainThread`) implemented per platform. When adding platform-specific code, add a new `*.<platform>.cs` partial rather than `#if`. (ThreadControl's `MainThread` logic is adapted from Xamarin.Essentials.)
@@ -49,4 +49,4 @@ Both routes hit the same `MessageBusService` logic.
 ## Conventions
 - Keep `IMessageBusService`, the static `MessageBus` facade, and `MessageBusService` in sync — all three expose the same Post/Subscribe/Unsubscribe/Log surface.
 - New public APIs need XML doc comments (`GenerateDocumentationFile=true`; many nullable/doc warnings are suppressed in `Directory.Build.props`).
-- Version/release notes live in the `.csproj` PropertyGroups (`Version`, `AssemblyVersion`, `PackageReleaseNotes`); bump there for releases.
+- Release notes live in `PackageReleaseNotes` in the `.csproj`. Package/assembly versions are set by CI: `.github/workflows/release.yml` builds `4.5.<yyMM>.<run number>` (plus `RELEASE_SUFFIX`) on every push to `main`, publishes to nuget.org via NuGet trusted publishing (OIDC, `NUGET_USER` secret), then tags `v<version>` and creates a GitHub release; `.github/workflows/ci.yml` builds and tests pull requests into `main`.

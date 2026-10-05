@@ -20,7 +20,7 @@ namespace UnitTest
         /// underlying Collection&lt;T&gt; and threw "Collection was modified" /
         /// IndexOutOfRange. Passing means no handler-collection corruption.
         /// </summary>
-        [DataTestMethod]
+        [TestMethod]
         [DataRow(1)]
         [DataRow(2)]
         [DataRow(3)]
