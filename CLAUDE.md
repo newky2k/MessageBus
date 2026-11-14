@@ -8,12 +8,12 @@ DSoft.MessageBus is a cross-platform EventBus/messaging library (like `NSNotific
 
 ## Build & Test
 
-Solution file is `MessageBus.slnx` (new XML solution format — requires recent .NET 10 SDK / VS).
+Solution file is `MessageBus.slnx` (new XML solution format — requires recent .NET 11 SDK / VS).
 
 ```bash
 dotnet restore MessageBus.slnx
 dotnet build MessageBus.slnx --configuration Release
-dotnet test UnitTest/UnitTest.csproj          # tests target net10.0, MSTest
+dotnet test UnitTest/UnitTest.csproj          # tests target net10.0 and net11.0, MSTest
 dotnet test UnitTest/UnitTest.csproj --filter "FullyQualifiedName~MessageBusTest.MethodName"   # single test
 ```
 
@@ -41,7 +41,7 @@ Both routes hit the same `MessageBusService` logic.
 ### Platform-specific compilation
 `DSoft.Messaging` uses **filename-suffix conventions** instead of one file per TFM — the `.csproj` includes files by suffix via `EnableDefaultCompileItems=false`:
 - `*.shared.cs` — all targets
-- `*.netstandard.cs` — netstandard/net8/net10/net472
+- `*.netstandard.cs` — netstandard/net8/net10/net11/net472
 - `*.wpf.cs` (windows7.0), `*.winui.cs` (windows10), `*.android.cs`, `*.ios.cs` (ios+maccatalyst), `*.mac.cs` (macos), `*.tvos.cs`
 
 `ThreadControl` is the main example: `ThreadControl.shared.cs` defines the public API and calls `partial` members (`PlatformIsMainThread`, `PlatformBeginInvokeOnMainThread`) implemented per platform. When adding platform-specific code, add a new `*.<platform>.cs` partial rather than `#if`. (ThreadControl's `MainThread` logic is adapted from Xamarin.Essentials.)

@@ -4,7 +4,7 @@ MessageBus is a cross platform EventBus system similar to `NSNoticationCenter` o
 # Features
 
 * Cross-platform  
-  * .NETStandard 2.1, .NET Framework 4.7.2, .NET 8 and .NET 10 including iOS, tvOS, Android, Mac Catalyst, macOS and Windows with support for WPF and WinUI
+  * .NETStandard 2.1, .NET Framework 4.7.2, .NET 8, .NET 10 and .NET 11 including iOS, tvOS, Android, Mac Catalyst, macOS and Windows with support for WPF and WinUI
 * Small footprint
 * Simple API
 * Create custom events to easily pass additional data
