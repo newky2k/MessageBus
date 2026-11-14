@@ -21,7 +21,9 @@ jobs:
 
       - uses: actions/setup-dotnet@v6
         with:
-          dotnet-version: '10.x'
+          dotnet-version: |
+            10.x
+            11.x
 
       - name: Restore workloads
         run: dotnet workload restore DSoft.Messaging/DSoft.MessageBus.csproj

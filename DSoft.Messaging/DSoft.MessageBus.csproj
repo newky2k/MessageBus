@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFrameworks>netstandard2.1;net8.0;net10.0;net10.0-ios;net10.0-macos;net10.0-maccatalyst;net10.0-tvos;net10.0-android;</TargetFrameworks>
-		<TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">$(TargetFrameworks);net472;net8.0-windows7.0;net10.0-windows7.0;net10.0-windows10.0.19041;</TargetFrameworks>
+		<TargetFrameworks>netstandard2.1;net8.0;net10.0;net11.0;net10.0-ios;net11.0-ios;net10.0-macos;net11.0-macos;net10.0-maccatalyst;net11.0-maccatalyst;net10.0-tvos;net11.0-tvos;net10.0-android;net11.0-android;</TargetFrameworks>
+		<TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">$(TargetFrameworks);net472;net8.0-windows7.0;net10.0-windows7.0;net11.0-windows7.0;net10.0-windows10.0.19041;net11.0-windows10.0.19041;</TargetFrameworks>
 		<PackageId>DSoft.MessageBus</PackageId>
 		<AssemblyName>DSoft.MessageBus</AssemblyName>
 		<Company>DSoft Developments</Company>
@@ -25,8 +25,8 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'macos'">15.0</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tvos'">14.0</SupportedOSPlatformVersion>
 		<NoWarn>$(NoWarn);NETSDK1206;CA1416;</NoWarn>
-		<PackageReleaseNotes>Updated to .NET 10 and latest dependencies
-			Removed .NET 9 targets (.NET 8 and .NET 10 LTS remain supported)
+		<PackageReleaseNotes>Added .NET 11 targets alongside .NET 10 and updated dependencies
+			.NET 8 and .NET 10 LTS remain supported
 		</PackageReleaseNotes>
 	</PropertyGroup>
 
@@ -59,7 +59,7 @@
 		<Compile Include="**\*.shared.*.cs" />
 	</ItemGroup>
 
-	<ItemGroup Condition=" $(TargetFramework.StartsWith('netstandard')) Or $(TargetFramework) == 'net8.0' Or $(TargetFramework) == 'net10.0' Or $(TargetFramework) == 'net472'">
+	<ItemGroup Condition=" $(TargetFramework.StartsWith('netstandard')) Or $(TargetFramework) == 'net8.0' Or $(TargetFramework) == 'net10.0' Or $(TargetFramework) == 'net11.0' Or $(TargetFramework) == 'net472'">
 		<Compile Include="**\*.netstandard.cs" />
 		<Compile Include="**\*.netstandard.*.cs" />
 	</ItemGroup>
@@ -70,8 +70,8 @@
 	</ItemGroup>
 
 	<ItemGroup Condition=" $(TargetFramework.Contains('windows10')) ">
-		<PackageReference Include="Microsoft.WindowsAppSDK" Version="2.5.1" />
-		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.28000.2705" />
+		<PackageReference Include="Microsoft.WindowsAppSDK" Version="2.6.5" />
+		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.28000.2957" />
 
 		<Compile Include="**\*.winui.cs" />
 		<Compile Include="**\*.winui.*.cs" />
@@ -99,7 +99,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.12" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="11.0.0" Condition=" $([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net10.0')) " />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.15" Condition=" !$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net10.0')) " />
 	</ItemGroup>	 
 
 	<ItemGroup>
